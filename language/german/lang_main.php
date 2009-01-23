@@ -1,0 +1,79 @@
+<?php
+/********************************************\
+* Guildrequest Plugin for EQdkp plus         *
+* ------------------------------------------ * 
+* Project Start: 01/2009                     *
+* Author: BadTwin                            *
+* Copyright: Andreas (BadTwin) Schrottenbaum *
+* Link: http://eqdkp-plus.com                *
+* Version: 0.0.1a                            *
+\********************************************/
+
+global $eqdkp;
+$lang['guildrequest']                     = 'Gilden-Bewerbungen';
+$lang['request'] 							    				= 'Bewerbung';
+$lang['rq_short_desc']                    = 'Bewerbungs-Plugin';
+$lang['rq_long_desc']                     = 'Ein Bewerbungs-Plugin für EQdkp-Plus';
+
+// Userdaten für den Gastuser
+$lang['gr_user_aspirant']                 = 'Bewerber';
+$lang['gr_user_email']                    = 'Gästekonto für das Bewerbungs-Plugin';
+
+
+
+// Admin Menu
+$lang['rq_manage']												= 'Verwalten';
+$lang['rq_view']                          = 'Bewerbungen ansehen';
+$lang['rq_write']                         = 'Bewerbung schreiben';
+
+// Bewerbung erstellen
+$lang['gr_write_headline']                = 'Bewerbung verfassen';
+$lang['gr_write_welcome']                 = 'Willkommenstext';
+$lang['gr_write_allfields']               = 'Es müssen alle Felder ausgefüllt sein!';
+$lang['gr_write_sendrequest']             = 'Bewerbung absenden';
+$lang['gr_write_reset']                   = 'Felder leeren';
+$lang['gr_mailsent']                      = 'Bitte bestätige deine Bewerbung über den Aktivierungslink in der Bestätigungsmail.';
+$lang['gr_mail_topic']                    = 'Bestätigung deiner Bewerbung bei '.$eqdkp->config['guildtag'];
+$lang['gr_mail_text1']                    = 'Bitte bestätige deine Bewerbugng über folgenden Link:';
+$lang['gr_mail_text2']                    = 'Mit freundlichen Grüßen, die Gildenleitung.';
+$lang['gr_username_f']                    = 'Benutzername:';
+$lang['gr_email_f']                       = 'E-Mail:';
+$lang['gr_password_f']                    = 'Passwort:';
+$lang['gr_text_f']                        = 'Text:';
+$lang['rq_settings']                      = 'Einstellungen';
+$lang['gr_user_double']                   = 'Ein User mit demselben Namen hdat sich bereits beworben. Bitte wähle einen anderen Namen.';
+$lang['gr_welcome_text']                  = 'Vielen Dank für dein Interesse an '.$eqdkp->config['guildtag'].'. Bitte schreibe deine Bewerbung hier:';
+
+// Bestätigung
+$lang['gr_activate_succ']                 = 'Deine Bewerbung wude freigeschalten!';
+
+// Login
+$lang['gr_login_headline']                = 'Bewerbung - Login';
+$lang['gr_login_succ']                    = 'Login erfolgreich';
+$lang['gr_login_not_activated']           = 'Du hast die Aktivierungsmail noch nicht bestätigt.';
+$lang['gr_login_wrong']                   = 'Du hast einen falschen Benutzernamen, oder ein falsches Passwort eingegeben.';
+$lang['gr_login_empty']                   = 'Bitte fülle alle Felder aus!';
+$lang['gr_login_submit']                  = 'Login';
+$lang['gr_login_reset']                   = 'zurücksetzen';
+$lang['gr_showrequest_headline']          = 'Bewerbung: ';
+$lang['gr_answer_f']                      = 'Antwort:';
+$lang['gr_closed_headline']               = 'Die Umfrage wurde geschlossen:';
+
+// Member-Ansicht
+$lang['gr_goback']                        = 'zurück';
+$lang['gr_poll_headline']                 = 'Soll dieser Bewerber in die Gilde aufgenommen werden?';
+$lang['gr_poll_yes']                      = 'Ja';
+$lang['gr_poll_no']                       = 'Nein';
+  // Admin-Ansicht
+  $lang['gr_poll_ad_opened']              = 'offen';
+  $lang['gr_poll_ad_closed']              = 'geschlossen';
+  $lang['gr_poll_ad_save']                = 'speichern';
+  $lang['gr_ad_adminonly']                = 'Geschlossene Bewerbungen - Nur für Administratoren sichtbar:';
+  
+// Administrationsbereich
+$lang['gr_ad_config_headline']            = 'Bewerbungen - Einstellungen';
+$lang['gr_ad_headline_f']                 = 'Begrüßungstext:';
+$lang['gr_ad_mail1_f']                    = 'Erster Teil der Bestätigungsmail:';
+$lang['gr_ad_mail2_f']                    = 'Zweiter Teil der Bestätigungsmail:';
+$lang['gr_ad_update_succ']                = 'Die Einstellungen wurden gespeichert';
+?>

@@ -1,0 +1,55 @@
+<table width="100%" cellspacing="0" cellpadding="6">
+    <tr class="row1">
+      <td colspan="5" align="center"><h2>{GR_WRITE_HEADLINE}</h2></td>
+      <td><form action="login.php">
+          <input type="submit" class="mainoption" name="login" value="Login">
+        </form>
+      </td>
+    </tr>
+    <tr class="row2">
+      <td colspan="6" align="center"><p>{GR_WRITE_WELCOME}</p></td>
+    </tr>
+    <tr class="row1">
+      <td>&nbsp;</td>
+  <form action="writerequest.php" name="inputform" method="POST">
+      <td align="right">{GR_USERNAME_F}</td>
+      <td><input name="username" type="text" size="50" value="{GR_USERNAME}"></td>
+      <td align="right">{GR_EMAIL_F}</td>
+      <td><input name="email" type="text" size="50" value="{GR_EMAIL}"></td>
+      <td>&nbsp;</td>
+    <tr class="row2">
+      <td>&nbsp;</td>
+      <td align="right">{GR_PASSWORD_F}</td>
+      <td colspan="4"><input name="password" type="password" size="50" value="{GR_PASSWORD}"></td>
+    </tr>
+    <tr class="row1">
+      <td>&nbsp;</td>
+      <td align="right" valign="top">{GR_TEXT_F}</td>
+      <td colspan="4" valign="top">
+       <textarea name="text" rows="10" cols="100" class="input">{GR_TEXT}</textarea>
+      </td>
+    </tr>
+    <tr class="row2">
+      <td colspan="6">
+        <input type="submit" class="mainoption" name="gr_submit" value="{GR_SENDREQUEST}">
+        <input type="reset"  class="liteoption"  value="{GR_RESET}">
+      </td>
+    </tr>
+    <!-- IF OUTPUT-->
+    <tr >
+      <td colspan="6">&nbsp;</td>
+    </tr>
+    <tr class="row2">
+      <td colspan="6" align="center">
+        <table width="100%" cellpadding="10">
+          <tr>
+            <td align="left">
+              <img src="../../images/false.png"></td><td><H2>{OUTPUT}</H2></td><td align="right"><img src="../../images/false.png">
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <!-- ENDIF -->
+  </form>
+</table>

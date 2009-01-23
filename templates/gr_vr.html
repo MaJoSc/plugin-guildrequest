@@ -1,0 +1,72 @@
+{OUTPUT} 
+<!-- IF GR_LISTREQUESTS -->
+<table width="100%" cellspacing="0" cellpadding="6">
+  <tr>
+    <th>{GR_USERNAME_F}</th><th>{GR_TEXT_F}</th>
+  </tr>
+  <!-- BEGIN request_list -->
+  <tr class="{request_list.GR_ROW_CLASS}">
+    <td valign="top" width="100"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}"><b>{request_list.GR_USERNAME}</b></a></td>
+    <td valign="top" align="left">{request_list.GR_TEXT}</td> 
+  </tr>
+  <!-- END request_list -->
+<tr><td colspan="2" align="center"><p><b>{GR_ADMIN_ONLY}</b></p></td></tr>
+  <tr>
+    <th>{GR_ADMIN_USER_F}</th><th>{GR_ADMIN_TEXT_F}</th>
+  </tr>
+  <!-- BEGIN admin_request_list -->
+  <tr class="{admin_request_list.GR_ROW_CLASS}">
+    <td valign="top" width="100"><a href="viewrequest.php?request_id={admin_request_list.GR_REQUEST_ID}"><b>{admin_request_list.GR_USERNAME}</b></a></td>
+    <td valign="top" align="left">{admin_request_list.GR_TEXT}</td> 
+  </tr>
+  <!-- END admin_request_list -->
+</table>
+<!-- ENDIF -->
+<!-- IF GR_SHOWREQUEST -->
+<table width="100%" cellspacing="0" cellpadding="6">
+  <tr class="row1">
+    <td colspan="2" align="center">
+    <table width="100%">
+      <tr>
+        <td width="20%"" align="left">
+          <a href="viewrequest.php">{GR_GOBACK}</a>
+        </td align="center">
+        <td align="center">
+          <H2>{GR_SHOWREQUEST_HEADLINE} {GR_USERNAME}</H2>
+        </td>
+        <td width="20%" align="left">
+          {GR_AD_CHANGE_STATUS}
+        </td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr class="row2">
+    <td colspan="2" align="center">
+      <p><b>{GR_TEXT}</b></p>
+    </td>
+  </tr>
+  <tr class="row1">
+    <td>
+      {COMMENTS}
+    </td>
+    <td valign="top" width="30%">
+    <!-- IF GR_NOT_VOTED-->
+      <p>{GR_POLL_HEADLINE}</p>
+      <form action="viewrequest" method="GET">
+        <input type="hidden" name="request_id" value="{GR_REQUEST_ID}">
+        <input type="submit" name="accept" value="{GR_POLL_YES_F}">
+        <input type="submit" name="decline" value="{GR_POLL_NO_F}">
+      </form>
+    <!-- ENDIF -->
+    <!-- IF GR_ALREADY_VOTED -->
+      <p>{GR_POLL_HEADLINE}</p>
+      {GR_POLL_YES_F}
+      {GR_POLL_YES_B}<br>
+      {GR_POLL_NO_F}
+      {GR_POLL_NO_B}
+    <!-- ENDIF -->
+    </td>
+  </tr>
+</table>
+<!-- ENDIF -->

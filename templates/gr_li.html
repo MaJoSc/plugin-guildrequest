@@ -1,0 +1,79 @@
+<!-- IF GR_SHOW_LOGIN -->
+  <form action="login.php" name="inputform" method="POST">
+    <table width="100%" cellspacing="0" cellpadding="6">
+      <tr class="row2">
+        <td colspan="4" align="center"><H1>{GR_LOGIN_HEADLINE}</H1></td>
+      </tr>
+      <tr class="row1">
+        <td align="right">{GR_USERNAME_F}</td>
+        <td><input name="username" type="text" size="50"></td>
+        <td align="right">{GR_PASSWORD_F}</td>
+        <td><input name="password" type="password" size="50"></td>
+      </tr>
+      <tr class="row2">
+        <td colspan="4">
+          <input type="submit" class="mainoption" name="gr_submit" value="{GR_LOGIN_SUBMIT}">
+          <input type="reset" class="liteoption"  value="{GR_LOGIN_RESET}">
+        </td>
+      </tr>
+    </table> 
+  </form>
+<!-- ENDIF -->
+<!-- IF OUTPUT -->
+  <table width="100%" cellspacing="0" cellpadding="6">
+    <tr>
+      <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr class="row2">
+      <td colspan="4" align="center">
+        <table width="100%" cellpadding="10">
+          <tr>
+            <td align="left">
+              <img src="../../images/false.png"></td><td><H2>{OUTPUT}</H2></td><td align="right"><img src="../../images/false.png">
+            </td>
+          </tr>
+        </table>
+    </tr>
+  </table>
+<!-- ENDIF -->
+<!-- IF GR_SHOW_CLOSED -->
+  <table width="100%" cellspacing="0" cellpadding="6">
+    <tr class="row1">
+      <td colspan="2" align="center"><H2>{GR_CLOSED_HEADLINE}</H2></td>
+    </tr>
+    <tr class="row2">
+      <td width="120" align="right">{GR_SHOW_YES_F}</td>
+      <td>{GR_SHOW_YES_B}</td>
+    </tr>
+    <tr class="row1">
+      <td align="right">{GR_SHOW_NO_F}</td>
+      <td>{GR_SHOW_NO_B}</td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+<!-- ENDIF -->
+<!-- IF GR_SHOW_REQUEST -->
+    <table width="100%" cellspacing="0" cellpadding="6">
+      <tr class="row2">
+        <td align="center"><H2>{GR_SHOWREQUEST_HEADLINE}</H2></td>
+      </tr>
+      <tr class="row1">
+        <td>{GR_SHOWREQUEST_TEXT}</td>
+      </tr>
+      <tr class="row2">
+        <td>
+          {COMMENTS}
+        </td>
+      </tr>
+      <tr class="row1">
+        <td align="center">
+          <H2>{GR_ANSWER_F}</H2>
+          <form action="login.php" method="POST">
+            <input type="hidden" name="username" value="{GR_USERNAME}">
+            <textarea name="usercomment" rows="10" cols="100" class="input"></textarea><br><br>
+            <input type="submit" class="mainoption" name="usercomment_submit">
+          </form>
+        </td>
+      </tr>
+    </table> 
+<!-- ENDIF -->
