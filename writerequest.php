@@ -1,4 +1,4 @@
-<?
+<?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1a                            *
+* Version: 0.0.1b                            *
 \********************************************/
 
 // EQdkp required files/vars
@@ -21,35 +21,43 @@ if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild requ
 // ------- THE SOURCE PART - START -------
 if (isset($_POST['gr_submit'])){
   if ($_POST['username'] != '' && $_POST['email'] != '' && $_POST['password'] != '' && $_POST['text'] != ''){
-    $usercheck_query = $db->query("SELECT * FROM __guildrequest");
-    while ($usercheck = $db->fetch_record($usercheck_query)) {
-      if ($usercheck['username'] == $_POST['username']) {
-        $userdouble = true;
-      	break;
-      }
-    }
-    
-    $htmlinsert = htmlentities(strip_tags($_POST['text']), ENT_QUOTES);
-    $htmlinsert = $bbcode->toHTML($htmlinsert);
-
-
-    if (!$userdouble){
-      $activationcode = md5(time().microtime());
-      $insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
-				'".$_POST['username']."', 
-        '".$_POST['email']."', 
-        '".md5($_POST['password'])."',
-        '".$htmlinsert."',
-        '".$activationcode."')");
-        
-        
-      // Send Activation Mail
-      $config_query = $db->query("SELECT * FROM __guildrequest_config");
-      while ($gr_config_array = $db->fetch_record($config_query)){
-        $gr_config[$gr_config_array['config_name']] = $gr_config_array['config_value'];
+  
+    // Check the Mail adress
+    function check_email($email) { 
+      $email = eregi('^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}', $email); 
+      return $email; 
+    } 
+ 
+    if (check_email($_POST['email'])){
+      $usercheck_query = $db->query("SELECT * FROM __guildrequest");
+      while ($usercheck = $db->fetch_record($usercheck_query)) {
+        if ($usercheck['username'] == $_POST['username']) {
+          $userdouble = true;
+        	break;
+        }
       }
     
-      // ---- Mail Text Start - DO NOT CHANGE ----
+      $htmlinsert = htmlentities(strip_tags($_POST['text']), ENT_QUOTES);
+      $htmlinsert = $bbcode->toHTML($htmlinsert);
+
+
+      if (!$userdouble){
+        $activationcode = md5(time().microtime());
+        $insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
+  				'".$_POST['username']."', 
+          '".$_POST['email']."', 
+          '".md5($_POST['password'])."',
+          '".$htmlinsert."',
+          '".$activationcode."')");
+        
+        
+        // Send Activation Mail
+        $config_query = $db->query("SELECT * FROM __guildrequest_config");
+        while ($gr_config_array = $db->fetch_record($config_query)){
+          $gr_config[$gr_config_array['config_name']] = $gr_config_array['config_value'];
+        }
+    
+        // ---- Mail Text Start - DO NOT CHANGE ----
       $mailtext = 
        $gr_config['gr_mail_text1'].'
         
@@ -59,22 +67,29 @@ http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/gu
   '.$user->lang['gr_password_f'].' '.$_POST['password'].'
   
 '.$gr_config['gr_mail_text2'];
-      // ---- Mail Text End ----
+        // ---- Mail Text End ----
     
-      $mailheader .= 'FROM:'.$eqdkp->config['admin_email'];
+        $mailheader .= 'FROM:'.$eqdkp->config['admin_email'];
     
-      mail($_POST["email"],
-      $user->lang['gr_mail_topic'],
-      $mailtext,
-      $mailheader);
+        mail($_POST["email"],
+        $user->lang['gr_mail_topic'],
+        $mailtext,
+        $mailheader);
      
-      $output = $user->lang['gr_mailsent'];
+        $output = $user->lang['gr_mailsent'];
+      } else {
+        $gr_username = $_POST['username'];
+        $gr_email = $_POST['email'];
+        $gr_password = $_POST['password'];
+        $gr_text = $_POST['text'];
+     	  $output = $user->lang['gr_user_double'];
+      }
     } else {
       $gr_username = $_POST['username'];
       $gr_email = $_POST['email'];
       $gr_password = $_POST['password'];
       $gr_text = $_POST['text'];
-   	  $output = $user->lang['gr_user_double'];
+      $output = $user->lang['gr_write_incorrect_mail'];
     }
   } else {
     $gr_username = $_POST['username'];

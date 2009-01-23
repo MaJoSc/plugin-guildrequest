@@ -1,4 +1,4 @@
-<?php
+<?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1a                            *
+* Version: 0.0.1b                            *
 \********************************************/
 
 if (!defined('EQDKP_INC') ){
@@ -30,7 +30,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
       'path'					=> 'guildrequest',
       'contact'				=> 'andreas.schrottenbaum@gmx.at',
       'template_path'	=> 'plugins/guildrequest/templates/',
-      'version'				=> '0.0.1a')
+      'version'				=> '0.0.1b')
     );
         
     // Addition Information for eqdkpPLUS
@@ -69,7 +69,8 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->InsertIntoTable('gr_mail_text1', $user->lang['gr_mail_text1']);
     $this->InsertIntoTable('gr_mail_text2', $user->lang['gr_mail_text2']);
     $this->InsertIntoTable('gr_welcome_text', $user->lang['gr_welcome_text']);
-    
+    $this->InsertIntoTable('gr_poll_activated', 'Y');
+        
 		$sql = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "guildrequest_poll (
 		  `id` INT PRIMARY KEY AUTO_INCREMENT,
       `query_id` INT NOT NULL,
@@ -115,6 +116,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     // Define uninstallation
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_config");
+    $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_poll");
   }
 
   /* GENERATE THE MENUS - START */

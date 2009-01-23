@@ -1,4 +1,4 @@
-<?php
+<?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1a                            *
+* Version: 0.0.1b                            *
 \********************************************/
 
 global $eqdkp;
@@ -16,7 +16,7 @@ $lang['rq_short_desc']                    = 'Bewerbungs-Plugin';
 $lang['rq_long_desc']                     = 'Ein Bewerbungs-Plugin für EQdkp-Plus';
 
 // Userdaten für den Gastuser
-$lang['gr_user_aspirant']                 = 'Bewerber';
+$lang['gr_user_aspirant']                 = 'RequestUser';
 $lang['gr_user_email']                    = 'Gästekonto für das Bewerbungs-Plugin';
 
 
@@ -28,7 +28,7 @@ $lang['rq_write']                         = 'Bewerbung schreiben';
 
 // Bewerbung erstellen
 $lang['gr_write_headline']                = 'Bewerbung verfassen';
-$lang['gr_write_welcome']                 = 'Willkommenstext';
+$lang['gr_write_incorrect_mail']          = 'Du hast eine ungültige E-Mail Adresse eingetragen.';
 $lang['gr_write_allfields']               = 'Es müssen alle Felder ausgefüllt sein!';
 $lang['gr_write_sendrequest']             = 'Bewerbung absenden';
 $lang['gr_write_reset']                   = 'Felder leeren';
@@ -57,7 +57,7 @@ $lang['gr_login_submit']                  = 'Login';
 $lang['gr_login_reset']                   = 'zurücksetzen';
 $lang['gr_showrequest_headline']          = 'Bewerbung: ';
 $lang['gr_answer_f']                      = 'Antwort:';
-$lang['gr_closed_headline']               = 'Die Umfrage wurde geschlossen:';
+$lang['gr_closed_headline']               = 'Die Bewerbung wurde geschlossen.';
 
 // Member-Ansicht
 $lang['gr_goback']                        = 'zurück';
@@ -73,6 +73,7 @@ $lang['gr_poll_no']                       = 'Nein';
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Bewerbungen - Einstellungen';
 $lang['gr_ad_headline_f']                 = 'Begrüßungstext:';
+$lang['gr_ad_poll_activated']             = 'Umfragen aktiviert';
 $lang['gr_ad_mail1_f']                    = 'Erster Teil der Bestätigungsmail:';
 $lang['gr_ad_mail2_f']                    = 'Zweiter Teil der Bestätigungsmail:';
 $lang['gr_ad_update_succ']                = 'Die Einstellungen wurden gespeichert';

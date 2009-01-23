@@ -1,4 +1,4 @@
-<?php
+<?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1a                            *
+* Version: 0.0.1b                            *
 \********************************************/
 
 global $eqdkp;
@@ -16,7 +16,7 @@ $lang['rq_short_desc']                    = 'Request-Plugin';
 $lang['rq_long_desc']                     = 'A request plugin for EQdkp-Plus';
 
 // Userdaten für den Gastuser
-$lang['gr_user_aspirant']                 = 'Candidate';
+$lang['gr_user_aspirant']                 = 'RequestUser';
 $lang['gr_user_email']                    = 'Guest-Profile for the Guild-Request Plugin';
 
 
@@ -28,6 +28,7 @@ $lang['rq_write']                         = 'Write Request';
 
 // Bewerbung erstellen
 $lang['gr_write_headline']                = 'Compose Request';
+$lang['gr_write_incorrect_mail']          = 'You entered an invalid mail adress';
 $lang['gr_write_allfields']               = 'All fields have to be filled out!';
 $lang['gr_write_sendrequest']             = 'send request';
 $lang['gr_write_reset']                   = 'reset';
@@ -56,7 +57,7 @@ $lang['gr_login_submit']                  = 'login';
 $lang['gr_login_reset']                   = 'reset';
 $lang['gr_showrequest_headline']          = 'Request: ';
 $lang['gr_answer_f']                      = 'Answer:';
-$lang['gr_closed_headline']               = 'The poll has been closed:';
+$lang['gr_closed_headline']               = 'The request has been closed.';
 
 // Member-Ansicht
 $lang['gr_goback']                        = 'back';
@@ -71,6 +72,7 @@ $lang['gr_poll_no']                       = 'no';
   
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Requests - Settings';
+$lang['gr_ad_poll_activated']             = 'Polls activated';
 $lang['gr_ad_headline_f']                 = 'welcome text:';
 $lang['gr_ad_mail1_f']                    = 'first part of the registration mail:';
 $lang['gr_ad_mail2_f']                    = 'second part of the registration mail:';

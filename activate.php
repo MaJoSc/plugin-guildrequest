@@ -1,4 +1,4 @@
-<?
+<?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1a                            *
+* Version: 0.0.1b                            *
 \********************************************/
 
 // EQdkp required files/vars

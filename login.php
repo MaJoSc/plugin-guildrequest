@@ -1,4 +1,4 @@
-<?
+<?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1a                            *
+* Version: 0.0.1b                            *
 \********************************************/
 
 // EQdkp required files/vars
@@ -73,25 +73,38 @@ if (isset($_POST['gr_submit'])){
 	    if ($login_check['activated'] != 'Y') {
      	  $output = $user->lang['gr_login_not_activated'];
       } else {
-        if ($login_check['closed' == 'N']) {
+        if ($login_check['closed'] == 'N') {
           $show_login = false;
           $show_request = true;
-        } else{
-        
-          // --- the poll part - start ---
+        } else {
+          $settings_query = $db->query("SELECT * FROM __guildrequest_config");
+          while ($settings = $db->fetch_record($settings_query)){
+            $setting[$settings['config_name']] = $settings['config_value'];
+          }
+          if ($setting['gr_poll_activated'] == 'Y') {
+            // --- the poll part - start ---
             $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$login_check['id']."'");
             $vote_sum_count = $db->num_rows($vote_sum_count_query);
     
             $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$login_check['id']."' AND poll_value='Y'");
             $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
-            $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
-            $vote_no = (100 - $vote_yes);
+            if ($vote_sum_count == 0){
+  	          $poll_yes_bar = create_bar(0);
+  	          $poll_no_bar = create_bar(0);            
+            } else {
+              $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
+              $vote_no = (100 - $vote_yes);
     
-  	       $poll_yes_bar = create_bar($vote_yes);
-  	       $poll_no_bar = create_bar($vote_no);
-          // --- the poll part - end ---
-  
+  	          $poll_yes_bar = create_bar($vote_yes);
+  	          $poll_no_bar = create_bar($vote_no);
+  	          
+              $poll_yes_f = $user->lang['gr_poll_yes'];
+              $poll_no_f = $user->lang['gr_poll_no'];
+  	          
+  	        }
+            // --- the poll part - end ---
+          }  
           $show_login = false;
           $show_request = true;
           $show_closed = true;
@@ -108,7 +121,7 @@ if (isset($_POST['gr_submit'])){
 
 // ------- THE SOURCE PART - END -------
 
-   
+   
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
       'GR_LOGIN_HEADLINE' => $user->lang['gr_login_headline'],
@@ -120,9 +133,9 @@ $tpl->assign_vars(array(
       'GR_SHOW_REQUEST'  => $show_request, 
       'GR_SHOW_CLOSED'   => $show_closed,
       'GR_CLOSED_HEADLINE' => $user->lang['gr_closed_headline'],
-      'GR_SHOW_YES_F'   => $user->lang['gr_poll_yes'],
+      'GR_SHOW_YES_F'   => $poll_yes_f,
       'GR_SHOW_YES_B'   => $poll_yes_bar,
-      'GR_SHOW_NO_F'    => $user->lang['gr_poll_no'],
+      'GR_SHOW_NO_F'    => $poll_no_f,
       'GR_SHOW_NO_B'    => $poll_no_bar,
       'GR_SHOWREQUEST_HEADLINE' => $user->lang['gr_showrequest_headline'].$login_check['username'],
       'GR_SHOWREQUEST_TEXT' => nl2br($login_check['text']),
