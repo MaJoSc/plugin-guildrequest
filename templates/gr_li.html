@@ -1,3 +1,4 @@
+<!-- JQUERY --> {JQUERY_INCLUDES}
 <!-- IF OUTPUT -->
   <table width="100%" cellspacing="0" cellpadding="6">
     <tr class="row2">
@@ -70,7 +71,7 @@
           <form action="login.php" method="POST">
             <input type="hidden" name="username" value="{GR_USERNAME}">
             <input type="hidden" name="password" value="{GR_PASSWORD}">
-            <textarea name="usercomment" rows="10" cols="100" class="input"></textarea><br><br>
+            {GR_EDITOR}<textarea id="requesttext" name="usercomment" class="jTagEditor">{GR_TEXT}</textarea><br><br>
             <input type="submit" class="mainoption" name="usercomment_submit">
           </form>
         </td>

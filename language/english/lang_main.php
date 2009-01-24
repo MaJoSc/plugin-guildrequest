@@ -19,7 +19,8 @@ $lang['rq_long_desc']                     = 'A request plugin for EQdkp-Plus';
 $lang['gr_user_aspirant']                 = 'RequestUser';
 $lang['gr_user_email']                    = 'Guest-Profile for the Guild-Request Plugin';
 
-
+//Editor
+$lang['editor_language']	= 'en';
 
 // Admin Menu
 $lang['rq_manage']												= 'manage';

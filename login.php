@@ -18,6 +18,9 @@ include_once($eqdkp_root_path . 'common.php');  // Must be set!
 // Check if plugin is installed
 if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild request plugin is not installed.'); }
 
+// Include the libraries
+include_once($eqdkp_root_path . 'plugins/guildrequest/include/libloader.inc.php');
+
 // include the Comment System
   $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".$_POST['username']."'");
   $login_check = $db->fetch_record($login_query);
@@ -137,12 +140,18 @@ if (isset($_POST['gr_submit'])){
   $db->free_result($login_query);
 }
 
+// The BB-Code thing
+  $requesttext = $bbcode->toHTML($login_check['text']);
+  $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
+  $requesttext = $bbcode->MyEmoticons($requesttext);
+
 // ------- THE SOURCE PART - END -------
 
    
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
       'GR_LOGIN_HEADLINE' => $user->lang['gr_login_headline'],
+      'GR_EDITOR'  => $jquery->wysiwyg('requesttext'),
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_PASSWORD_F' => $user->lang['gr_password_f'],
       'GR_LOGIN_SUBMIT' => $user->lang['gr_login_submit'],
@@ -157,7 +166,7 @@ $tpl->assign_vars(array(
       'GR_SHOW_NO_F'    => $poll_no_f,
       'GR_SHOW_NO_B'    => $poll_no_bar,
       'GR_SHOWREQUEST_HEADLINE' => $user->lang['gr_showrequest_headline'].$login_check['username'],
-      'GR_SHOWREQUEST_TEXT' => nl2br($login_check['text']),
+      'GR_SHOWREQUEST_TEXT' => $requesttext,
       'GR_SHOW_LOGIN' => $show_login,
       'OUTPUT'        => $output,
       'GR_ANSWER_F'   => $user->lang['gr_answer_f'],

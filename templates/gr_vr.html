@@ -2,22 +2,24 @@
 <!-- IF GR_LISTREQUESTS -->
 <table width="100%" cellspacing="0" cellpadding="6">
   <tr>
-    <th>{GR_USERNAME_F}</th><th>{GR_TEXT_F}</th>
+    <th>{GR_USERNAME_F}</th><th>{GR_TEXT_F}</th><th>&nbsp;</th>
   </tr>
   <!-- BEGIN request_list -->
   <tr class="{request_list.GR_ROW_CLASS}">
     <td valign="top" width="100"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}"><b>{request_list.GR_USERNAME}</b></a></td>
-    <td valign="top" align="left">{request_list.GR_TEXT}</td> 
+    <td valign="top" align="left">{request_list.GR_TEXT}</td>
+    <td>&nbsp;</td> 
   </tr>
   <!-- END request_list -->
-<tr><td colspan="2" align="center"><p><b>{GR_ADMIN_ONLY}</b></p></td></tr>
+<tr><td colspan="3" align="center"><p><b>{GR_ADMIN_ONLY}</b></p></td></tr>
   <tr>
-    <th>{GR_ADMIN_USER_F}</th><th>{GR_ADMIN_TEXT_F}</th>
+    <th>{GR_ADMIN_USER_F}</th><th colspan="2">{GR_ADMIN_TEXT_F}</th>
   </tr>
   <!-- BEGIN admin_request_list -->
   <tr class="{admin_request_list.GR_ROW_CLASS}">
     <td valign="top" width="100"><a href="viewrequest.php?request_id={admin_request_list.GR_REQUEST_ID}"><b>{admin_request_list.GR_USERNAME}</b></a></td>
-    <td valign="top" align="left">{admin_request_list.GR_TEXT}</td> 
+    <td valign="top" align="left">{admin_request_list.GR_TEXT}</td>
+    <td valign="top" align="right"><a href="viewrequest.php?request_del={admin_request_list.GR_REQUEST_ID}">delete</td> 
   </tr>
   <!-- END admin_request_list -->
 </table>
@@ -42,8 +44,8 @@
     </td>
   </tr>
   <tr class="row2">
-    <td colspan="2" align="center">
-      <p><b>{GR_TEXT}</b></p>
+    <td colspan="2">
+      <p>{GR_TEXT}</p>
     </td>
   </tr>
   <tr class="row1">

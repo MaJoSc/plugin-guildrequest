@@ -18,6 +18,9 @@ include_once($eqdkp_root_path . 'common.php');  // Must be set!
 // Check if plugin is installed
 if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild request plugin is not installed.'); }
 
+// Include the libraries
+include_once($eqdkp_root_path . 'plugins/guildrequest/include/libloader.inc.php');
+
 // ------- THE SOURCE PART - START -------
 if (isset($_POST['gr_submit'])){
   if ($_POST['username'] != '' && $_POST['email'] != '' && $_POST['password'] != '' && $_POST['text'] != ''){
@@ -37,9 +40,6 @@ if (isset($_POST['gr_submit'])){
         }
       }
     
-      $htmlinsert = htmlentities(strip_tags($_POST['text']), ENT_QUOTES);
-      $htmlinsert = $bbcode->toHTML($htmlinsert);
-      
       $username = htmlentities(strip_tags($_POST['username']), ENT_QUOTES);
       $password = htmlentities(strip_tags($_POST['password']), ENT_QUOTES);
       $email = htmlentities(strip_tags($_POST['email']), ENT_QUOTES);
@@ -50,7 +50,7 @@ if (isset($_POST['gr_submit'])){
   				'".$username."', 
           '".$email."', 
           '".md5($password)."',
-          '".$htmlinsert."',
+          '".$_POST['text']."',
           '".$activationcode."')");
         
         
@@ -119,6 +119,7 @@ $tpl->assign_vars(array(
       'GR_EMAIL'   => $gr_email,
       'GR_PASSWORD'   => $gr_password,
       'GR_TEXT'   => $gr_text,
+      'GR_EDITOR'  => $jquery->wysiwyg('requesttext'),
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_EMAIL_F' => $user->lang['gr_email_f'],
       'GR_PASSWORD_F' => $user->lang['gr_password_f'],      

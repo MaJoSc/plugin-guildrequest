@@ -26,14 +26,23 @@ if (isset($_POST['admin'])){
   $db->query("UPDATE __guildrequest SET closed='".$_POST['newstatus']."' WHERE id='".$_POST['request_id']."'");
 }
 // --- Open/Close the request - end ---
+
+if (isset($_GET['request_del'])) {
+  $db->query("DELETE FROM __guildrequest WHERE id='".$_GET['request_del']."'");
+}
+
 // Display the Overview
 if (!isset($_GET['request_id'])){
   $listrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='N' ORDER BY id");
   while($listquery = $db->fetch_record($listrequest_query)){
+    $requesttext = $bbcode->toHTML($listquery['text']);
+    $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
+    $requesttext = $bbcode->MyEmoticons($requesttext);
+
     $tpl->assign_block_vars('request_list', array(
 			'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
       'GR_USERNAME'   => $listquery['username'],
-      'GR_TEXT'       => $listquery['text'],
+      'GR_TEXT'       => $requesttext,
       'GR_REQUEST_ID' => $listquery['id'],
 		));
 	}
@@ -42,10 +51,14 @@ if (!isset($_GET['request_id'])){
   if ($user->check_auth('a_guildrequest_manage', true)){
     $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='Y' ORDER BY id");
     while($adminlistquery = $db->fetch_record($adminlistrequest_query)){
+      $requesttext = $bbcode->toHTML($adminlistquery['text']);
+      $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
+      $requesttext = $bbcode->MyEmoticons($requesttext);
+
       $tpl->assign_block_vars('admin_request_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
         'GR_USERNAME'   => $adminlistquery['username'],
-        'GR_TEXT'       => $adminlistquery['text'],
+        'GR_TEXT'       => $requesttext,
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
 		  $admin_user_f = $user->lang['gr_username_f'];
@@ -156,6 +169,10 @@ if (!isset($_GET['request_id'])){
 
   $listrequests = false;
   $showrequest = true;
+  
+  $requesttext = $bbcode->toHTML($request['text']);
+  $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
+  $requesttext = $bbcode->MyEmoticons($requesttext);
 }
 // ------- THE SOURCE PART - END -------
 
@@ -163,7 +180,7 @@ if (!isset($_GET['request_id'])){
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
       'GR_USERNAME'   => $request['username'],
-      'GR_TEXT'       => $request['text'],
+      'GR_TEXT'       => $requesttext,
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_TEXT_F'     => $user->lang['gr_text_f'],
       'GR_ADMIN_ONLY' => $adminonly,

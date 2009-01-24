@@ -19,6 +19,8 @@ $lang['rq_long_desc']                     = 'Ein Bewerbungs-Plugin für EQdkp-Plu
 $lang['gr_user_aspirant']                 = 'RequestUser';
 $lang['gr_user_email']                    = 'Gästekonto für das Bewerbungs-Plugin';
 
+//Editor
+$lang['editor_language']	= 'de';
 
 
 // Admin Menu
