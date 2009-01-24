@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1b                            *
+* Version: 0.0.1c                            *
 \********************************************/
 
 // EQdkp required files/vars
@@ -105,37 +105,47 @@ if (!isset($_GET['request_id'])){
   if ($setting['gr_poll_activated'] == 'Y'){
     $not_voted = true;
     $already_voted = false;
+    
     $pollcheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."' AND user_id='".$user->data['user_id']."'");
     $pollcheck = $db->num_rows($pollcheck_query);
-    if ($pollcheck != 0) {
-     	$not_voted = false;
-    	$already_voted = true;
-    }
-  
-    if ($not_voted == true) {
-      if (isset($_GET['accept'])){
-        $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'Y')");
-        $not_voted = false;
-        $already_voted = true;
-      } elseif (isset($_GET['decline'])){
-        $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'N')");
-        $not_voted = false;
-        $already_voted = true;
+
+    $pollclosed_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$_GET['request_id']."'");
+    $pollclosed = $db->fetch_record($pollclosed_query);
+
+    if ($pollclosed['closed'] == 'N'){
+      if ($pollcheck != 0) {
+       	$not_voted = false;
+      	$already_voted = true;
       }
-    }
   
-    if ($already_voted == true) {
-      $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."'");
-      $vote_sum_count = $db->num_rows($vote_sum_count_query);
+      if ($not_voted == true) {
+        if (isset($_GET['accept'])){
+          $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'Y')");
+          $not_voted = false;
+          $already_voted = true;
+        } elseif (isset($_GET['decline'])){
+          $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'N')");
+          $not_voted = false;
+          $already_voted = true;
+        }
+      }
+  
+      if ($already_voted == true) {
+        $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."'");
+        $vote_sum_count = $db->num_rows($vote_sum_count_query);
     
-      $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."' AND poll_value='Y'");
-      $vote_yes_count = $db->num_rows($vote_yes_count_querey);
+        $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."' AND poll_value='Y'");
+        $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
-      $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
-      $vote_no = (100 - $vote_yes);
+        $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
+        $vote_no = (100 - $vote_yes);
     
-    	$poll_yes_bar = create_bar($vote_yes);
-    	$poll_no_bar = create_bar($vote_no);
+    	 $poll_yes_bar = create_bar($vote_yes);
+    	 $poll_no_bar = create_bar($vote_no);
+      }
+    } else {
+      $not_voted = false;
+      $already_voted = false;
     }
   }  
   // --- the poll part - end ---
@@ -177,7 +187,7 @@ $tpl->assign_vars(array(
 
 // Init the Template
 $eqdkp->set_vars(array(
-	    'page_title'             => 'This is the Header',
+	    'page_title'             => $eqdkp->config['guildtag'].' - '.$user->lang['request'],
 			'template_path' 	       => $pm->get_data('guildrequest', 'template_path'),
 			'template_file'          => 'viewrequest.html',
 			'display'                => true)

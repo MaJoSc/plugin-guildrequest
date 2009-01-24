@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1b                            *
+* Version: 0.0.1c                            *
 \********************************************/
 
 // EQdkp required files/vars
@@ -61,7 +61,7 @@ $tpl->assign_vars(array(
 
 // Init the Template
 $eqdkp->set_vars(array(
-	    'page_title'             => 'This is the Header',
+	    'page_title'             => $eqdkp->config['guildtag'].' - '.$user->lang['request'],
 			'template_path' 	       => $pm->get_data('guildrequest', 'template_path'),
 			'template_file'          => 'admin/admin.html',
 			'display'                => true)

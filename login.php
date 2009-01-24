@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1b                            *
+* Version: 0.0.1c                            *
 \********************************************/
 
 // EQdkp required files/vars
@@ -44,6 +44,7 @@ $userid = $guestuser['user_id'];
 $show_login = true;
 $show_request = false;
 $show_closed = false;
+$insert_answer = false;
 
 if (isset($_POST['usercomment_submit'])) {
   if ($_POST['usercomment'] != ''){
@@ -61,6 +62,23 @@ if (isset($_POST['usercomment_submit'])) {
     }
     $show_login = false;
     $show_request = true;
+    $insert_answer = " <html>
+      <head>
+        <title></title>
+        <script language='javascript'>
+          function MyFormSubmit(){
+            document.newanswer.submit();
+          }
+        </script> 
+      </head>
+      <body onload='MyFormSubmit()'> 
+        <form action='login.php' method='POST' name='newanswer'>
+          <input type='hidden' name='username' value='".$_POST['username']."' />
+          <input type='hidden' name='password' value='".$_POST['password']."' />
+          <input type='hidden' name='gr_submit' value='1' />
+        </form>
+      </body>
+    </html>";
 }
 
 
@@ -130,6 +148,7 @@ $tpl->assign_vars(array(
       'GR_LOGIN_SUBMIT' => $user->lang['gr_login_submit'],
       'GR_LOGIN_RESET'  => $user->lang['gr_login_reset'],
       'GR_USERNAME'    =>  $login_check['username'],
+      'GR_PASSWORD'     => $_POST['password'],
       'GR_SHOW_REQUEST'  => $show_request, 
       'GR_SHOW_CLOSED'   => $show_closed,
       'GR_CLOSED_HEADLINE' => $user->lang['gr_closed_headline'],
@@ -141,12 +160,13 @@ $tpl->assign_vars(array(
       'GR_SHOWREQUEST_TEXT' => nl2br($login_check['text']),
       'GR_SHOW_LOGIN' => $show_login,
       'OUTPUT'        => $output,
-      'GR_ANSWER_F'   => $user->lang['gr_answer_f'], 
+      'GR_ANSWER_F'   => $user->lang['gr_answer_f'],
+      'GR_INSERT_ANSWER'  => $insert_answer, 
     ));
 
 // Init the Template
 $eqdkp->set_vars(array(
-	    'page_title'             => 'This is the Header',
+	    'page_title'             => $eqdkp->config['guildtag'].' - '.$user->lang['request'],
 			'template_path' 	       => $pm->get_data('guildrequest', 'template_path'),
 			'template_file'          => 'login.html',
 			'display'                => true)

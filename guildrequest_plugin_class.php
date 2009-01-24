@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1b                            *
+* Version: 0.0.1c                            *
 \********************************************/
 
 if (!defined('EQDKP_INC') ){
@@ -30,7 +30,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
       'path'					=> 'guildrequest',
       'contact'				=> 'andreas.schrottenbaum@gmx.at',
       'template_path'	=> 'plugins/guildrequest/templates/',
-      'version'				=> '0.0.1b')
+      'version'				=> '0.0.1c')
     );
         
     // Addition Information for eqdkpPLUS
@@ -100,6 +100,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
             'user_lastvisit' => time())
         );
         $sql = 'INSERT INTO ' . USERS_TABLE . $query;
+        $this->add_sql(SQL_INSTALL, $sql);
         
         if ( !($db->query($sql)) )
         {
@@ -117,6 +118,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_config");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_poll");
+    $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."users WHERE username = '".$user->lang['gr_user_aspirant']."' LIMIT 1");
   }
 
   /* GENERATE THE MENUS - START */

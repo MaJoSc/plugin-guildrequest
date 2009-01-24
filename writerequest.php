@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1b                            *
+* Version: 0.0.1c                            *
 \********************************************/
 
 // EQdkp required files/vars
@@ -39,14 +39,17 @@ if (isset($_POST['gr_submit'])){
     
       $htmlinsert = htmlentities(strip_tags($_POST['text']), ENT_QUOTES);
       $htmlinsert = $bbcode->toHTML($htmlinsert);
-
+      
+      $username = htmlentities(strip_tags($_POST['username']), ENT_QUOTES);
+      $password = htmlentities(strip_tags($_POST['password']), ENT_QUOTES);
+      $email = htmlentities(strip_tags($_POST['email']), ENT_QUOTES);
 
       if (!$userdouble){
         $activationcode = md5(time().microtime());
         $insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
-  				'".$_POST['username']."', 
-          '".$_POST['email']."', 
-          '".md5($_POST['password'])."',
+  				'".$username."', 
+          '".$email."', 
+          '".md5($password)."',
           '".$htmlinsert."',
           '".$activationcode."')");
         
@@ -128,7 +131,7 @@ $tpl->assign_vars(array(
 
 // Init the Template
 $eqdkp->set_vars(array(
-	    'page_title'             => 'This is the Header',
+	    'page_title'             => $eqdkp->config['guildtag'].' - '.$user->lang['request'],
 			'template_path' 	       => $pm->get_data('guildrequest', 'template_path'),
 			'template_file'          => 'writerequest.html',
 			'display'                => true)

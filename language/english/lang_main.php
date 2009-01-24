@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1b                            *
+* Version: 0.0.1c                            *
 \********************************************/
 
 global $eqdkp;
@@ -28,7 +28,7 @@ $lang['rq_write']                         = 'Write Request';
 
 // Bewerbung erstellen
 $lang['gr_write_headline']                = 'Compose Request';
-$lang['gr_write_incorrect_mail']          = 'You entered an invalid mail adress';
+$lang['gr_write_incorrect_mail']          = 'You entered an invalid mail address';
 $lang['gr_write_allfields']               = 'All fields have to be filled out!';
 $lang['gr_write_sendrequest']             = 'send request';
 $lang['gr_write_reset']                   = 'reset';
