@@ -53,7 +53,7 @@
   <p>&nbsp;</p>
 <!-- ENDIF -->
 <!-- IF GR_SHOW_REQUEST -->
-  <form action="login.php" method="POST">
+
     <table width="100%" cellspacing="0" cellpadding="6">
       <tr class="row2">
         <th>{GR_SHOWREQUEST_HEADLINE}</th>
@@ -72,7 +72,10 @@
           {COMMENTS}
         </td>
       </tr>
-      <!-- IF GR_SHOW_ANSWER -->
+    </table>
+  <!-- IF GR_SHOW_ANSWER -->
+  <form action="login.php" method="POST">
+    <table width="100%" cellspacing="0" cellpadding="6">
       <tr class="row1">
         <td align="center">
           <H2>{GR_ANSWER_F}</H2>
@@ -82,9 +85,9 @@
             <input type="submit" class="mainoption" name="usercomment_submit"><br><br>
         </td>
       </tr>
-      <!-- ENDIF -->
     </table> 
   </form>
+  <!-- ENDIF -->
 <!-- ENDIF -->
 <!-- IF GR_INSERT_ANSWER -->
   {GR_INSERT_ANSWER}

@@ -48,7 +48,7 @@ if (!isset($_GET['request_id'])){
 	}
 	
 	// --- the admin part - start ---
-  if ($user->check_auth('a_guildrequest_manage', true)){
+  if ($user->check_auth('a_guildrequest_manage', false)){
     $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='Y' ORDER BY id");
     while($adminlistquery = $db->fetch_record($adminlistrequest_query)){
       $requesttext = $bbcode->toHTML($adminlistquery['text']);
@@ -90,7 +90,7 @@ if (!isset($_GET['request_id'])){
   // --- comment system - end ---
   
   // --- the admin part - start ---
-  if ($user->check_auth('a_guildrequest_manage', true)){
+  if ($user->check_auth('a_guildrequest_manage', false)){
   $change_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$_GET['request_id']."'");
   $change = $db->fetch_record($change_query);
   
@@ -125,21 +125,22 @@ if (!isset($_GET['request_id'])){
     $pollclosed_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$_GET['request_id']."'");
     $pollclosed = $db->fetch_record($pollclosed_query);
 
-    if ($pollclosed['closed'] == 'N'){
       if ($pollcheck != 0) {
        	$not_voted = false;
       	$already_voted = true;
       }
   
       if ($not_voted == true) {
-        if (isset($_GET['accept'])){
-          $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'Y')");
-          $not_voted = false;
-          $already_voted = true;
-        } elseif (isset($_GET['decline'])){
-          $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'N')");
-          $not_voted = false;
-          $already_voted = true;
+        if ($pollclosed['closed'] == 'N'){
+          if (isset($_GET['accept'])){
+            $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'Y')");
+            $not_voted = false;
+            $already_voted = true;
+          } elseif (isset($_GET['decline'])){
+            $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'N')");
+            $not_voted = false;
+            $already_voted = true;
+          }
         }
       }
   
@@ -153,14 +154,13 @@ if (!isset($_GET['request_id'])){
         $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
         $vote_no = (100 - $vote_yes);
     
-    	 $poll_yes_bar = create_bar($vote_yes);
-    	 $poll_no_bar = create_bar($vote_no);
+     	  $poll_yes_bar = create_bar($vote_yes);
+    	  $poll_no_bar = create_bar($vote_no);
       }
     } else {
       $not_voted = false;
       $already_voted = false;
-    }
-  }  
+    }  
   // --- the poll part - end ---
   
 
