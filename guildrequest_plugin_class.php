@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1                             *
+* Version: 0.0.2                             *
 \********************************************/
 
 if (!defined('EQDKP_INC') ){
@@ -15,7 +15,7 @@ if (!defined('EQDKP_INC') ){
 }
 
 class guildrequest_plugin_class extends EQdkp_Plugin {
-  var $version    = '0.0.1';
+  var $version    = '0.0.2';
   var $copyright  = 'BadTwin';
   var $vstatus    = 'Stable';
   var $build      = '3601';
@@ -123,6 +123,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_config");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_poll");
     $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."users WHERE username = '".$user->lang['gr_user_aspirant']."' LIMIT 1");
+    $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."comments WHERE page='guildrequest'");
   }
 
   /* GENERATE THE MENUS - START */
