@@ -17,7 +17,7 @@
  */
   
   // Configuration
-  $myPluginID       = 'info';         // Plugin ID, p.e. 'raidplan'
+  $myPluginID       = 'guildrequest';         // Plugin ID, p.e. 'raidplan'
   $myPluginIncludes = 'include';   // Includes Folder of Plugin
   
   // DO NOT CHANGE

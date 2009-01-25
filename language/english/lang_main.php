@@ -12,8 +12,8 @@
 global $eqdkp;
 $lang['guildrequest']                     = 'Guild-Requests';
 $lang['request'] 							    				= 'Request';
-$lang['rq_short_desc']                    = 'Request-Plugin';
-$lang['rq_long_desc']                     = 'A request plugin for EQdkp-Plus';
+$lang['gr_short_desc']                    = 'Request-Plugin';
+$lang['gr_long_desc']                     = 'A request plugin for EQdkp-Plus';
 
 // Userdaten für den Gastuser
 $lang['gr_user_aspirant']                 = 'RequestUser';
@@ -23,9 +23,9 @@ $lang['gr_user_email']                    = 'Guest-Profile for the Guild-Request
 $lang['editor_language']	= 'en';
 
 // Admin Menu
-$lang['rq_manage']												= 'manage';
-$lang['rq_view']                          = 'View Request';
-$lang['rq_write']                         = 'Write Request';
+$lang['gr_manage']												= 'manage';
+$lang['gr_view']                          = 'View Request';
+$lang['gr_write']                         = 'Write Request';
 
 // Bewerbung erstellen
 $lang['gr_write_headline']                = 'Compose Request';
@@ -41,7 +41,7 @@ $lang['gr_username_f']                    = 'username:';
 $lang['gr_email_f']                       = 'e-mail:';
 $lang['gr_password_f']                    = 'password:';
 $lang['gr_text_f']                        = 'text:';
-$lang['rq_settings']                      = 'Settings';
+$lang['gr_settings']                      = 'Settings';
 $lang['gr_user_double']                   = 'An user with the same name has already sent a request. Please choose another name.';
 $lang['gr_welcome_text']                  = 'Thank you for you interest on '.$eqdkp->config['guildtag'].'. Please write your request below:';
 
@@ -70,6 +70,7 @@ $lang['gr_poll_no']                       = 'no';
   $lang['gr_poll_ad_closed']              = 'closed';
   $lang['gr_poll_ad_save']                = 'saved';
   $lang['gr_ad_adminonly']                = 'closed requests - only admins can see:';
+  $lang['gr_ad_delete']                   = 'delete';
   
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Requests - Settings';

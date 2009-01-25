@@ -12,8 +12,8 @@
 global $eqdkp;
 $lang['guildrequest']                     = 'Gilden-Bewerbungen';
 $lang['request'] 							    				= 'Bewerbung';
-$lang['rq_short_desc']                    = 'Bewerbungs-Plugin';
-$lang['rq_long_desc']                     = 'Ein Bewerbungs-Plugin für EQdkp-Plus';
+$lang['gr_short_desc']                    = 'Bewerbungs-Plugin';
+$lang['gr_long_desc']                     = 'Ein Bewerbungs-Plugin für EQdkp-Plus';
 
 // Userdaten für den Gastuser
 $lang['gr_user_aspirant']                 = 'RequestUser';
@@ -22,11 +22,10 @@ $lang['gr_user_email']                    = 'Gästekonto für das Bewerbungs-Plugi
 //Editor
 $lang['editor_language']	= 'de';
 
-
 // Admin Menu
-$lang['rq_manage']												= 'Verwalten';
-$lang['rq_view']                          = 'Bewerbungen ansehen';
-$lang['rq_write']                         = 'Bewerbung schreiben';
+$lang['gr_manage']												= 'Verwalten';
+$lang['gr_view']                          = 'Bewerbungen ansehen';
+$lang['gr_write']                         = 'Bewerbung schreiben';
 
 // Bewerbung erstellen
 $lang['gr_write_headline']                = 'Bewerbung verfassen';
@@ -42,7 +41,7 @@ $lang['gr_username_f']                    = 'Benutzername:';
 $lang['gr_email_f']                       = 'E-Mail:';
 $lang['gr_password_f']                    = 'Passwort:';
 $lang['gr_text_f']                        = 'Text:';
-$lang['rq_settings']                      = 'Einstellungen';
+$lang['gr_settings']                      = 'Einstellungen';
 $lang['gr_user_double']                   = 'Ein User mit demselben Namen hdat sich bereits beworben. Bitte wähle einen anderen Namen.';
 $lang['gr_welcome_text']                  = 'Vielen Dank für dein Interesse an '.$eqdkp->config['guildtag'].'. Bitte schreibe deine Bewerbung hier:';
 
@@ -71,6 +70,7 @@ $lang['gr_poll_no']                       = 'Nein';
   $lang['gr_poll_ad_closed']              = 'geschlossen';
   $lang['gr_poll_ad_save']                = 'speichern';
   $lang['gr_ad_adminonly']                = 'Geschlossene Bewerbungen - Nur für Administratoren sichtbar:';
+  $lang['gr_ad_delete']                   = 'löschen';
   
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Bewerbungen - Einstellungen';

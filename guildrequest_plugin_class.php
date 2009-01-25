@@ -15,6 +15,10 @@ if (!defined('EQDKP_INC') ){
 }
 
 class guildrequest_plugin_class extends EQdkp_Plugin {
+  var $version    = '0.0.1';
+  var $copyright  = 'BadTwin';
+  var $vstatus    = 'Beta';
+  var $build      = '3601';
 
   function guildrequest_plugin_class($pm){
 
@@ -30,21 +34,21 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
       'path'					=> 'guildrequest',
       'contact'				=> 'andreas.schrottenbaum@gmx.at',
       'template_path'	=> 'plugins/guildrequest/templates/',
-      'version'				=> '0.0.1c')
+      'version'				=> $this->version,)
     );
         
     // Addition Information for eqdkpPLUS
     $this->additional_data = array(
       'author'            => 'BadTwin',
-      'description'       => $user->lang['rq_short_desc'],
-      'long_description'  => $user->lang['rq_long_desc'],
+      'description'       => $user->lang['gr_short_desc'],
+      'long_description'  => $user->lang['gr_long_desc'],
       'homepage'          => 'http://www.eqdkp-plus.com/',
       'manuallink'        => '',
     );
         
 		// Register the permissions... 
-    $this->add_permission('8955', 'a_guildrequest_manage',  'N', $user->lang['rq_manage']);
-    $this->add_permission('8956', 'u_guildrequest_view',    'N', $user->lang['rq_view']);
+    $this->add_permission('8955', 'a_guildrequest_manage',  'N', $user->lang['gr_manage']);
+    $this->add_permission('8956', 'u_guildrequest_view',    'N', $user->lang['gr_view']);
       
     // Add Menus (configuration of the menu entries, see below)
 		$this->add_menu('main_menu1', $this->gen_main_menu1());      // This is the main Menu
@@ -137,13 +141,13 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
         }
         $main_menu1 = array(array(
       		'link' => 'plugins/guildrequest/viewrequest.php' . $SID,
-  	   		'text' => $user->lang['rq_view'].$counter_out,
+  	   		'text' => $user->lang['gr_view'].$counter_out,
   		  	'check' => 'u_guildrequest_view'
     	  ));
     	} else {
         $main_menu1 = array(array(
       		'link' => 'plugins/guildrequest/writerequest.php' . $SID,
-  	   		'text' => $user->lang['rq_write'],
+  	   		'text' => $user->lang['gr_write'],
     	  ));
       }
       return $main_menu1;
@@ -162,7 +166,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     			0 => $user->lang['guildrequest'],
     			1 => array(
     				'link' => $url_prefix . 'plugins/guildrequest/admin/admin.php' . $SID,
-    				'text' => $user->lang['rq_manage'],
+    				'text' => $user->lang['gr_manage'],
     				'check' => 'a_guildrequest_manage'),
     	));
       return $admin_menu;

@@ -19,7 +19,7 @@
   <form action="login.php" name="inputform" method="POST">
     <table width="100%" cellspacing="0" cellpadding="6">
       <tr class="row2">
-        <td colspan="4" align="center"><H2>{GR_LOGIN_HEADLINE}</H2></td>
+        <th colspan="4">{GR_LOGIN_HEADLINE}</th>
       </tr>
       <tr class="row1">
         <td align="right">{GR_USERNAME_F}</td>
@@ -53,30 +53,38 @@
   <p>&nbsp;</p>
 <!-- ENDIF -->
 <!-- IF GR_SHOW_REQUEST -->
+  <form action="login.php" method="POST">
     <table width="100%" cellspacing="0" cellpadding="6">
       <tr class="row2">
-        <td align="center"><H2>{GR_SHOWREQUEST_HEADLINE}</H2></td>
+        <th>{GR_SHOWREQUEST_HEADLINE}</th>
       </tr>
       <tr class="row1">
-        <td>{GR_SHOWREQUEST_TEXT}</td>
+        <td>
+          <table width="70%" align="center">
+            <tr>
+              <td>{GR_SHOWREQUEST_TEXT}</td>
+            </tr>
+          </table>
+        </td>
       </tr>
       <tr class="row2">
         <td>
           {COMMENTS}
         </td>
       </tr>
+      <!-- IF GR_SHOW_ANSWER -->
       <tr class="row1">
         <td align="center">
           <H2>{GR_ANSWER_F}</H2>
-          <form action="login.php" method="POST">
             <input type="hidden" name="username" value="{GR_USERNAME}">
             <input type="hidden" name="password" value="{GR_PASSWORD}">
             {GR_EDITOR}<textarea id="requesttext" name="usercomment" class="jTagEditor">{GR_TEXT}</textarea><br><br>
-            <input type="submit" class="mainoption" name="usercomment_submit">
-          </form>
+            <input type="submit" class="mainoption" name="usercomment_submit"><br><br>
         </td>
       </tr>
+      <!-- ENDIF -->
     </table> 
+  </form>
 <!-- ENDIF -->
 <!-- IF GR_INSERT_ANSWER -->
   {GR_INSERT_ANSWER}

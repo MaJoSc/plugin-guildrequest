@@ -27,8 +27,8 @@ if (isset($_POST['admin'])){
 }
 // --- Open/Close the request - end ---
 
-if (isset($_GET['request_del'])) {
-  $db->query("DELETE FROM __guildrequest WHERE id='".$_GET['request_del']."'");
+if (isset($_POST['del_id'])) {
+  $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['del_id']."'");
 }
 
 // Display the Overview
@@ -180,6 +180,7 @@ if (!isset($_GET['request_id'])){
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
       'GR_USERNAME'   => $request['username'],
+      'GR_VIEWREQUEST' => $user->lang['gr_view'], 
       'GR_TEXT'       => $requesttext,
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_TEXT_F'     => $user->lang['gr_text_f'],
@@ -187,6 +188,7 @@ $tpl->assign_vars(array(
       'GR_ADMIN_USER_F' => $admin_user_f,
       'GR_ADMIN_TEXT_F' => $admin_text_f,
       'GR_REQUEST_ID' => $_GET['request_id'],
+      'GR_AD_DELETE'  => $user->lang['gr_ad_delete'],
       'GR_LISTREQUESTS' => $listrequests,
       'GR_SHOWREQUEST' => $showrequest,
       'GR_SHOWREQUEST_HEADLINE' => $user->lang['gr_showrequest_headline'],
@@ -199,7 +201,6 @@ $tpl->assign_vars(array(
       'GR_POLL_NO_B'   => $poll_no_bar,
       'GR_NOT_VOTED'  => $not_voted,
       'GR_AD_CHANGE_STATUS'  => $changestatus,
-      'OUTPUT'        => $output,
     ));
 
 // Init the Template

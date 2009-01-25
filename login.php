@@ -48,6 +48,7 @@ $show_login = true;
 $show_request = false;
 $show_closed = false;
 $insert_answer = false;
+$show_answer = true;
 
 if (isset($_POST['usercomment_submit'])) {
   if ($_POST['usercomment'] != ''){
@@ -93,6 +94,7 @@ if (isset($_POST['gr_submit'])){
 	  if (md5($_POST['password']) == $login_check['password']){
 	    if ($login_check['activated'] != 'Y') {
      	  $output = $user->lang['gr_login_not_activated'];
+     	  $show_answer = false;
       } else {
         if ($login_check['closed'] == 'N') {
           $show_login = false;
@@ -129,13 +131,16 @@ if (isset($_POST['gr_submit'])){
           $show_login = false;
           $show_request = true;
           $show_closed = true;
+          $show_answer = false;
         }
       }
     } else {
       $output = $user->lang['gr_login_wrong'];
+      $show_answer = false;
     }
   } else {
     $output = $user->lang['gr_login_empty'];
+    $show_answer = false;
   }
   $db->free_result($login_query);
 }
@@ -161,6 +166,7 @@ $tpl->assign_vars(array(
       'GR_SHOW_REQUEST'  => $show_request, 
       'GR_SHOW_CLOSED'   => $show_closed,
       'GR_CLOSED_HEADLINE' => $user->lang['gr_closed_headline'],
+      'GR_SHOW_ANSWER' => $show_answer,
       'GR_SHOW_YES_F'   => $poll_yes_f,
       'GR_SHOW_YES_B'   => $poll_yes_bar,
       'GR_SHOW_NO_F'    => $poll_no_f,

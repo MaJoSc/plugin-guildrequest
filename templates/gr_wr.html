@@ -1,5 +1,6 @@
 <!-- JQUERY --> {JQUERY_INCLUDES}
-<table width="100%" cellspacing="0" cellpadding="6">
+<form action="login.php">
+  <table width="100%" cellspacing="0" cellpadding="6">
     <!-- IF OUTPUT-->
     <tr class="row2">
       <td colspan="6" align="center">
@@ -17,16 +18,16 @@
     </tr>
     <!-- ENDIF -->
     <tr class="row1">
-      <td colspan="5" align="center"><h2>{GR_WRITE_HEADLINE}</h2></td>
-      <td><form action="login.php">
+      <th colspan="5">{GR_WRITE_HEADLINE}</td>
+      <th width="40">
           <input type="submit" class="mainoption" name="login" value="Login">
-        </form>
-      </td>
+      </th>
     </tr>
     <tr class="row2">
       <td colspan="6" align="center"><p>{GR_WRITE_WELCOME}</p></td>
     </tr>
-</table>
+  </table>
+</form>
 <form action="writerequest.php" name="inputform" method="POST">
   <table width="100%" cellspacing="0" cellpadding="6">
     <tr class="row1">

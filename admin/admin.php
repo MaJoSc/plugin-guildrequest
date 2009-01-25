@@ -14,11 +14,44 @@ define('EQDKP_INC', true);        // is it in the eqdkp? must be set!!
 define('PLUGIN', 'guildrequest');   // Must be set!
 $eqdkp_root_path = './../../../';    // Must be set!
 include_once($eqdkp_root_path . 'common.php');  // Must be set!
+include_once('../include/common.php');  // Must be set!
 
 // Check if plugin is installed
 if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild request plugin is not installed.'); }
 
 $user->check_auth('a_guildrequest_manage');
+
+// ------- UPDATECHECK - START -------
+
+// Check if the Update Check should be enabled or disabled...
+$updchk_enbled = true;
+
+// gehört in obige zeile ( $row['gl_updatecheck'] == 1 ) ? true : false;
+
+// The Data for the Cache Table
+$cachedb        = array(
+      'table' => 'guildrequest_config',
+      'data' => $conf['vc_data'],
+      'f_data' => 'vc_data',
+      'lastcheck' => $conf['vc_lastcheck'],
+      'f_lastcheck' => 'vc_lastcheck'
+      );
+
+// The Version Information
+$versionthing   = array(
+      'name' => 'gallery',
+      'version' => $pm->get_data('guildrequest', 'version'),
+      'build' => $pm->plugins['guildrequest']->build,
+      'vstatus' => $pm->plugins['guildrequest']->vstatus,
+      'enabled' => $updchk_enbled
+      );
+
+// Start Output à DO NOT CHANGE....
+$wpfccore->InitAdmin();
+$rbvcheck = new PluginUpdCheck($versionthing, $cachedb);
+$rbvcheck->PerformUpdateCheck();
+
+// ------- UPDATE CHECK - END -------
 
 // ------- THE SOURCE PART - START -------
 if (isset($_POST['gr_ad_submit'])) {
@@ -57,6 +90,8 @@ $tpl->assign_vars(array(
       'GR_AD_MAIL_1_F'        => $user->lang['gr_ad_mail1_f'],
       'GR_AD_MAIL_2_F'        => $user->lang['gr_ad_mail2_f'],
       'GR_AD_UPDATE_SUCC'     => $success,
+
+    	'UPDCHECK_BOX'     		  => $rbvcheck->OutputHTML(),
     ));
 
 // Init the Template
