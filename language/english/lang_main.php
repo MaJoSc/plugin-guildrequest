@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1c                            *
+* Version: 0.0.1                             *
 \********************************************/
 
 global $eqdkp;

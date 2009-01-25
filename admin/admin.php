@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1c                            *
+* Version: 0.0.1                             *
 \********************************************/
 
 // EQdkp required files/vars
@@ -39,7 +39,7 @@ $cachedb        = array(
 
 // The Version Information
 $versionthing   = array(
-      'name' => 'gallery',
+      'name' => 'guildrequest',
       'version' => $pm->get_data('guildrequest', 'version'),
       'build' => $pm->plugins['guildrequest']->build,
       'vstatus' => $pm->plugins['guildrequest']->vstatus,

@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1c                            *
+* Version: 0.0.1                             *
 \********************************************/
 
 if (!defined('EQDKP_INC') ){
@@ -17,7 +17,7 @@ if (!defined('EQDKP_INC') ){
 class guildrequest_plugin_class extends EQdkp_Plugin {
   var $version    = '0.0.1';
   var $copyright  = 'BadTwin';
-  var $vstatus    = 'Beta';
+  var $vstatus    = 'Stable';
   var $build      = '3601';
 
   function guildrequest_plugin_class($pm){
