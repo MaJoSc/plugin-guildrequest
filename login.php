@@ -53,9 +53,7 @@ $show_answer = true;
 if (isset($_POST['usercomment_submit'])) {
   if ($_POST['usercomment'] != ''){
   
-    $htmlinsert = ($pcomments->CheckUTF8($htmlinsert) == 1) ? utf8_decode($_POST['usercomment']) : $_POST['usercomment'];
-    $htmlinsert = htmlentities(strip_tags($htmlinsert), ENT_QUOTES); /*No html or javascript in comments*/
-    $htmlinsert = $bbcode->toHTML($htmlinsert);
+    $htmlinsert = htmlentities(strip_tags($_POST['usercomment']), ENT_QUOTES); /*No html or javascript in comments*/
         
 	  $comment_query = $db->query("INSERT INTO __comments (attach_id, userid, date, text, page) VALUES(
       '".$attach_id."',
