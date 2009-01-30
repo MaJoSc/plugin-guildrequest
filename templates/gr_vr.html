@@ -7,7 +7,7 @@
     <!-- BEGIN request_list -->
     <tr class="{request_list.GR_ROW_CLASS}">
       <td valign="top" width="100"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}"><b>{request_list.GR_USERNAME}</b></a></td>
-      <td valign="top" align="left">{request_list.GR_TEXT}</td>
+      <td valign="top" align="left"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}">{request_list.GR_TEXT}</a></td>
       <td>&nbsp;</td> 
     </tr>
     <!-- END request_list -->
@@ -20,7 +20,7 @@
     <!-- BEGIN admin_request_list -->
     <tr class="{admin_request_list.GR_ROW_CLASS}">
       <td valign="top" width="100"><a href="viewrequest.php?request_id={admin_request_list.GR_REQUEST_ID}"><b>{admin_request_list.GR_USERNAME}</b></a></td>
-      <td valign="top" align="left">{admin_request_list.GR_TEXT}</td>
+      <td valign="top" align="left">    <a href="viewrequest.php?request_id={admin_request_list.GR_REQUEST_ID}">{admin_request_list.GR_TEXT}</a></td>
       <td valign="top" align="right"><input type="submit" name="del_submit" class="mainoption" value="{GR_AD_DELETE}">
                                      <input type="hidden" name="del_id" value="{admin_request_list.GR_REQUEST_ID}"></td>
     </tr>
