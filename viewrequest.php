@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1                             *
+* Version: 0.0.2                             *
 \********************************************/
 
 // EQdkp required files/vars
@@ -26,35 +26,52 @@ if (isset($_POST['admin'])){
   $db->query("UPDATE __guildrequest SET closed='".$_POST['newstatus']."' WHERE id='".$_POST['request_id']."'");
 }
 // --- Open/Close the request - end ---
+if (isset($_POST['act_submit'])){
+  $db->query("UPDATE __guildrequest SET activated='Y' WHERE id='".$_POST['request_id']."'");
+}
 
-if (isset($_POST['del_id'])) {
-  $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['del_id']."'");
+if (isset($_POST['del_submit'])) {
+  $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['request_id']."'");
 }
 
 // Display the Overview
 if (!isset($_GET['request_id'])){
-  $listrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='N' ORDER BY id");
+  $listrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='N' AND activated='Y' ORDER BY id desc");
   while($listquery = $db->fetch_record($listrequest_query)){
+    // Check, if already voted
+    $votecheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$listquery['id']."' AND user_id = '".$user->data['user_id']."'");
+    $votecheck = $db->num_rows($votecheck_query);
+    $db->free_result($votecheck_query);
+
+    if ($votecheck != '1'){
+      $votecheck = '<font class="negative"><b>'.$user->lang['gr_vr_not_voted'].'</b></font>';
+    } else {
+      $votecheck = '<font class="positive">'.$user->lang['gr_vr_voted'].'</font>';
+    }
+
     $requesttext = $bbcode->toHTML($listquery['text']);
     $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
     $requesttext = $bbcode->MyEmoticons($requesttext);
+    $requesttext = strip_tags($requesttext, '<br><img>');
 
     $tpl->assign_block_vars('request_list', array(
 			'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
       'GR_USERNAME'   => $listquery['username'],
       'GR_TEXT'       => $requesttext,
       'GR_REQUEST_ID' => $listquery['id'],
+      'GR_VOTECHECK'  => $votecheck,
 		));
 	}
 	
 	// --- the admin part - start ---
   if ($user->check_auth('a_guildrequest_manage', false)){
-    $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='Y' ORDER BY id");
-    while($adminlistquery = $db->fetch_record($adminlistrequest_query)){
+    $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='Y' AND activated='Y' ORDER BY id desc");
+    while($adminlistquery = $db->fetch_record($adminlistrequest_query)){    
       $requesttext = $bbcode->toHTML($adminlistquery['text']);
       $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
       $requesttext = $bbcode->MyEmoticons($requesttext);
-
+      $requesttext = strip_tags($requesttext, '<br><img>');
+    
       $tpl->assign_block_vars('admin_request_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
         'GR_USERNAME'   => $adminlistquery['username'],
@@ -64,7 +81,28 @@ if (!isset($_GET['request_id'])){
 		  $admin_user_f = $user->lang['gr_username_f'];
 		  $admin_text_f = $user->lang['gr_text_f'];
       $adminonly = $user->lang['gr_ad_adminonly'];
+      $admin_not_activated = $user->lang['gr_not_activated'];
     }
+    
+    $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE activated='N' ORDER BY id desc");
+    while($adminlistquery = $db->fetch_record($adminlistrequest_query)){    
+      $requesttext = $bbcode->toHTML($adminlistquery['text']);
+      $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
+      $requesttext = $bbcode->MyEmoticons($requesttext);
+      $requesttext = strip_tags($requesttext, '<br><img>');
+    
+      $tpl->assign_block_vars('admin_not_activated_list', array(
+			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
+        'GR_USERNAME'   => $adminlistquery['username'],
+        'GR_TEXT'       => $requesttext,
+        'GR_REQUEST_ID' => $adminlistquery['id'],
+		  ));
+		  $admin_user_f = $user->lang['gr_username_f'];
+		  $admin_text_f = $user->lang['gr_text_f'];
+      $adminonly = $user->lang['gr_ad_adminonly'];
+      $admin_not_activated = $user->lang['gr_not_activated'];
+    }
+
   }
   // --- the admin part - end ---
   
@@ -187,8 +225,10 @@ $tpl->assign_vars(array(
       'GR_ADMIN_ONLY' => $adminonly,
       'GR_ADMIN_USER_F' => $admin_user_f,
       'GR_ADMIN_TEXT_F' => $admin_text_f,
+      'GR_ADMIN_NOT_ACTIVATED_F' => $admin_not_activated,
       'GR_REQUEST_ID' => $_GET['request_id'],
       'GR_AD_DELETE'  => $user->lang['gr_ad_delete'],
+      'GR_AD_ACTIVATE'  => $user->lang['gr_ad_activate'],
       'GR_LISTREQUESTS' => $listrequests,
       'GR_SHOWREQUEST' => $showrequest,
       'GR_SHOWREQUEST_HEADLINE' => $user->lang['gr_showrequest_headline'],

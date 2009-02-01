@@ -135,7 +135,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')){
       // Start the Menu array
       if ($user->data['user_id'] != ANONYMOUS){
-        $counter_query = $db->query("SELECT * FROM __guildrequest WHERE closed='N'");
+        $counter_query = $db->query("SELECT * FROM __guildrequest WHERE closed='N' AND activated='Y'");
         $counter = $db->num_rows($counter_query);
         if ($counter != 0){
           $counter_out = ' ('.$counter.')';

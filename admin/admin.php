@@ -13,6 +13,7 @@
 define('EQDKP_INC', true);        // is it in the eqdkp? must be set!!
 define('PLUGIN', 'guildrequest');   // Must be set!
 $eqdkp_root_path = './../../../';    // Must be set!
+define('IN_ADMIN', true);         // Must be set if admin page
 include_once($eqdkp_root_path . 'common.php');  // Must be set!
 include_once('../include/common.php');  // Must be set!
 
@@ -24,9 +25,7 @@ $user->check_auth('a_guildrequest_manage');
 // ------- UPDATECHECK - START -------
 
 // Check if the Update Check should be enabled or disabled...
-$updchk_enbled = true;
-
-// gehört in obige zeile ( $row['gl_updatecheck'] == 1 ) ? true : false;
+$updchk_enbled = ( $row['gl_updatecheck'] == 1 ) ? true : false;
 
 // The Data for the Cache Table
 $cachedb        = array(

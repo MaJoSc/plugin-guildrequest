@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1                             *
+* Version: 0.0.2                             *
 \********************************************/
 
 global $eqdkp;
@@ -61,6 +61,8 @@ $lang['gr_answer_f']                      = 'Antwort:';
 $lang['gr_closed_headline']               = 'Die Bewerbung wurde geschlossen.';
 
 // Member-Ansicht
+$lang['gr_vr_not_voted']                  = 'Du hast noch nicht abgestimmt!';
+$lang['gr_vr_voted']                      = 'Deine Stimme wurde gezählt!';
 $lang['gr_goback']                        = 'zurück';
 $lang['gr_poll_headline']                 = 'Soll dieser Bewerber in die Gilde aufgenommen werden?';
 $lang['gr_poll_yes']                      = 'Ja';
@@ -71,6 +73,8 @@ $lang['gr_poll_no']                       = 'Nein';
   $lang['gr_poll_ad_save']                = 'speichern';
   $lang['gr_ad_adminonly']                = 'Geschlossene Bewerbungen - Nur für Administratoren sichtbar:';
   $lang['gr_ad_delete']                   = 'löschen';
+  $lang['gr_ad_activate']                 = 'aktivieren';
+  $lang['gr_not_activated']               = 'Nicht aktivierte Bewerbungen:';
   
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Bewerbungen - Einstellungen';
@@ -79,4 +83,9 @@ $lang['gr_ad_poll_activated']             = 'Umfragen aktiviert';
 $lang['gr_ad_mail1_f']                    = 'Erster Teil der Bestätigungsmail:';
 $lang['gr_ad_mail2_f']                    = 'Zweiter Teil der Bestätigungsmail:';
 $lang['gr_ad_update_succ']                = 'Die Einstellungen wurden gespeichert';
+
+// Portal Module
+$lang['gr_pm_one_not_voted']              = 'Es gibt eine Bewerbung, bei der du noch nicht abgestimmt hast.';
+$lang['gr_pm_not_voted_1']                = 'Es gibt ';
+$lang['gr_pm_not_voted_2']                = ' Bewerbungen, bei denen du noch nicht abgestimmt hast!';
 ?>

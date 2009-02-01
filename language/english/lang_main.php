@@ -6,7 +6,7 @@
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
 * Link: http://eqdkp-plus.com                *
-* Version: 0.0.1                             *
+* Version: 0.0.2                             *
 \********************************************/
 
 global $eqdkp;
@@ -61,6 +61,8 @@ $lang['gr_answer_f']                      = 'Answer:';
 $lang['gr_closed_headline']               = 'The request has been closed.';
 
 // Member-Ansicht
+$lang['gr_vr_not_voted']                  = 'You have not voted yet!';
+$lang['gr_vr_voted']                      = 'Your vote has been accepted!';
 $lang['gr_goback']                        = 'back';
 $lang['gr_poll_headline']                 = 'Should the candidate be invited to the guild?';
 $lang['gr_poll_yes']                      = 'yes';
@@ -71,6 +73,8 @@ $lang['gr_poll_no']                       = 'no';
   $lang['gr_poll_ad_save']                = 'saved';
   $lang['gr_ad_adminonly']                = 'closed requests - only admins can see:';
   $lang['gr_ad_delete']                   = 'delete';
+  $lang['gr_ad_activate']                 = 'activate';
+  $lang['gr_not_activated']               = 'Not activated requests:';
   
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Requests - Settings';
@@ -79,4 +83,9 @@ $lang['gr_ad_headline_f']                 = 'welcome text:';
 $lang['gr_ad_mail1_f']                    = 'first part of the registration mail:';
 $lang['gr_ad_mail2_f']                    = 'second part of the registration mail:';
 $lang['gr_ad_update_succ']                = 'the settings have been saved!';
+
+// Portal Module
+$lang['gr_pm_one_not_voted']              = 'There is a request waiting for your Poll.';
+$lang['gr_pm_not_voted_1']                = 'There are ';
+$lang['gr_pm_not_voted_2']                = ' requests waiting for your poll!';
 ?>
