@@ -88,4 +88,6 @@ $lang['gr_ad_update_succ']                = 'Die Einstellungen wurden gespeicher
 $lang['gr_pm_one_not_voted']              = 'Es gibt eine Bewerbung, bei der du noch nicht abgestimmt hast.';
 $lang['gr_pm_not_voted_1']                = 'Es gibt ';
 $lang['gr_pm_not_voted_2']                = ' Bewerbungen, bei denen du noch nicht abgestimmt hast!';
+
+$lang['gr_pu_new_query']                  = 'Neue Bewerbung: ';
 ?>

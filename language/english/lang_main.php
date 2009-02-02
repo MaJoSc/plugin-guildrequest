@@ -88,4 +88,6 @@ $lang['gr_ad_update_succ']                = 'the settings have been saved!';
 $lang['gr_pm_one_not_voted']              = 'There is a request waiting for your Poll.';
 $lang['gr_pm_not_voted_1']                = 'There are ';
 $lang['gr_pm_not_voted_2']                = ' requests waiting for your poll!';
+
+$lang['gr_pu_new_query']                  = 'New Request: ';
 ?>

@@ -20,7 +20,7 @@
     header('HTTP/1.0 404 Not Found');exit;
   } 
   
-  if (!isset($eqdkp_root_path) ){
+  if (!isset($eqdkp_root_path)){
     $eqdkp_root_path = './';
   }
   include_once($eqdkp_root_path . 'common.php');

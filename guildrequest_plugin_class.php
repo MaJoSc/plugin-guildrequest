@@ -130,7 +130,8 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
   
   // generate the Main Menu
   function gen_main_menu1(){
-    global $user, $SID, $db, $eqdkp;
+    global $user, $SID, $db, $eqdkp, $tpl;
+    
     // check if its enabled
     if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')){
       // Start the Menu array

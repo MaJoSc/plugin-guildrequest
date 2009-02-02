@@ -212,6 +212,7 @@ if (!isset($_GET['request_id'])){
   $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
   $requesttext = $bbcode->MyEmoticons($requesttext);
 }
+
 // ------- THE SOURCE PART - END -------
 
    
