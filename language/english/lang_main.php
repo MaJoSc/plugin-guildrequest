@@ -33,6 +33,8 @@ $lang['gr_write_incorrect_mail']          = 'You entered an invalid mail address
 $lang['gr_write_allfields']               = 'All fields have to be filled out!';
 $lang['gr_write_sendrequest']             = 'send request';
 $lang['gr_write_reset']                   = 'reset';
+$lang['gr_write_error']                   = 'Error';
+$lang['gl_write_succ']                    = 'Mail sent';
 $lang['gr_mailsent']                      = 'Please confirm your Request by clicking the link in the mail.';
 $lang['gr_mail_topic']                    = 'Confirm your Request at '.$eqdkp->config['guildtag'];
 $lang['gr_mail_text1']                    = 'Please confirm your Request by clicking following link:';
@@ -75,6 +77,17 @@ $lang['gr_poll_no']                       = 'no';
   $lang['gr_ad_delete']                   = 'delete';
   $lang['gr_ad_activate']                 = 'activate';
   $lang['gr_not_activated']               = 'Not activated requests:';
+  $lang['gr_no_requests']                 = 'There are no existing requests.';
+  // Info-Boxen
+  $lang['gr_vr_ad_opened_f']              = 'Opened';
+  $lang['gr_vr_ad_opened']                = 'The request has been opened';
+  $lang['gr_vr_ad_closed_f']              = 'Closed';
+  $lang['gr_vr_ad_closed']                = 'The request has been closed';
+  $lang['gr_vr_ad_activated_f']           = 'Activated';
+  $lang['gr_vr_ad_activated']             = 'The request has been activated';
+  $lang['gr_vr_ad_deleted_f']             = 'Deleted';
+  $lang['gr_vr_ad_deleted']               = 'The request has been deleted';
+
   
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Requests - Settings';
@@ -83,6 +96,7 @@ $lang['gr_ad_headline_f']                 = 'welcome text:';
 $lang['gr_ad_mail1_f']                    = 'first part of the registration mail:';
 $lang['gr_ad_mail2_f']                    = 'second part of the registration mail:';
 $lang['gr_ad_update_succ']                = 'the settings have been saved!';
+$lang['gr_ad_update_succ_hl']             = 'Success!';
 
 // Portal Module
 $lang['gr_pm_one_not_voted']              = 'There is a request waiting for your Poll.';

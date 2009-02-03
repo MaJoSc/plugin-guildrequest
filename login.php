@@ -91,7 +91,7 @@ if (isset($_POST['gr_submit'])){
 	  
 	  if (md5($_POST['password']) == $login_check['password']){
 	    if ($login_check['activated'] != 'Y') {
-     	  $output = $user->lang['gr_login_not_activated'];
+        $infobox = message_growl($user->lang['gr_login_not_activated'], $user->lang['gr_write_error'], 'red');
      	  $show_answer = false;
       } else {
         if ($login_check['closed'] == 'N') {
@@ -133,11 +133,11 @@ if (isset($_POST['gr_submit'])){
         }
       }
     } else {
-      $output = $user->lang['gr_login_wrong'];
+      $infobox = message_growl($user->lang['gr_login_wrong'], $user->lang['gr_write_error'], 'red');
       $show_answer = false;
     }
   } else {
-    $output = $user->lang['gr_login_empty'];
+    $infobox = message_growl($user->lang['gr_login_empty'], $user->lang['gr_write_error'], 'red');
     $show_answer = false;
   }
   $db->free_result($login_query);
@@ -175,6 +175,7 @@ $tpl->assign_vars(array(
       'OUTPUT'        => $output,
       'GR_ANSWER_F'   => $user->lang['gr_answer_f'],
       'GR_INSERT_ANSWER'  => $insert_answer, 
+      'GR_INFOBOX'        => $infobox,
     ));
 
 // Init the Template

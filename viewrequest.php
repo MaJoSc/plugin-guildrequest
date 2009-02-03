@@ -24,14 +24,27 @@ $user->check_auth('u_guildrequest_view');
 // --- Open/Close the request - start ---
 if (isset($_POST['admin'])){
   $db->query("UPDATE __guildrequest SET closed='".$_POST['newstatus']."' WHERE id='".$_POST['request_id']."'");
+  if ($_POST['newstatus'] == 'N') {
+    $infobox = message_growl($user->lang['gr_vr_ad_opened'], $user->lang['gr_vr_ad_opened_f'], 'green');  	
+  } else {
+    $infobox = message_growl($user->lang['gr_vr_ad_closed'], $user->lang['gr_vr_ad_closed_f'], 'red');  	
+  }
+
 }
 // --- Open/Close the request - end ---
 if (isset($_POST['act_submit'])){
-  $db->query("UPDATE __guildrequest SET activated='Y' WHERE id='".$_POST['request_id']."'");
+  $db->query("UPDATE __guildrequest SET activated='Y' WHERE id='".$_POST['not_act_id']."'");
+  $infobox = message_growl($user->lang['gr_vr_ad_activated'], $user->lang['gr_vr_ad_activated_f'], 'green');  	
 }
 
 if (isset($_POST['del_submit'])) {
   $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['request_id']."'");
+  $infobox = message_growl($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
+}
+
+if (isset($_POST['del_not_act'])) {
+  $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['not_act_id']."'");
+  $infobox = message_growl($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
 }
 
 // Display the Overview
@@ -70,18 +83,25 @@ if (!isset($_GET['request_id'])){
       $requesttext = $bbcode->toHTML($adminlistquery['text']);
       $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
       $requesttext = $bbcode->MyEmoticons($requesttext);
-      $requesttext = strip_tags($requesttext, '<br><img>');
+      $requesttext_closed = strip_tags($requesttext, '<br><img>');
     
       $tpl->assign_block_vars('admin_request_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
-        'GR_USERNAME'   => $adminlistquery['username'],
-        'GR_TEXT'       => $requesttext,
+        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
+        'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$requesttext_closed.'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
 		  $admin_user_f = $user->lang['gr_username_f'];
 		  $admin_text_f = $user->lang['gr_text_f'];
       $adminonly = $user->lang['gr_ad_adminonly'];
       $admin_not_activated = $user->lang['gr_not_activated'];
+    }
+    
+    if (!isset($requesttext_closed)) {
+      $tpl->assign_block_vars('admin_request_list', array(
+			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
+        'GR_TEXT'       => $user->lang['gr_no_requests'],
+		  ));    	
     }
     
     $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE activated='N' ORDER BY id desc");
@@ -89,12 +109,12 @@ if (!isset($_GET['request_id'])){
       $requesttext = $bbcode->toHTML($adminlistquery['text']);
       $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
       $requesttext = $bbcode->MyEmoticons($requesttext);
-      $requesttext = strip_tags($requesttext, '<br><img>');
+      $requesttext_not_act = strip_tags($requesttext, '<br><img>');
     
       $tpl->assign_block_vars('admin_not_activated_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
-        'GR_USERNAME'   => $adminlistquery['username'],
-        'GR_TEXT'       => $requesttext,
+        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
+        'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$requesttext_not_act.'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
 		  $admin_user_f = $user->lang['gr_username_f'];
@@ -102,6 +122,14 @@ if (!isset($_GET['request_id'])){
       $adminonly = $user->lang['gr_ad_adminonly'];
       $admin_not_activated = $user->lang['gr_not_activated'];
     }
+
+    if (!isset($requesttext_not_act)) {
+      $tpl->assign_block_vars('admin_not_activated_list', array(
+			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
+        'GR_TEXT'       => $user->lang['gr_no_requests'],
+		  ));    	
+    }
+
 
   }
   // --- the admin part - end ---
@@ -242,6 +270,7 @@ $tpl->assign_vars(array(
       'GR_POLL_NO_B'   => $poll_no_bar,
       'GR_NOT_VOTED'  => $not_voted,
       'GR_AD_CHANGE_STATUS'  => $changestatus,
+      'GR_INFOBOX'          => $infobox,
     ));
 
 // Init the Template

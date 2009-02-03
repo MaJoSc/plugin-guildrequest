@@ -78,28 +78,27 @@ http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/gu
         $user->lang['gr_mail_topic'],
         $mailtext,
         $mailheader);
-     
-        $output = $user->lang['gr_mailsent'];
+        $infobox = message_growl($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
       } else {
         $gr_username = $_POST['username'];
         $gr_email = $_POST['email'];
         $gr_password = $_POST['password'];
         $gr_text = $_POST['text'];
-     	  $output = $user->lang['gr_user_double'];
+        $infobox = message_growl($user->lang['gr_user_double'], $user->lang['gr_write_error'], 'red');
       }
     } else {
       $gr_username = $_POST['username'];
       $gr_email = $_POST['email'];
       $gr_password = $_POST['password'];
       $gr_text = $_POST['text'];
-      $output = $user->lang['gr_write_incorrect_mail'];
+      $infobox = message_growl($user->lang['gr_write_incorrect_mail'], $user->lang['gr_write_error'], 'red');
     }
   } else {
     $gr_username = $_POST['username'];
     $gr_email = $_POST['email'];
     $gr_password = $_POST['password'];
     $gr_text = $_POST['text'];
-    $output = $user->lang['gr_write_allfields'];
+    $infobox = message_growl($user->lang['gr_write_allfields'], $user->lang['gr_write_error'], 'red');
   }
 }
 
@@ -127,7 +126,8 @@ $tpl->assign_vars(array(
       'GR_WRITE_HEADLINE' => $user->lang['gr_write_headline'],
       'GR_WRITE_WELCOME'  => $gr_write_welcome,
       'GR_SENDREQUEST'    => $user->lang['gr_write_sendrequest'],
-      'GR_RESET'          => $user->lang['gr_write_reset'], 
+      'GR_RESET'          => $user->lang['gr_write_reset'],
+      'GR_INFOBOX'        => $infobox, 
     ));
 
 // Init the Template

@@ -58,7 +58,7 @@ if (isset($_POST['gr_ad_submit'])) {
 	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['mail1']."' WHERE config_name='gr_mail_text1'");
 	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['mail2']."' WHERE config_name='gr_mail_text2'");
 	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['poll']."' WHERE config_name='gr_poll_activated'");
-	$success = $user->lang['gr_ad_update_succ'];
+  $success = message_growl($user->lang['gr_ad_update_succ'], $user->lang['gr_ad_update_succ_hl'], 'green');
 }
 
 $settings_query = $db->query("SELECT * FROM __guildrequest_config");
@@ -88,8 +88,8 @@ $tpl->assign_vars(array(
       'GR_AD_HEADLINE_F'      => $user->lang['gr_ad_headline_f'],
       'GR_AD_MAIL_1_F'        => $user->lang['gr_ad_mail1_f'],
       'GR_AD_MAIL_2_F'        => $user->lang['gr_ad_mail2_f'],
-      'GR_AD_UPDATE_SUCC'     => $success,
 
+      'GR_POPUP'              => $success,
     	'UPDCHECK_BOX'     		  => $rbvcheck->OutputHTML(),
     ));
 

@@ -33,6 +33,8 @@ $lang['gr_write_incorrect_mail']          = 'Du hast eine ungültige E-Mail Adres
 $lang['gr_write_allfields']               = 'Es müssen alle Felder ausgefüllt sein!';
 $lang['gr_write_sendrequest']             = 'Bewerbung absenden';
 $lang['gr_write_reset']                   = 'Felder leeren';
+$lang['gr_write_error']                   = 'Fehler';
+$lang['gr_write_succ']                    = 'E-Mail gesendet';
 $lang['gr_mailsent']                      = 'Bitte bestätige deine Bewerbung über den Aktivierungslink in der Bestätigungsmail.';
 $lang['gr_mail_topic']                    = 'Bestätigung deiner Bewerbung bei '.$eqdkp->config['guildtag'];
 $lang['gr_mail_text1']                    = 'Bitte bestätige deine Bewerbugng über folgenden Link:';
@@ -42,7 +44,7 @@ $lang['gr_email_f']                       = 'E-Mail:';
 $lang['gr_password_f']                    = 'Passwort:';
 $lang['gr_text_f']                        = 'Text:';
 $lang['gr_settings']                      = 'Einstellungen';
-$lang['gr_user_double']                   = 'Ein User mit demselben Namen hdat sich bereits beworben. Bitte wähle einen anderen Namen.';
+$lang['gr_user_double']                   = 'Ein User mit demselben Namen hat sich bereits beworben. Bitte wähle einen anderen Namen.';
 $lang['gr_welcome_text']                  = 'Vielen Dank für dein Interesse an '.$eqdkp->config['guildtag'].'. Bitte schreibe deine Bewerbung hier:';
 
 // Bestätigung
@@ -75,6 +77,17 @@ $lang['gr_poll_no']                       = 'Nein';
   $lang['gr_ad_delete']                   = 'löschen';
   $lang['gr_ad_activate']                 = 'aktivieren';
   $lang['gr_not_activated']               = 'Nicht aktivierte Bewerbungen:';
+  $lang['gr_no_requests']                 = 'Keine Bewerbungen vorhanden.';
+  // Info-Boxen
+  $lang['gr_vr_ad_opened_f']              = 'Offen';
+  $lang['gr_vr_ad_opened']                = 'Die Bewerbung wurde freigeschalten';
+  $lang['gr_vr_ad_closed_f']              = 'Geschlossen';
+  $lang['gr_vr_ad_closed']                = 'Die Bewerbung wurde geschlossen';
+  $lang['gr_vr_ad_activated_f']           = 'Aktiviert';
+  $lang['gr_vr_ad_activated']             = 'Die Bewerbung wurde aktiviert';
+  $lang['gr_vr_ad_deleted_f']             = 'Gelöscht';
+  $lang['gr_vr_ad_deleted']               = 'Die Bewerbung wurde gelöscht';
+
   
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Bewerbungen - Einstellungen';
@@ -83,6 +96,7 @@ $lang['gr_ad_poll_activated']             = 'Umfragen aktiviert';
 $lang['gr_ad_mail1_f']                    = 'Erster Teil der Bestätigungsmail:';
 $lang['gr_ad_mail2_f']                    = 'Zweiter Teil der Bestätigungsmail:';
 $lang['gr_ad_update_succ']                = 'Die Einstellungen wurden gespeichert';
+$lang['gr_ad_update_succ_hl']             = 'Erfolg!';
 
 // Portal Module
 $lang['gr_pm_one_not_voted']              = 'Es gibt eine Bewerbung, bei der du noch nicht abgestimmt hast.';
