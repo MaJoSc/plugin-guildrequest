@@ -58,7 +58,7 @@ if (isset($_POST['gr_ad_submit'])) {
 	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['mail1']."' WHERE config_name='gr_mail_text1'");
 	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['mail2']."' WHERE config_name='gr_mail_text2'");
 	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['poll']."' WHERE config_name='gr_poll_activated'");
-  $success = message_growl($user->lang['gr_ad_update_succ'], $user->lang['gr_ad_update_succ_hl'], 'green');
+  System_Message($user->lang['gr_ad_update_succ'], $user->lang['gr_ad_update_succ_hl'], 'green');
 }
 
 $settings_query = $db->query("SELECT * FROM __guildrequest_config");

@@ -78,27 +78,27 @@ http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/gu
         $user->lang['gr_mail_topic'],
         $mailtext,
         $mailheader);
-        $infobox = message_growl($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
+        System_Message($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
       } else {
         $gr_username = $_POST['username'];
         $gr_email = $_POST['email'];
         $gr_password = $_POST['password'];
         $gr_text = $_POST['text'];
-        $infobox = message_growl($user->lang['gr_user_double'], $user->lang['gr_write_error'], 'red');
+        System_Message($user->lang['gr_user_double'], $user->lang['gr_write_error'], 'red');
       }
     } else {
       $gr_username = $_POST['username'];
       $gr_email = $_POST['email'];
       $gr_password = $_POST['password'];
       $gr_text = $_POST['text'];
-      $infobox = message_growl($user->lang['gr_write_incorrect_mail'], $user->lang['gr_write_error'], 'red');
+      System_Message($user->lang['gr_write_incorrect_mail'], $user->lang['gr_write_error'], 'red');
     }
   } else {
     $gr_username = $_POST['username'];
     $gr_email = $_POST['email'];
     $gr_password = $_POST['password'];
     $gr_text = $_POST['text'];
-    $infobox = message_growl($user->lang['gr_write_allfields'], $user->lang['gr_write_error'], 'red');
+    System_Message($user->lang['gr_write_allfields'], $user->lang['gr_write_error'], 'red');
   }
 }
 

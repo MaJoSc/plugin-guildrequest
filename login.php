@@ -91,7 +91,7 @@ if (isset($_POST['gr_submit'])){
 	  
 	  if (md5($_POST['password']) == $login_check['password']){
 	    if ($login_check['activated'] != 'Y') {
-        $infobox = message_growl($user->lang['gr_login_not_activated'], $user->lang['gr_write_error'], 'red');
+        System_Message($user->lang['gr_login_not_activated'], $user->lang['gr_write_error'], 'red');
      	  $show_answer = false;
       } else {
         if ($login_check['closed'] == 'N') {
@@ -133,11 +133,11 @@ if (isset($_POST['gr_submit'])){
         }
       }
     } else {
-      $infobox = message_growl($user->lang['gr_login_wrong'], $user->lang['gr_write_error'], 'red');
+      System_Message($user->lang['gr_login_wrong'], $user->lang['gr_write_error'], 'red');
       $show_answer = false;
     }
   } else {
-    $infobox = message_growl($user->lang['gr_login_empty'], $user->lang['gr_write_error'], 'red');
+    System_Message($user->lang['gr_login_empty'], $user->lang['gr_write_error'], 'red');
     $show_answer = false;
   }
   $db->free_result($login_query);

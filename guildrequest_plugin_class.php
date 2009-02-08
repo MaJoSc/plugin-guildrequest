@@ -124,6 +124,12 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_poll");
     $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."users WHERE username = '".$user->lang['gr_user_aspirant']."' LIMIT 1");
     $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."comments WHERE page='guildrequest'");
+    
+    if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
+      if (file_exists($eqdkp_root_path.'plugins/guildrequest/include/jsflags.php')) {
+        include_once($eqdkp_root_path.'plugins/guildrequest/include/jsflags.php');	
+      }
+    }
   }
 
   /* GENERATE THE MENUS - START */

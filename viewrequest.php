@@ -25,26 +25,26 @@ $user->check_auth('u_guildrequest_view');
 if (isset($_POST['admin'])){
   $db->query("UPDATE __guildrequest SET closed='".$_POST['newstatus']."' WHERE id='".$_POST['request_id']."'");
   if ($_POST['newstatus'] == 'N') {
-    $infobox = message_growl($user->lang['gr_vr_ad_opened'], $user->lang['gr_vr_ad_opened_f'], 'green');  	
+    System_Message($user->lang['gr_vr_ad_opened'], $user->lang['gr_vr_ad_opened_f'], 'green');  	
   } else {
-    $infobox = message_growl($user->lang['gr_vr_ad_closed'], $user->lang['gr_vr_ad_closed_f'], 'red');  	
+    System_Message($user->lang['gr_vr_ad_closed'], $user->lang['gr_vr_ad_closed_f'], 'red');  	
   }
 
 }
 // --- Open/Close the request - end ---
 if (isset($_POST['act_submit'])){
   $db->query("UPDATE __guildrequest SET activated='Y' WHERE id='".$_POST['not_act_id']."'");
-  $infobox = message_growl($user->lang['gr_vr_ad_activated'], $user->lang['gr_vr_ad_activated_f'], 'green');  	
+  System_Message($user->lang['gr_vr_ad_activated'], $user->lang['gr_vr_ad_activated_f'], 'green');  	
 }
 
 if (isset($_POST['del_submit'])) {
   $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['request_id']."'");
-  $infobox = message_growl($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
+  System_Message($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
 }
 
 if (isset($_POST['del_not_act'])) {
   $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['not_act_id']."'");
-  $infobox = message_growl($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
+  System_Message($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
 }
 
 // Display the Overview

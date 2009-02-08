@@ -9,6 +9,8 @@
 * Version: 0.0.2                             *
 \********************************************/
 
+  global $bbcode, $tpl, $db, $eqdkp_root_path;
+
   $poll_query = $db->query("SELECT * FROM __guildrequest_config WHERE config_name = 'gr_poll_activated'");
   $poll = $db->fetch_record($poll_query);
   
@@ -30,17 +32,13 @@
           $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
           $requesttext = $bbcode->MyEmoticons($requesttext);
           $request_text = strip_tags($requesttext, '<br><img>');
-          $request_text = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'"><font color="000000"><b>'.$request_text.'</b></font></a>';
-          $request_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'"><font color="000000">'.$user->lang['gr_pu_new_query'].$request['username'].'</font></a>';
+          $request_text = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'"><b>'.$request_text.'</b></a>';
+          $request_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'">'.$user->lang['gr_pu_new_query'].$request['username'].'</a>';
           
-          $vote_output .= message_growl($request_text, $request_from, 'red');
+          System_Message($request_text, $request_from, 'default');
         }
       }
 
-      $tpl->assign_vars(array(
-        'GR_POPUP'      => $vote_output,
-      ));  
-    
       $db->free_result($poll_query);
       $db->free_result($request_query);
       $db->free_result($votecheck_query); 
