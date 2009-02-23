@@ -74,6 +74,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->InsertIntoTable('gr_mail_text2', $user->lang['gr_mail_text2']);
     $this->InsertIntoTable('gr_welcome_text', $user->lang['gr_welcome_text']);
     $this->InsertIntoTable('gr_poll_activated', 'Y');
+    $this->InsertIntoTable('gr_inst_version', $this->version);
         
 		$sql = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "guildrequest_poll (
 		  `id` INT PRIMARY KEY AUTO_INCREMENT,
