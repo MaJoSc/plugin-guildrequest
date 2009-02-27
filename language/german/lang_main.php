@@ -48,7 +48,7 @@ $lang['gr_user_double']                   = 'Ein User mit demselben Namen hat si
 $lang['gr_welcome_text']                  = 'Vielen Dank für dein Interesse an '.$eqdkp->config['guildtag'].'. Bitte schreibe deine Bewerbung hier:';
 
 // Bestätigung
-$lang['gr_activate_succ']                 = 'Deine Bewerbung wude freigeschalten!';
+$lang['gr_activate_succ']                 = 'Deine Bewerbung wude freigeschaltet!';
 
 // Login
 $lang['gr_login_headline']                = 'Bewerbung - Login';
@@ -80,7 +80,7 @@ $lang['gr_poll_no']                       = 'Nein';
   $lang['gr_no_requests']                 = 'Keine Bewerbungen vorhanden.';
   // Info-Boxen
   $lang['gr_vr_ad_opened_f']              = 'Offen';
-  $lang['gr_vr_ad_opened']                = 'Die Bewerbung wurde freigeschalten';
+  $lang['gr_vr_ad_opened']                = 'Die Bewerbung wurde freigeschaltet!';
   $lang['gr_vr_ad_closed_f']              = 'Geschlossen';
   $lang['gr_vr_ad_closed']                = 'Die Bewerbung wurde geschlossen';
   $lang['gr_vr_ad_activated_f']           = 'Aktiviert';
