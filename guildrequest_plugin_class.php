@@ -100,6 +100,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
             'user_rlimit'    => $eqdkp->config['default_rlimit'],
             'user_style'     => $eqdkp->config['default_style'],
             'user_lang'      => $eqdkp->config['default_lang'],
+            'first_name'     => 'Guildrequest',
             'user_key'       => '',
             'user_active'    => '0',
             'user_lastvisit' => time())
