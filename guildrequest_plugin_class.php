@@ -84,9 +84,10 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		$this->add_sql(SQL_INSTALL, $sql);
 
     // Create a new User for the Guest's comments
-    $user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
-    $user_exist_check = $db->fetch_record($user_exist_check_qry);
-    if ($user_exist_check['username'] != $user->lang['gr_user_aspirant']) {
+    if($pm->installed['guildreduest']){
+      $user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
+      $user_exist_check = $db->fetch_record($user_exist_check_qry);
+      if ($user_exist_check['username'] != $user->lang['gr_user_aspirant']) {
     	
 
         $query = $db->build_query('INSERT', array(
@@ -114,6 +115,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
         }
         $user_id = $db->insert_id();
         
+      }
     }
 
     // Insert the permission for the installing person
