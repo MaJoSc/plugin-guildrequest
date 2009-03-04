@@ -84,9 +84,9 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		$this->add_sql(SQL_INSTALL, $sql);
 
     // Create a new User for the Guest's comments
-    if($pm->installed['guildreduest']){
-      $user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
-      $user_exist_check = $db->fetch_record($user_exist_check_qry);
+    $user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
+    $user_exist_check = $db->fetch_record($user_exist_check_qry);
+    if($pm->installed['guildrequest']){
       if ($user_exist_check['username'] != $user->lang['gr_user_aspirant']) {
     	
 
@@ -116,6 +116,11 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
         $user_id = $db->insert_id();
         
       }
+    } else {
+      if ($user_exist_check['username'] == $user->lang['gr_user_aspirant']) {
+        $sql = "DELETE from __users WHERE username ='".$user->lang['gr_user_aspirant']."' LIMIT 1";
+        $db->query($sql);
+      }    
     }
 
     // Insert the permission for the installing person
@@ -126,7 +131,6 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_config");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_poll");
-    $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."users WHERE username = '".$user->lang['gr_user_aspirant']."' LIMIT 1");
     $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."comments WHERE page='guildrequest'");
     
     if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
