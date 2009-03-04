@@ -105,7 +105,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
             'user_active'    => '0',
             'user_lastvisit' => time())
         );
-        $sql = 'INSERT INTO ' . USERS_TABLE . $query;
+        $sql = 'INSERT INTO __users' . $query;
         $this->add_sql(SQL_INSTALL, $sql);
         
         if ( !($db->query($sql)) )
