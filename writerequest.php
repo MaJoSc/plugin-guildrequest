@@ -105,7 +105,7 @@ http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/gu
 $config_query = $db->query("SELECT * FROM __guildrequest_config");
 while ($config = $db->fetch_record($config_query)) {
 	if ($config['config_name'] == 'gr_welcome_text'){
-    $gr_write_welcome = $config['config_value'];
+    $gr_write_welcome = nl2br($config['config_value']);
   }
 }
 // ------- THE SOURCE PART - END -------
