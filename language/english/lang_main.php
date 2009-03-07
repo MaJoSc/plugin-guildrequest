@@ -12,8 +12,8 @@
 global $eqdkp;
 $lang['guildrequest']                     = 'Guild-Requests';
 $lang['request'] 							    				= 'Request';
-$lang['gr_short_desc']                    = 'Request-Plugin';
-$lang['gr_long_desc']                     = 'A request plugin for EQdkp-Plus';
+$lang['gr_short_desc']                    = 'Recruitement-Plugin';
+$lang['gr_long_desc']                     = 'A plugin for Recruiting';
 
 // Userdaten für den Gastuser
 $lang['gr_user_aspirant']                 = 'RequestUser';
