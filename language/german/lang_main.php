@@ -36,7 +36,7 @@ $lang['gr_write_reset']                   = 'Felder leeren';
 $lang['gr_write_error']                   = 'Fehler';
 $lang['gr_write_succ']                    = 'E-Mail gesendet';
 $lang['gr_mailsent']                      = 'Bitte bestätige deine Bewerbung über den Aktivierungslink in der Bestätigungsmail.';
-$lang['gr_mail_topic']                    = 'Bestätigung deiner Bewerbung bei '.$eqdkp->config['guildtag'];
+$lang['gr_mail_topic']                    = 'Bestätigung deiner Bewerbung bei '.ereg_replace("'", "\'", $eqdkp->config['guildtag']);
 $lang['gr_mail_text1']                    = 'Bitte bestätige deine Bewerbugng über folgenden Link:';
 $lang['gr_mail_text2']                    = 'Mit freundlichen Grüßen, die Gildenleitung.';
 $lang['gr_username_f']                    = 'Benutzername:';
@@ -45,7 +45,7 @@ $lang['gr_password_f']                    = 'Passwort:';
 $lang['gr_text_f']                        = 'Text:';
 $lang['gr_settings']                      = 'Einstellungen';
 $lang['gr_user_double']                   = 'Ein User mit demselben Namen hat sich bereits beworben. Bitte wähle einen anderen Namen.';
-$lang['gr_welcome_text']                  = 'Vielen Dank für dein Interesse an '.$eqdkp->config['guildtag'].'. Bitte schreibe deine Bewerbung hier:';
+$lang['gr_welcome_text']                  = 'Vielen Dank für dein Interesse an '.ereg_replace("'", "\'", $eqdkp->config['guildtag']).'. Bitte schreibe deine Bewerbung hier:';
 
 // Bestätigung
 $lang['gr_activate_succ']                 = 'Deine Bewerbung wude freigeschaltet!';
