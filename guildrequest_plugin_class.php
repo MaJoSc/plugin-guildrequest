@@ -111,7 +111,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
         
         if ( !($db->query($sql)) )
         {
-            message_die('Could not add user information', '', __FILE__, __LINE__, $sql);
+            System_Message('Could not add user information', 'Error', 'red');
         }
         $user_id = $db->insert_id();
         
