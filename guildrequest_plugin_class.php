@@ -92,7 +92,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->InsertIntoAppvalues('Name', 'singletext', 'Y');
     $this->InsertIntoAppvalues('Class', 'singletext', 'Y');
     $this->InsertIntoAppvalues('Level', 'singletext', 'N');
-    $this->InsertIntoAppvalues('Spec', 'singletext', 'N');
+    $this->InsertIntoAppvalues('Text', 'textfield', 'Y');
 
     $sql = "CREATE TABLE IF NOT EXISTS __guildrequest_appoptions(
                         ID INT AUTO_INCREMENT PRIMARY KEY,
