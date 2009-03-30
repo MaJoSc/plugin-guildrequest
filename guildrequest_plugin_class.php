@@ -89,10 +89,10 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
                         type VARCHAR(255) NOT NULL,
                         required ENUM ('N', 'Y') NOT NULL DEFAULT 'N')";
 		$this->add_sql(SQL_INSTALL, $sql);
-    $this->InsertIntoAppvalues('Name', 'single_text', 'Y');
-    $this->InsertIntoAppvalues('Class', 'single_text', 'Y');
-    $this->InsertIntoAppvalues('Level', 'single_text', 'N');
-    $this->InsertIntoAppvalues('Spec', 'single_text', 'N');
+    $this->InsertIntoAppvalues('Name', 'singletext', 'Y');
+    $this->InsertIntoAppvalues('Class', 'singletext', 'Y');
+    $this->InsertIntoAppvalues('Level', 'singletext', 'N');
+    $this->InsertIntoAppvalues('Spec', 'singletext', 'N');
 
     $sql = "CREATE TABLE IF NOT EXISTS __guildrequest_appoptions(
                         ID INT AUTO_INCREMENT PRIMARY KEY,
