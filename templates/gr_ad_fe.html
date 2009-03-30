@@ -1,0 +1,43 @@
+<form action="formedit.php" method="POST">
+  <table width="100%" cellspacing="0" cellpadding="5">    
+    <tr>
+      <th colspan="5">{GR_WELCOMETEXT_F}</th>
+    </tr>
+    <tr class="row1">
+      <td colspan="5">{GR_EDITOR}<textarea id="welcometext" name="welcometext" class="jTagEditor">{GR_WELCOMETEXT}</textarea></td>
+    </tr>
+    <tr>
+      <th>{GR_FIELDNAME_F}</th><th>{GR_FIELDTYPE_F}</th><th>&nbsp;</th><th>{GR_REQUIREDFIELD_F}</th><th>&nbsp;</th>
+    </tr>
+    {GR_OUTPUT}
+    <tr class="{GR_TR_NEWCLASS}">
+      <td>
+        <input type="text" name="newfield">
+      </td>
+      <td>
+        <select name="newoption">
+          <option value="blankoption">-----------</option>
+          <option value="singletext">{GR_SINGLETEXT}</option>
+          <option value="textfield">{GR_TEXTFIELD}</option>
+          <option value="dropdown">{GR_DROPDOWN}</option>
+          <option value="upload">{GR_UPLOAD}</option>
+        </select>
+      </td>
+      <td>
+        &nbsp;
+      </td>
+      <td>
+        <input type="radio" name="newrequired" value="Y">{GR_YES}
+        <input type="radio" name="newrequired" value="Y">{GR_NO}
+      </td>
+      <td>
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+      <th colspan="5">
+        <input type="submit" value="eintragen" class="mainoption">
+      </th>
+    </tr>
+  </table>
+</form>

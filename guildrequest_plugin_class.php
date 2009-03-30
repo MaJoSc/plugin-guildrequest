@@ -15,7 +15,7 @@ if (!defined('EQDKP_INC') ){
 }
 
 class guildrequest_plugin_class extends EQdkp_Plugin {
-  var $version    = '0.0.2';
+  var $version    = '0.0.3';
   var $copyright  = 'BadTwin';
   var $vstatus    = 'Stable';
   var $build      = '3601';
@@ -83,6 +83,25 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		  `poll_value` varchar (255) NOT NULL)";
 		$this->add_sql(SQL_INSTALL, $sql);
 
+		$sql = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "guildrequest_appvalues (
+                        ID INT AUTO_INCREMENT PRIMARY KEY,
+                        value VARCHAR(255) NOT NULL,
+                        type VARCHAR(255) NOT NULL,
+                        required ENUM ('N', 'Y') NOT NULL DEFAULT 'N')";
+		$this->add_sql(SQL_INSTALL, $sql);
+    $this->InsertIntoAppvalues('Name', 'single_text', 'Y');
+    $this->InsertIntoAppvalues('Class', 'single_text', 'Y');
+    $this->InsertIntoAppvalues('Level', 'single_text', 'N');
+    $this->InsertIntoAppvalues('Spec', 'single_text', 'N');
+
+    $sql = "CREATE TABLE IF NOT EXISTS __guildrequest_appoptions(
+                        ID INT AUTO_INCREMENT PRIMARY KEY,
+                        opt_ID INT NOT NULL,
+                        appoption VARCHAR(255) NOT NULL
+                      );";
+    $this->add_sql(SQL_INSTALL, $sql);
+                      
+                      
     // Create a new User for the Guest's comments
     $user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
     $user_exist_check = $db->fetch_record($user_exist_check_qry);
@@ -131,6 +150,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_config");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_poll");
+    $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_appvalues");
     $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."comments WHERE page='guildrequest'");
     
     if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
@@ -183,8 +203,16 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     			1 => array(
     				'link' => $url_prefix . 'plugins/guildrequest/admin/admin.php' . $SID,
     				'text' => $user->lang['gr_manage'],
-    				'check' => 'a_guildrequest_manage'),
-    	));
+    				'check' => 'a_guildrequest_manage'
+          ),
+          2 => array(
+            'link' => $url_prefix . 'plugins/guildrequest/admin/formedit.php' . $SID,
+            'text' => $user->lang['gr_form_manage'],
+            'check' => 'a_guildrequest_manage'
+          ),
+    			99 => './../../plugins/guildrequest/images/write.png',
+        ),
+      );
       return $admin_menu;
     }
     return;
@@ -210,6 +238,12 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
   function InsertIntoTable($fieldname,$insertvalue){
 		global $eqdkp_root_path, $user, $SID, $table_prefix;
     $sql = "INSERT INTO " . $table_prefix . "guildrequest_config VALUES ('".$fieldname."', '".$insertvalue."');";
+	  $this->add_sql(SQL_INSTALL, $sql);
+  }
+
+  function InsertIntoAppvalues($fieldname,$insertvalue,$required){
+		global $eqdkp_root_path, $user, $SID, $table_prefix;
+    $sql = "INSERT INTO " . $table_prefix . "guildrequest_appvalues (value, type, required) VALUES ('".$fieldname."', '".$insertvalue."', '".$required."');";
 	  $this->add_sql(SQL_INSTALL, $sql);
   }
 

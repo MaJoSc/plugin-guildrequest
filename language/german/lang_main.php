@@ -48,7 +48,7 @@ $lang['gr_user_double']                   = 'Ein User mit demselben Namen hat si
 $lang['gr_welcome_text']                  = 'Vielen Dank für dein Interesse an '.ereg_replace("'", "\'", $eqdkp->config['guildtag']).'. Bitte schreibe deine Bewerbung hier:';
 
 // Bestätigung
-$lang['gr_activate_succ']                 = 'Deine Bewerbung wude freigeschaltet!';
+$lang['gr_activate_succ']                 = 'Deine Bewerbung wurde freigeschaltet!';
 
 // Login
 $lang['gr_login_headline']                = 'Bewerbung - Login';
@@ -104,4 +104,22 @@ $lang['gr_pm_not_voted_1']                = 'Es gibt ';
 $lang['gr_pm_not_voted_2']                = ' Bewerbungen, bei denen du noch nicht abgestimmt hast!';
 
 $lang['gr_pu_new_query']                  = 'Neue Bewerbung: ';
+
+
+
+
+$lang['gr_form_manage']                   = 'Formular bearbeiten';
+$lang['gr_ad_form_singletext']            = 'Einzelne Textzeile';
+$lang['gr_ad_form_textfield']             = 'Textfeld';
+$lang['gr_ad_form_dropdown']              = 'Auswahlliste';
+$lang['gr_ad_form_upload']                = 'Upload';
+$lang['gr_ad_fieldname_f']                = 'Feldname';
+$lang['gr_ad_fieldtype_f']                = 'Feldtyp';
+$lang['gr_ad_requiredfield_f']            = 'Pflichtfeld';
+$lang['gr_ad_editdropdown']               = 'Auswahl bearbeiten';
+$lang['gr_ad_editoptions']                = 'Optionen bearbeiten';
+$lang['gr_ad_succ_head']                  = 'Änderungen gespeichert';
+$lang['gr_ad_succ_text']                  = 'Die Änderungen wurden erfolgreich gespeichert';
+$lang['gr_ad_err_dropdown']               = 'Du hast keinen Feldtypen ausgewählt';
+$lang['gr_ad_succ_del']                   = 'Feld erfolgreich gelöscht';
 ?>

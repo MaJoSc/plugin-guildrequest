@@ -102,12 +102,12 @@ http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/gu
   }
 }
 
-$config_query = $db->query("SELECT * FROM __guildrequest_config");
-while ($config = $db->fetch_record($config_query)) {
-	if ($config['config_name'] == 'gr_welcome_text'){
-    $gr_write_welcome = nl2br($config['config_value']);
-  }
-}
+$config_query = $db->query("SELECT * FROM __guildrequest_config WHERE config_name='gr_welcome_text'");
+$config = $db->fetch_record($config_query);
+$welcometext = $bbcode->toHTML($config['config_value']);
+$bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
+$welcometext = $bbcode->MyEmoticons($welcometext);
+
 // ------- THE SOURCE PART - END -------
 
    
@@ -124,7 +124,7 @@ $tpl->assign_vars(array(
       'GR_PASSWORD_F' => $user->lang['gr_password_f'],      
       'GR_TEXT_F' => $user->lang['gr_text_f'],
       'GR_WRITE_HEADLINE' => $user->lang['gr_write_headline'],
-      'GR_WRITE_WELCOME'  => $gr_write_welcome,
+      'GR_WRITE_WELCOME'  => $welcometext,
       'GR_SENDREQUEST'    => $user->lang['gr_write_sendrequest'],
       'GR_RESET'          => $user->lang['gr_write_reset'],
       'GR_INFOBOX'        => $infobox, 
