@@ -37,22 +37,20 @@ if ($_POST['welcometext']){
 
   $settings_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
   while ($settings = $db->fetch_record($settings_qry)) {
-    if ($_POST[$settings['value'].'_type'] != 'blankoption') {
-      $appvalue = $_POST[$settings['value'].'_flag'];
-      $apptype = $_POST[$settings['value'].'_type'];
-      $apprequired = $_POST[$settings['value'].'_required'];
+    if ($_POST[$settings['ID'].'_type'] != 'blankoption') {
+      $appvalue = $_POST[$settings['ID'].'_flag'];
+      $apptype = $_POST[$settings['ID'].'_type'];
+      $apprequired = $_POST[$settings['ID'].'_required'];
   	  $db->query("UPDATE __guildrequest_appvalues SET 
                   value = '".$appvalue."',
                   type = '".$apptype."',
                   required = '".$apprequired."' 
-                WHERE value='".$settings['value']."'");
+                WHERE ID='".$settings['ID']."'");
     } else {
       $succ = 'error';
     }
   }
-  if ($succ != 'error'){
-    System_Message($user->lang['gr_ad_succ_text'], $user->lang['gr_ad_succ_head'], 'green');
-  } else {
+  if ($succ == 'error'){
     System_Message($user->lang['gr_ad_err_dropdown'], $user->lang['gr_write_error'], 'red');  
   }
 }
@@ -71,7 +69,7 @@ while ($settings = $db->fetch_record($settings_qry)) {
 }
 
 // Output of the AppValues in the DB
-$appvalues_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
+$appvalues_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY ID");
 while ($appvalues = $db->fetch_record($appvalues_qry)){
   if ($appvalues['type'] == 'singletext'){
     $singletext = '<option selected="selected" value="singletext">'.$user->lang['gr_ad_form_singletext'].'</option>';
@@ -99,15 +97,15 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
   }
 
   if ($appvalues['required'] == 'Y') {
-  	$req_yes = '<input checked="checked" type="radio" name="'.$appvalues['value'].'_required" value="Y">'.$user->lang['gr_poll_yes'];
-  	$req_no = '<input type="radio" name="'.$appvalues['value'].'_required" value="N">'.$user->lang['gr_poll_no'];
+  	$req_yes = '<input checked="checked" type="radio" name="'.$appvalues['ID'].'_required" value="Y">'.$user->lang['gr_poll_yes'];
+  	$req_no = '<input type="radio" name="'.$appvalues['ID'].'_required" value="N">'.$user->lang['gr_poll_no'];
   } else {
-  	$req_yes = '<input type="radio" name="'.$appvalues['value'].'_required" value="Y">'.$user->lang['gr_poll_yes'];
-  	$req_no = '<input checked="checked" type="radio" name="'.$appvalues['value'].'_required" value="N">'.$user->lang['gr_poll_no'];
+  	$req_yes = '<input type="radio" name="'.$appvalues['ID'].'_required" value="Y">'.$user->lang['gr_poll_yes'];
+  	$req_no = '<input checked="checked" type="radio" name="'.$appvalues['ID'].'_required" value="N">'.$user->lang['gr_poll_no'];
   }
   $output .= '<tr class="'.$eqdkp->switch_row_class().'">
-                <td><input name="'.$appvalues['value'].'_flag" value='.$appvalues['value'].'></td>
-                <td><select name="'.$appvalues['value'].'_type">
+                <td><input name="'.$appvalues['ID'].'_flag" value="'.$appvalues['value'].'"></td>
+                <td><select name="'.$appvalues['ID'].'_type">
                   <option value="blankoption">-----------</option>
                   '.$singletext.'
                   '.$textfield.'
