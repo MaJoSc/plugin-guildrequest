@@ -68,8 +68,29 @@ while ($settings = $db->fetch_record($settings_qry)) {
 	$gr_set[$settings['config_name']] = $settings['config_value'];
 }
 
+if ($_GET['moveup']){
+  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$_GET['moveup']);
+  $oldsort = $db->fetch_record($oldsort_qry);
+  $newsort = $oldsort['sort']-1;
+  $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$newsort." LIMIT 0, 1");
+  $oldup = $db->fetch_record($oldup_qry);
+  
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldup['sort']."' WHERE ID='".$_GET['moveup']."'");
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldsort['sort']."' WHERE ID='".$oldup['ID']."'");
+  
+} elseif ($_GET['movedown']){
+  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$_GET['movedown']);
+  $oldsort = $db->fetch_record($oldsort_qry);
+  $newsort = $oldsort['sort']+1;
+  $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$newsort." LIMIT 0, 1");
+  $oldup = $db->fetch_record($oldup_qry);
+  
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldup['sort']."' WHERE ID='".$_GET['movedown']."'");
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldsort['sort']."' WHERE ID='".$oldup['ID']."'");
+}
+
 // Output of the AppValues in the DB
-$appvalues_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY ID");
+$appvalues_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
 while ($appvalues = $db->fetch_record($appvalues_qry)){
   if ($appvalues['type'] == 'singletext'){
     $singletext = '<option selected="selected" value="singletext">'.$user->lang['gr_ad_form_singletext'].'</option>';
@@ -103,6 +124,7 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
   	$req_yes = '<input type="radio" name="'.$appvalues['ID'].'_required" value="Y">'.$user->lang['gr_poll_yes'];
   	$req_no = '<input checked="checked" type="radio" name="'.$appvalues['ID'].'_required" value="N">'.$user->lang['gr_poll_no'];
   }
+  
   $output .= '<tr class="'.$eqdkp->switch_row_class().'">
                 <td><input name="'.$appvalues['ID'].'_flag" value="'.$appvalues['value'].'"></td>
                 <td><select name="'.$appvalues['ID'].'_type">
@@ -121,8 +143,34 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
                 </td>
                 <td>
                   <a href="formedit.php?delete='.$appvalues['ID'].'"><img src="'.$eqdkp_root_path.'images/global/delete.png" /></a>
+                </td>';
+
+  $firstid_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort LIMIT 0,1");
+  $firstid = $db->fetch_record($firstid_qry);
+  if ($appvalues['ID'] == $firstid['ID']) {
+  	$output .= '<td>
+  	             <img src="../images/uparrow_grey.png" />
+                </td>';
+  } else {
+    $output .= '<td>
+                  <a href="formedit.php?moveup='.$appvalues['ID'].'"><img src="../images/uparrow.png" /></a>
+                </td>';
+  }
+  $db->free_result($firstid_qry);
+
+  $lastid_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort DESC LIMIT 0,1");
+  $lastid = $db->fetch_record($lastid_qry);
+  if ($appvalues['ID'] == $lastid['ID']){
+    $output .= '<td>
+                  <img src="../images/downarrow_grey.png" />
                 </td>
               </tr>';
+  } else {
+    $output .= '<td>
+                  <a href="formedit.php?movedown='.$appvalues['ID'].'"><img src="../images/downarrow.png" /></a>
+                </td>
+              </tr>';
+  }
 }
 
 // ------- THE SOURCE PART - END -------
