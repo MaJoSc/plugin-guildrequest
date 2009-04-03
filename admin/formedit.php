@@ -178,19 +178,20 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
    
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
-      'GR_WELCOMETEXT'    => $gr_set['gr_welcome_text'],
-      'GR_OUTPUT'         => $output,
+      'GR_WELCOMETEXT'      => $gr_set['gr_welcome_text'],
+      'GR_OUTPUT'           => $output,
 
-      'GR_TR_NEWCLASS'    => $eqdkp->switch_row_class(),
+      'GR_TR_NEWCLASS'      => $eqdkp->switch_row_class(),
 
-      'GR_EDITOR'        => $jquery->wysiwyg('welcometext'),
+      'GR_EDITOR'           => $jquery->wysiwyg('welcometext'),
       
-      'GR_AD_EDITFORM_F'     => $user->lang['gr_ad_editform_f'],
-      'GR_WELCOMETEXT_F'  => $user->lang['gr_ad_headline_f'],
+      'GR_AD_EDITFORM_F'    => $user->lang['gr_ad_editform_f'],
+      'GR_WELCOMETEXT_F'    => $user->lang['gr_ad_headline_f'],
       'GR_FIELDNAME_F'      => $user->lang['gr_ad_fieldname_f'],
       'GR_FIELDTYPE_F'      => $user->lang['gr_ad_fieldtype_f'],
       'GR_REQUIREDFIELD_F'  => $user->lang['gr_ad_requiredfield_f'],
-      'GR_AD_SORT_F'           => $user->lang['gr_ad_sort_f'],
+      'GR_AD_SORT_F'        => $user->lang['gr_ad_sort_f'],
+      'GR_AD_PREVIEW_F'     => $user->lang['gr_ad_preview_f'],
       
       //Options
       'GR_SINGLETEXT'       => $user->lang['gr_ad_form_singletext'],
