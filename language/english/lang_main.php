@@ -104,4 +104,23 @@ $lang['gr_pm_not_voted_1']                = 'There are ';
 $lang['gr_pm_not_voted_2']                = ' requests waiting for your poll!';
 
 $lang['gr_pu_new_query']                  = 'New Request: ';
+
+
+
+
+$lang['gr_form_manage']                   = 'edit Form';
+$lang['gr_ad_form_singletext']            = 'Singletext';
+$lang['gr_ad_form_textfield']             = 'Textfield';
+$lang['gr_ad_form_dropdown']              = 'Dropdown';
+$lang['gr_ad_fieldname_f']                = 'Field Name';
+$lang['gr_ad_fieldtype_f']                = 'Field Type';
+$lang['gr_ad_requiredfield_f']            = 'Required';
+$lang['gr_ad_editdropdown']               = 'edit Options';
+$lang['gr_ad_editoptions']                = 'edit Options';
+$lang['gr_ad_succ_head']                  = 'Changes Saved';
+$lang['gr_ad_succ_text']                  = 'The Changes have been saved successfully';
+$lang['gr_ad_err_dropdown']               = 'You didn\'t choose a Field Name';
+$lang['gr_ad_succ_del']                   = 'Field deleted successfully';
+$lang['gr_ad_sort_f']                     = 'Sorting';
+$lang['gr_ad_preview_f']                  = 'Preview';
 ?>
