@@ -122,4 +122,5 @@ $lang['gr_ad_succ_head']                  = 'Änderungen gespeichert';
 $lang['gr_ad_succ_text']                  = 'Die Änderungen wurden erfolgreich gespeichert';
 $lang['gr_ad_err_dropdown']               = 'Du hast keinen Feldtypen ausgewählt';
 $lang['gr_ad_succ_del']                   = 'Feld erfolgreich gelöscht';
+$lang['gr_ad_sort_f']                     = 'Sortierung';
 ?>

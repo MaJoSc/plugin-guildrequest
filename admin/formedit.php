@@ -57,7 +57,15 @@ if ($_POST['welcometext']){
 
 if ($_POST['newfield']) {
 	if ($_POST['newoption'] != 'blankoption'){
-    $db->query("INSERT INTO __guildrequest_appvalues (value, type, required) VALUES ('".$_POST['newfield']."', '".$_POST['newoption']."', '".$_POST['newrequired']."')");
+	  $lastcount_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort DESC");
+	  $lastcount = $db->fetch_record($lastcount_qry);
+	  if ($_POST['newrequired'] == 'Y') {
+   	  $required = 'Y';
+    } else {
+      $required = 'N';
+    }
+	  $newsort = $lastcount['sort'] + 1;
+    $db->query("INSERT INTO __guildrequest_appvalues (value, type, required, sort) VALUES ('".$_POST['newfield']."', '".$_POST['newoption']."', '".$required."', '".$newsort."')");
   } else {
     System_Message($user->lang['gr_ad_err_dropdown'], $user->lang['gr_write_error'], 'red');
   }
@@ -140,11 +148,11 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
   $firstid_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort LIMIT 0,1");
   $firstid = $db->fetch_record($firstid_qry);
   if ($appvalues['ID'] == $firstid['ID']) {
-  	$output .= '<td>
+  	$output .= '<td align="right">
   	             <img src="../images/uparrow_grey.png" />
                 </td>';
   } else {
-    $output .= '<td>
+    $output .= '<td align="right">
                   <a href="formedit.php?moveup='.$appvalues['ID'].'"><img src="../images/uparrow.png" /></a>
                 </td>';
   }
@@ -182,6 +190,7 @@ $tpl->assign_vars(array(
       'GR_FIELDNAME_F'      => $user->lang['gr_ad_fieldname_f'],
       'GR_FIELDTYPE_F'      => $user->lang['gr_ad_fieldtype_f'],
       'GR_REQUIREDFIELD_F'  => $user->lang['gr_ad_requiredfield_f'],
+      'GR_AD_SORT_F'           => $user->lang['gr_ad_sort_f'],
       
       //Options
       'GR_SINGLETEXT'       => $user->lang['gr_ad_form_singletext'],
