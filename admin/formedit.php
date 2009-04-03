@@ -110,13 +110,6 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
   } else {
     $dropdown = '<option value="dropdown">'.$user->lang['gr_ad_form_dropdown'].'</option>';
   }
-  if ($appvalues['type'] == 'upload'){
-    $upload = '<option selected="selected" value="upload">'.$user->lang['gr_ad_form_upload'].'</option>';
-    $editdropdown = '';
-  } else {
-    $upload = '<option value="upload">'.$user->lang['gr_ad_form_upload'].'</option>';
-  }
-
   if ($appvalues['required'] == 'Y') {
   	$req_yes = '<input checked="checked" type="radio" name="'.$appvalues['ID'].'_required" value="Y">'.$user->lang['gr_poll_yes'];
   	$req_no = '<input type="radio" name="'.$appvalues['ID'].'_required" value="N">'.$user->lang['gr_poll_no'];
@@ -132,7 +125,6 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
                   '.$singletext.'
                   '.$textfield.'
                   '.$dropdown.'
-                  '.$upload.'
                 </td>
                 <td>
                   '.$editdropdown.'

@@ -12,16 +12,17 @@
                         ID INT AUTO_INCREMENT PRIMARY KEY,
                         value VARCHAR(255) NOT NULL,
                         type VARCHAR(255) NOT NULL,
-                        required ENUM ('N', 'Y') NOT NULL DEFAULT 'N'
+                        required ENUM ('N', 'Y') NOT NULL DEFAULT 'N',
+                        sort INT NOT NULL
                       );",
-                      "INSERT INTO __guildrequest_appvalues(value, type, required) 
-                        VALUES ('Name', 'singletext', 'Y');",
-                      "INSERT INTO __guildrequest_appvalues(value, type, required) 
-                        VALUES ('Class', 'singletext', 'Y');",
-                      "INSERT INTO __guildrequest_appvalues(value, type, required) 
-                        VALUES ('Level', 'singletext', 'N');",
-                      "INSERT INTO __guildrequest_appvalues(value, type, required) 
-                        VALUES ('Text', 'textfield', 'Y');",
+                      "INSERT INTO __guildrequest_appvalues(value, type, required, sort) 
+                        VALUES ('Name', 'singletext', 'Y', '1');",
+                      "INSERT INTO __guildrequest_appvalues(value, type, required, sort) 
+                        VALUES ('Class', 'singletext', 'Y', '2');",
+                      "INSERT INTO __guildrequest_appvalues(value, type, required, sort) 
+                        VALUES ('Level', 'singletext', 'N', '3');",
+                      "INSERT INTO __guildrequest_appvalues(value, type, required, sort) 
+                        VALUES ('Text', 'textfield', 'Y', '4');",
                       "CREATE TABLE IF NOT EXISTS __guildrequest_appoptions(
                         ID INT AUTO_INCREMENT PRIMARY KEY,
                         opt_ID INT NOT NULL,
