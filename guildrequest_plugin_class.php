@@ -87,12 +87,13 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
                         ID INT AUTO_INCREMENT PRIMARY KEY,
                         value VARCHAR(255) NOT NULL,
                         type VARCHAR(255) NOT NULL,
-                        required ENUM ('N', 'Y') NOT NULL DEFAULT 'N')";
+                        required ENUM ('N', 'Y') NOT NULL DEFAULT 'N',
+                        sort INT NOT NULL)";
 		$this->add_sql(SQL_INSTALL, $sql);
-    $this->InsertIntoAppvalues('Name', 'singletext', 'Y');
-    $this->InsertIntoAppvalues('Class', 'singletext', 'Y');
-    $this->InsertIntoAppvalues('Level', 'singletext', 'N');
-    $this->InsertIntoAppvalues('Text', 'textfield', 'Y');
+    $this->InsertIntoAppvalues('Name', 'singletext', 'Y', '1');
+    $this->InsertIntoAppvalues('Class', 'singletext', 'Y', '2');
+    $this->InsertIntoAppvalues('Level', 'singletext', 'N', '3');
+    $this->InsertIntoAppvalues('Text', 'textfield', 'Y', '4');
 
     $sql = "CREATE TABLE IF NOT EXISTS __guildrequest_appoptions(
                         ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -241,9 +242,9 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 	  $this->add_sql(SQL_INSTALL, $sql);
   }
 
-  function InsertIntoAppvalues($fieldname,$insertvalue,$required){
+  function InsertIntoAppvalues($fieldname,$insertvalue,$required,$sort){
 		global $eqdkp_root_path, $user, $SID, $table_prefix;
-    $sql = "INSERT INTO " . $table_prefix . "guildrequest_appvalues (value, type, required) VALUES ('".$fieldname."', '".$insertvalue."', '".$required."');";
+    $sql = "INSERT INTO " . $table_prefix . "guildrequest_appvalues (value, type, required, sort) VALUES ('".$fieldname."', '".$insertvalue."', '".$required."', '".$sort."');";
 	  $this->add_sql(SQL_INSTALL, $sql);
   }
 
