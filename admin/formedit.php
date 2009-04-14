@@ -128,11 +128,13 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
   
   $output .= '<tr class="'.$eqdkp->switch_row_class().'">
                 <td><input name="'.$appvalues['ID'].'_flag" value="'.$appvalues['value'].'"></td>
-                <td><select name="'.$appvalues['ID'].'_type">
-                  <option value="blankoption">-----------</option>
-                  '.$singletext.'
-                  '.$textfield.'
-                  '.$dropdown.'
+                <td>
+                  <select name="'.$appvalues['ID'].'_type">
+                    <option value="blankoption">-----------</option>
+                    '.$singletext.'
+                    '.$textfield.'
+                    '.$dropdown.'
+                  </select>
                 </td>
                 <td>
                   '.$editdropdown.'

@@ -17,38 +17,32 @@
       <td>&nbsp;</td>
     </tr>
     <!-- ENDIF -->
-    <tr class="row1">
+    <tr>
       <th colspan="5">{GR_WRITE_HEADLINE}</td>
       <th width="40">
           <input type="submit" class="mainoption" name="login" value="Login">
       </th>
     </tr>
-    <tr class="row2">
+    <tr class="row1">
       <td colspan="6" align="center"><p>{GR_WRITE_WELCOME}</p></td>
     </tr>
   </table>
 </form>
 <form action="writerequest.php" name="inputform" method="POST">
   <table width="100%" cellspacing="0" cellpadding="6">
-    <tr class="row1">
+    <tr class="row2">
       <td>&nbsp;</td>
       <td align="right">{GR_USERNAME_F}</td>
       <td><input name="username" type="text" size="50" value="{GR_USERNAME}"></td>
       <td align="right">{GR_EMAIL_F}</td>
       <td><input name="email" type="text" size="50" value="{GR_EMAIL}"></td>
       <td>&nbsp;</td>
-    <tr class="row2">
+    <tr class="row1">
       <td>&nbsp;</td>
       <td align="right">{GR_PASSWORD_F}</td>
       <td colspan="4"><input name="password" type="password" size="50" value="{GR_PASSWORD}"></td>
     </tr>
-    <tr class="row1">
-      <td>&nbsp;</td>
-      <td align="right" valign="top">{GR_TEXT_F}</td>
-      <td colspan="4" valign="top">
-       {GR_EDITOR}<textarea id="requesttext" name="text" class="jTagEditor">{GR_TEXT}</textarea></td>
-      </td>
-    </tr>
+    {GR_FORMBLOCK}
     <tr class="row2">
       <td colspan="6">
         <input type="submit" class="mainoption" name="gr_submit" value="{GR_SENDREQUEST}">

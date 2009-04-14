@@ -30,7 +30,6 @@ include_once($eqdkp_root_path . 'plugins/guildrequest/include/libloader.inc.php'
       $comm_settings = array(
           'attach_id' => $attach_id, 
           'page'      => 'guildrequest',
-          'auth'      => '63'
       );
 		$pcomments->SetVars($comm_settings);
 		$tpl->assign_vars(array(

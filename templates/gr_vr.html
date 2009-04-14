@@ -21,7 +21,7 @@
     <!-- ENDIF -->
     <!-- BEGIN admin_request_list -->
     <tr class="{admin_request_list.GR_ROW_CLASS}">
-      <td valign="top" width="100"><b>{admin_request_list.GR_USERNAME}</b></td>
+      <td valign="top" width="100"><b><table width="100%">{admin_request_list.GR_USERNAME}</table></b></td>
       <td valign="top" align="left">{admin_request_list.GR_TEXT}</td>
       <td valign="top" align="right">
         <!-- IF admin_request_list.GR_REQUEST_ID -->
@@ -42,7 +42,7 @@
     <!-- BEGIN admin_not_activated_list -->
     <tr class="{admin_not_activated_list.GR_ROW_CLASS}">
       <td valign="top" width="100"><b>{admin_not_activated_list.GR_USERNAME}</b></td>
-      <td valign="top" align="left">{admin_not_activated_list.GR_TEXT}</td>
+      <td valign="top" align="left"><table width="100%">{admin_not_activated_list.GR_TEXT}</table></td>
       <td valign="top" align="right">
         <!-- IF admin_not_activated_list.GR_REQUEST_ID -->
         <input type="submit" name="act_submit" class="mainoption" value="{GR_AD_ACTIVATE}">

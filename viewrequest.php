@@ -18,7 +18,12 @@ include_once($eqdkp_root_path . 'common.php');  // Must be set!
 // Check if plugin is installed
 if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild request plugin is not installed.'); }
 
-$user->check_auth('u_guildrequest_view');
+if ($user->data['user_id'] != '-1'){
+  $user->check_auth('u_guildrequest_view', false);
+} else {
+  $user->check_auth(false);
+}
+
 
 // ------- THE SOURCE PART - START -------
 // --- Open/Close the request - start ---
@@ -52,25 +57,23 @@ if (!isset($_GET['request_id'])){
   $listrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='N' AND activated='Y' ORDER BY id desc");
   while($listquery = $db->fetch_record($listrequest_query)){
     // Check, if already voted
-    $votecheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$listquery['id']."' AND user_id = '".$user->data['user_id']."'");
-    $votecheck = $db->num_rows($votecheck_query);
-    $db->free_result($votecheck_query);
+    $poll_query = $db->query("SELECT * FROM __guildrequest_config WHERE config_name = 'gr_poll_activated'");
+    $poll = $db->fetch_record($poll_query);
+    if ($poll['config_value'] == 'Y'){
+      $votecheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$listquery['id']."' AND user_id = '".$user->data['user_id']."'");
+      $votecheck = $db->num_rows($votecheck_query);
+      $db->free_result($votecheck_query);
 
-    if ($votecheck != '1'){
-      $votecheck = '<font class="negative"><b>'.$user->lang['gr_vr_not_voted'].'</b></font>';
-    } else {
-      $votecheck = '<font class="positive">'.$user->lang['gr_vr_voted'].'</font>';
+      if ($votecheck != '1'){
+        $votecheck = '<font class="negative"><b>'.$user->lang['gr_vr_not_voted'].'</b></font>';
+      } else {
+        $votecheck = '<font class="positive">'.$user->lang['gr_vr_voted'].'</font>';
+      }
     }
-
-    $requesttext = $bbcode->toHTML($listquery['text']);
-    $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
-    $requesttext = $bbcode->MyEmoticons($requesttext);
-    $requesttext = strip_tags($requesttext, '<br><img>');
-
     $tpl->assign_block_vars('request_list', array(
 			'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
       'GR_USERNAME'   => $listquery['username'],
-      'GR_TEXT'       => $requesttext,
+      'GR_TEXT'       => $user->lang['gr_vr_view'],
       'GR_REQUEST_ID' => $listquery['id'],
       'GR_VOTECHECK'  => $votecheck,
 		));
@@ -80,24 +83,21 @@ if (!isset($_GET['request_id'])){
   if ($user->check_auth('a_guildrequest_manage', false)){
     $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='Y' AND activated='Y' ORDER BY id desc");
     while($adminlistquery = $db->fetch_record($adminlistrequest_query)){    
-      $requesttext = $bbcode->toHTML($adminlistquery['text']);
-      $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
-      $requesttext = $bbcode->MyEmoticons($requesttext);
-      $requesttext_closed = strip_tags($requesttext, '<br><img>');
     
       $tpl->assign_block_vars('admin_request_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
         'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
-        'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$requesttext_closed.'</a>',
+        'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$user->lang['gr_vr_view'].'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
 		  $admin_user_f = $user->lang['gr_username_f'];
 		  $admin_text_f = $user->lang['gr_text_f'];
       $adminonly = $user->lang['gr_ad_adminonly'];
       $admin_not_activated = $user->lang['gr_not_activated'];
+      $closed = TRUE;
     }
     
-    if (!isset($requesttext_closed)) {
+    if (!isset($closed)) {
       $tpl->assign_block_vars('admin_request_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
         'GR_TEXT'       => $user->lang['gr_no_requests'],
@@ -106,24 +106,21 @@ if (!isset($_GET['request_id'])){
     
     $adminlistrequest_query = $db->query("SELECT * FROM __guildrequest WHERE activated='N' ORDER BY id desc");
     while($adminlistquery = $db->fetch_record($adminlistrequest_query)){    
-      $requesttext = $bbcode->toHTML($adminlistquery['text']);
-      $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
-      $requesttext = $bbcode->MyEmoticons($requesttext);
-      $requesttext_not_act = strip_tags($requesttext, '<br><img>');
     
       $tpl->assign_block_vars('admin_not_activated_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
         'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
-        'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$requesttext_not_act.'</a>',
+        'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$user->lang['gr_vr_view'].'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
 		  $admin_user_f = $user->lang['gr_username_f'];
 		  $admin_text_f = $user->lang['gr_text_f'];
       $adminonly = $user->lang['gr_ad_adminonly'];
       $admin_not_activated = $user->lang['gr_not_activated'];
+      $inactive = TRUE;
     }
 
-    if (!isset($requesttext_not_act)) {
+    if (!isset($inactive)) {
       $tpl->assign_block_vars('admin_not_activated_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
         'GR_TEXT'       => $user->lang['gr_no_requests'],

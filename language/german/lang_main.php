@@ -124,4 +124,5 @@ $lang['gr_ad_err_dropdown']               = 'Du hast keinen Feldtypen ausgewählt
 $lang['gr_ad_succ_del']                   = 'Feld erfolgreich gelöscht';
 $lang['gr_ad_sort_f']                     = 'Sortierung';
 $lang['gr_ad_preview_f']                  = 'Vorschau';
+$lang['gr_vr_view']                       = 'Bewerbung ansehen';
 ?>

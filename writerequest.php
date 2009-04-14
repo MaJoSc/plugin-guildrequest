@@ -23,7 +23,16 @@ include_once($eqdkp_root_path . 'plugins/guildrequest/include/libloader.inc.php'
 
 // ------- THE SOURCE PART - START -------
 if (isset($_POST['gr_submit'])){
-  if ($_POST['username'] != '' && $_POST['email'] != '' && $_POST['password'] != '' && $_POST['text'] != ''){
+  // check, if all user-defined required fields are filled
+  $reqcheck_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE required = 'Y'");
+  $requiredfields = 'success';
+  while ($reqcheck = $db->fetch_record($reqcheck_qry)){
+    if ($_POST[$reqcheck['ID']] == '') {
+    	$requiredfields = 'error';
+    }
+  }
+
+  if ($_POST['username'] != '' && $_POST['email'] != '' && $_POST['password'] != '' && $requiredfields == 'success'){
   
     // Check the Mail adress
     function check_email($email) { 
@@ -43,6 +52,15 @@ if (isset($_POST['gr_submit'])){
       $username = htmlentities(strip_tags($_POST['username']), ENT_QUOTES);
       $password = htmlentities(strip_tags($_POST['password']), ENT_QUOTES);
       $email = htmlentities(strip_tags($_POST['email']), ENT_QUOTES);
+      
+      // Create the displayed text for the output
+
+      $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
+      while ($textblk = $db->fetch_record($textblock_qry)){
+        if ($_POST[$textblk['ID']] != ''){
+          $textblock .= '<div style="float:left; margin:15px;" [b][i]'.$textblk['value'].':[/b][/i]</div><div style="padding:15px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
+        }
+      }
 
       if (!$userdouble){
         $activationcode = md5(time().microtime());
@@ -50,7 +68,7 @@ if (isset($_POST['gr_submit'])){
   				'".$username."', 
           '".$email."', 
           '".md5($password)."',
-          '".$_POST['text']."',
+          '".$textblock."',
           '".$activationcode."')");
         
         
@@ -79,25 +97,26 @@ http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/gu
         $mailtext,
         $mailheader);
         System_Message($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
+        $_POST = '';
       } else {
         $gr_username = $_POST['username'];
         $gr_email = $_POST['email'];
         $gr_password = $_POST['password'];
-        $gr_text = $_POST['text'];
+        $gr_text = $textblock;
         System_Message($user->lang['gr_user_double'], $user->lang['gr_write_error'], 'red');
       }
     } else {
       $gr_username = $_POST['username'];
       $gr_email = $_POST['email'];
       $gr_password = $_POST['password'];
-      $gr_text = $_POST['text'];
+      $gr_text = $textblock;
       System_Message($user->lang['gr_write_incorrect_mail'], $user->lang['gr_write_error'], 'red');
     }
   } else {
     $gr_username = $_POST['username'];
     $gr_email = $_POST['email'];
     $gr_password = $_POST['password'];
-    $gr_text = $_POST['text'];
+    $gr_text = $textblock;
     System_Message($user->lang['gr_write_allfields'], $user->lang['gr_write_error'], 'red');
   }
 }
@@ -107,6 +126,41 @@ $config = $db->fetch_record($config_query);
 $welcometext = $bbcode->toHTML($config['config_value']);
 $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
 $welcometext = $bbcode->MyEmoticons($welcometext);
+
+// build the form
+$form_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
+while ($form = $db->fetch_record($form_qry)) {
+
+  if ($form['type'] == 'singletext') {
+  	$inputfield = '<input type="text" name="'.$form['ID'].'" value="'.$_POST[$form['ID']].'">';
+  } elseif ($form['type'] == 'textfield') {
+    $inputfield = $jquery->wysiwyg($form['ID']).'<textarea name="'.$form['ID'].'" id="'.$form['ID'].'" class="jTagEditor">'.$_POST[$form['ID']].'</textarea>';
+  } elseif ($form['type'] == 'dropdown') {
+    //generate the dropdown
+
+    $dropdown = '';
+    $drpdwn_qry = $db->query("SELECT * FROM __guildrequest_appoptions WHERE opt_ID = '".$form['ID']."'");
+    while ($drpdwn = $db->fetch_record($drpdwn_qry)) {
+      $dropdown .= '<option>'.$drpdwn['appoption'].'</option>';
+    }
+
+    $inputfield = '<select name="'.$form['ID'].'">
+                  <option value="">-----------</option>'.
+                  $dropdown;
+                  '</select>';  	
+  }
+  
+  if ($form['required'] == 'Y') {
+  	$required = '*';
+  } else {
+    $required = '';
+  }
+	$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
+                  <td>&nbsp;</td>
+                  <td align="right" valign="top">'.$form['value'].$required.'</td>
+                  <td colspan="4">'.$inputfield.'</td>
+                </tr>';
+}
 
 // ------- THE SOURCE PART - END -------
 
@@ -118,11 +172,10 @@ $tpl->assign_vars(array(
       'GR_EMAIL'   => $gr_email,
       'GR_PASSWORD'   => $gr_password,
       'GR_TEXT'   => $gr_text,
-      'GR_EDITOR'  => $jquery->wysiwyg('requesttext'),
+      'GR_FORMBLOCK'  => $formblock,
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_EMAIL_F' => $user->lang['gr_email_f'],
       'GR_PASSWORD_F' => $user->lang['gr_password_f'],      
-      'GR_TEXT_F' => $user->lang['gr_text_f'],
       'GR_WRITE_HEADLINE' => $user->lang['gr_write_headline'],
       'GR_WRITE_WELCOME'  => $welcometext,
       'GR_SENDREQUEST'    => $user->lang['gr_write_sendrequest'],
