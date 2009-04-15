@@ -151,13 +151,15 @@ while ($form = $db->fetch_record($form_qry)) {
   }
   
   if ($form['required'] == 'Y') {
-  	$required = '*';
+  	$reqstart = '<b>';
+    $required = ':*</b>';
   } else {
-    $required = '';
+    $reqstart = '';
+    $required = ':';
   }
 	$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
                   <td>&nbsp;</td>
-                  <td align="right" valign="top">'.$form['value'].$required.'</td>
+                  <td align="right" valign="top">'.$reqstart.$form['value'].$required.'</td>
                   <td colspan="4">'.$inputfield.'</td>
                 </tr>';
 }

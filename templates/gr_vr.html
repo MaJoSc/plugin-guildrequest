@@ -1,25 +1,25 @@
 <!-- IF GR_LISTREQUESTS -->
-<form action="viewrequest.php" method="POST">
-  <table width="100%" cellspacing="0" cellpadding="6">
-    <tr>
-      <th align="left">{GR_USERNAME_F}</th><th align="left">{GR_TEXT_F}</th><th>&nbsp;</th>
-    </tr>
-    <!-- BEGIN request_list -->
-    <tr class="{request_list.GR_ROW_CLASS}">
-      <td valign="top" width="200"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}"><b>{request_list.GR_USERNAME}</b></a></td>
-      <td valign="top" align="left"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}">{request_list.GR_TEXT}</a></td>
-      <td valign="top" width="250" align="right"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}">{request_list.GR_VOTECHECK}</a></td> 
-    </tr>
-    <!-- END request_list -->
-    <!-- IF admin_request -->
-    <tr>
-      <td colspan="3" align="center"><br><p><b>{GR_ADMIN_ONLY}</b></p></td>    
-    </tr>
-    <tr>
-      <th align="left">{GR_ADMIN_USER_F}</th><th colspan="2" align="left">{GR_ADMIN_TEXT_F}</th>
-    </tr>
-    <!-- ENDIF -->
-    <!-- BEGIN admin_request_list -->
+<table width="100%" cellspacing="0" cellpadding="6">
+  <tr>
+    <th align="left">{GR_USERNAME_F}</th><th align="left">{GR_TEXT_F}</th><th>&nbsp;</th>
+  </tr>
+  <!-- BEGIN request_list -->
+  <tr class="{request_list.GR_ROW_CLASS}">
+    <td valign="top" width="200"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}"><b>{request_list.GR_USERNAME}</b></a></td>
+    <td valign="top" align="left"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}">{request_list.GR_TEXT}</a></td>
+    <td valign="top" width="250" align="right"><a href="viewrequest.php?request_id={request_list.GR_REQUEST_ID}">{request_list.GR_VOTECHECK}</a></td> 
+  </tr>
+  <!-- END request_list -->
+  <!-- IF admin_request -->
+  <tr>
+    <td colspan="3" align="center"><br><p><b>{GR_ADMIN_ONLY}</b></p></td>    
+  </tr>
+  <tr>
+    <th align="left">{GR_ADMIN_USER_F}</th><th colspan="2" align="left">{GR_ADMIN_TEXT_F}</th>
+  </tr>
+  <!-- ENDIF -->
+  <!-- BEGIN admin_request_list -->
+  <form action="viewrequest.php" method="POST">
     <tr class="{admin_request_list.GR_ROW_CLASS}">
       <td valign="top" width="100"><b><table width="100%">{admin_request_list.GR_USERNAME}</table></b></td>
       <td valign="top" align="left">{admin_request_list.GR_TEXT}</td>
@@ -30,16 +30,18 @@
         <!-- ENDIF -->
       </td>
     </tr>
-    <!-- END admin_request_list -->
-    <!-- IF admin_not_activated_list -->
-    <tr>
-      <td colspan="3" align="center"><br><p><b>{GR_ADMIN_NOT_ACTIVATED_F}</b></p></td>
-    </tr>
-    <tr>
-      <th align="left">{GR_ADMIN_USER_F}</th><th colspan="2" align="left">{GR_ADMIN_TEXT_F}</th>
-    </tr>
-    <!-- ENDIF -->
-    <!-- BEGIN admin_not_activated_list -->
+  </form>
+  <!-- END admin_request_list -->
+  <!-- IF admin_not_activated_list -->
+  <tr>
+    <td colspan="3" align="center"><br><p><b>{GR_ADMIN_NOT_ACTIVATED_F}</b></p></td>
+  </tr>
+  <tr>
+    <th align="left">{GR_ADMIN_USER_F}</th><th colspan="2" align="left">{GR_ADMIN_TEXT_F}</th>
+  </tr>
+  <!-- ENDIF -->
+  <!-- BEGIN admin_not_activated_list -->
+  <form action="viewrequest.php" method="POST">
     <tr class="{admin_not_activated_list.GR_ROW_CLASS}">
       <td valign="top" width="100"><b>{admin_not_activated_list.GR_USERNAME}</b></td>
       <td valign="top" align="left"><table width="100%">{admin_not_activated_list.GR_TEXT}</table></td>
@@ -51,9 +53,9 @@
         <!-- ENDIF -->
       </td>
     </tr>
-    <!-- END admin_request_list -->
+  </form>
+  <!-- END admin_request_list -->
   </table>
-</form>
 <!-- ENDIF -->
 <!-- IF GR_SHOWREQUEST -->
   <table width="100%" cellspacing="0" cellpadding="6">
