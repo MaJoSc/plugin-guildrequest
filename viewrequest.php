@@ -142,11 +142,11 @@ if (!isset($_GET['request_id'])){
     $comm_settings = array(
       'attach_id' => $_GET['request_id'], 
       'page'      => 'guildrequest',
-      'auth'      => '_u_guildrequest'
+      'userauth'  => 'u_guildrequest_comment'
     );
 		$pcomments->SetVars($comm_settings);
-		$tpl->assign_vars(array(
-			'ENABLE_COMMENTS'     => true,
+	
+  	$tpl->assign_vars(array(
 			'COMMENTS'            => $pcomments->Show(),
       ));
     }
@@ -236,6 +236,7 @@ if (!isset($_GET['request_id'])){
   $requesttext = $bbcode->toHTML($request['text']);
   $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
   $requesttext = $bbcode->MyEmoticons($requesttext);
+ 
 }
 
 // ------- THE SOURCE PART - END -------
@@ -277,5 +278,4 @@ $eqdkp->set_vars(array(
 			'template_file'          => 'viewrequest.html',
 			'display'                => true)
     );
-
 ?> 

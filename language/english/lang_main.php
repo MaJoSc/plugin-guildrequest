@@ -123,4 +123,6 @@ $lang['gr_ad_err_dropdown']               = 'You didn\'t choose a Field Name';
 $lang['gr_ad_succ_del']                   = 'Field deleted successfully';
 $lang['gr_ad_sort_f']                     = 'Sorting';
 $lang['gr_ad_preview_f']                  = 'Preview';
+$lang['gr_vr_view']                       = 'view Application';
+$lang['gr_comment']                       = 'write comments';
 ?>

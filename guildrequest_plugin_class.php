@@ -49,6 +49,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		// Register the permissions... 
     $this->add_permission('8955', 'a_guildrequest_manage',  'N', $user->lang['gr_manage']);
     $this->add_permission('8956', 'u_guildrequest_view',    'Y', $user->lang['gr_view']);
+    $this->add_permission('8957', 'u_guildrequest_comment', 'Y', $user->lang['gr_comment']);
       
     // Add Menus (configuration of the menu entries, see below)
 		$this->add_menu('main_menu1', $this->gen_main_menu1());      // This is the main Menu

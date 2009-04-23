@@ -112,7 +112,6 @@ $lang['gr_form_manage']                   = 'Formular bearbeiten';
 $lang['gr_ad_form_singletext']            = 'Einzelne Textzeile';
 $lang['gr_ad_form_textfield']             = 'Textfeld';
 $lang['gr_ad_form_dropdown']              = 'Auswahlliste';
-$lang['gr_ad_form_upload']                = 'Upload';
 $lang['gr_ad_fieldname_f']                = 'Feldname';
 $lang['gr_ad_fieldtype_f']                = 'Feldtyp';
 $lang['gr_ad_requiredfield_f']            = 'Pflichtfeld';
@@ -125,4 +124,5 @@ $lang['gr_ad_succ_del']                   = 'Feld erfolgreich gelöscht';
 $lang['gr_ad_sort_f']                     = 'Sortierung';
 $lang['gr_ad_preview_f']                  = 'Vorschau';
 $lang['gr_vr_view']                       = 'Bewerbung ansehen';
+$lang['gr_comment']                       = 'Kommentare schreiben';
 ?>
