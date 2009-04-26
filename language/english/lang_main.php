@@ -125,4 +125,8 @@ $lang['gr_ad_sort_f']                     = 'Sorting';
 $lang['gr_ad_preview_f']                  = 'Preview';
 $lang['gr_vr_view']                       = 'view Application';
 $lang['gr_comment']                       = 'write comments';
+$lang['gr_ad_closingmail']                = 'inform applicant';
+$lang['gr_ad_closingtext']                = 'Your application has been closed. Our Users voted as follows:';
+$lang['gr_ad_replyadress']                = 'This is an autmatically generated E-Mail. Please send your reply to: ';
+$lang['gr_sendermail']                    = 'From:'
 ?>

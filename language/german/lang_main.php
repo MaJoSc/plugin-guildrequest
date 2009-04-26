@@ -125,4 +125,8 @@ $lang['gr_ad_sort_f']                     = 'Sortierung';
 $lang['gr_ad_preview_f']                  = 'Vorschau';
 $lang['gr_vr_view']                       = 'Bewerbung ansehen';
 $lang['gr_comment']                       = 'Kommentare schreiben';
+$lang['gr_ad_closingmail']                = 'Bewerber informieren';
+$lang['gr_ad_closingtext']                = 'Deine Bewerbung wurde geschlossen. Die Abstimmung ist wie folgt ausgegangen:';
+$lang['gr_ad_replyadress']                = 'Dies ist eine automatisch erstellte Mail. Bitte sende deine Antwort an: ';
+$lang['gr_sendermail']                    = 'Absender:';
 ?>

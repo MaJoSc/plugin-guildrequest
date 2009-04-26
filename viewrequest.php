@@ -13,6 +13,7 @@
 define('EQDKP_INC', true);        // is it in the eqdkp? must be set!!
 define('PLUGIN', 'guildrequest');   // Must be set!
 $eqdkp_root_path = './../../';    // Must be set!
+include_once('include/common.php');  // Must be set!
 include_once($eqdkp_root_path . 'common.php');  // Must be set!
 
 // Check if plugin is installed
@@ -32,6 +33,7 @@ if (isset($_POST['admin'])){
   if ($_POST['newstatus'] == 'N') {
     System_Message($user->lang['gr_vr_ad_opened'], $user->lang['gr_vr_ad_opened_f'], 'green');  	
   } else {
+    $closingmail = $jquery->Dialog_URL('EditForm', $user->lang['gr_ad_editoptions'], 'closingmail.php?id='.$_POST['request_id'], '740', '300');
     System_Message($user->lang['gr_vr_ad_closed'], $user->lang['gr_vr_ad_closed_f'], 'red');  	
   }
 
@@ -269,6 +271,7 @@ $tpl->assign_vars(array(
       'GR_NOT_VOTED'  => $not_voted,
       'GR_AD_CHANGE_STATUS'  => $changestatus,
       'GR_INFOBOX'          => $infobox,
+      'GR_CLOSINGMAIL'      => $closingmail,
     ));
 
 // Init the Template
