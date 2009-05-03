@@ -129,4 +129,6 @@ $lang['gr_ad_closingmail']                = 'inform applicant';
 $lang['gr_ad_closingtext']                = 'Your application has been closed. Our Users voted as follows:';
 $lang['gr_ad_replyadress']                = 'This is an autmatically generated E-Mail. Please send your reply to: ';
 $lang['gr_sendermail']                    = 'From:'
+$lang['gr_ad_popup_activated']		  			= 'Show popup when inactive applications exist? (only neccessary, if the sending of mails doesn\'t work)';
+$lang['gr_ad_notactivated_popup']					= 'Application not activated!';
 ?>

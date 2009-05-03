@@ -8,7 +8,8 @@
                       'Insert default values \'Level\' for the new application form',
                       'Insert default values \'Text\' for the new application form',
                       'Add Table for application options',
-                      'Add user Permission for Comments');
+                      'Add user Permission for Comments',
+			'Add new Option for popup, when inactive applications exist');
   $updateSQL =  array("CREATE TABLE IF NOT EXISTS __guildrequest_appvalues(
                         ID INT AUTO_INCREMENT PRIMARY KEY,
                         value VARCHAR(255) NOT NULL,
@@ -31,5 +32,7 @@
                       );",
                       "INSERT INTO __auth_options(auth_id, auth_value, auth_default)
                         VALUES ('8957', 'u_guildrequest_comment', 'Y');",
+		      "INSERT INTO __guildrequest_config (config_name, config_value)
+			VALUES ('gr_popup_activated', 'N');",
                       );
 ?>

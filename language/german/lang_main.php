@@ -129,4 +129,6 @@ $lang['gr_ad_closingmail']                = 'Bewerber informieren';
 $lang['gr_ad_closingtext']                = 'Deine Bewerbung wurde geschlossen. Die Abstimmung ist wie folgt ausgegangen:';
 $lang['gr_ad_replyadress']                = 'Dies ist eine automatisch erstellte Mail. Bitte sende deine Antwort an: ';
 $lang['gr_sendermail']                    = 'Absender:';
+$lang['gr_ad_popup_activated']					  = 'Popup bei inaktiven Bewerbungen anzeigen? (Wird nur benötigt, wenn der Mailversand nicht funktioniert)';
+$lang['gr_ad_notactivated_popup']					= 'Bewerbung noch nicht aktiviert!';
 ?>
