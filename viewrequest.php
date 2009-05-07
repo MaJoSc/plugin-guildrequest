@@ -180,7 +180,7 @@ if (!isset($_GET['request_id'])){
   	$setting[$settings['config_name']] = $settings['config_value'];
   }
   // --- the poll part - start ---
-  if ($setting['gr_poll_activated'] == 'Y'){
+  if ($setting['gr_poll_activated'] == 'Y' && $user->check_auth('u_guildrequest_vote', false)){
     $not_voted = true;
     $already_voted = true;
     

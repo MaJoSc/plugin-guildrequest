@@ -131,5 +131,6 @@ $lang['gr_ad_replyadress']                = 'This is an autmatically generated E
 $lang['gr_sendermail']                    = 'From:'
 $lang['gr_ad_popup_activated']		  			= 'Show popup when inactive applications exist? (only neccessary, if the sending of mails doesn\'t work)';
 $lang['gr_ad_notactivated_popup']					= 'Application not activated!';
-$lang['gr_poll_voted_yet']                = 'intermediate result '
+$lang['gr_poll_voted_yet']                = 'intermediate result ';
+$lang['gr_vote']                          = 'Vote';
 ?>
