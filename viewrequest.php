@@ -182,7 +182,7 @@ if (!isset($_GET['request_id'])){
   // --- the poll part - start ---
   if ($setting['gr_poll_activated'] == 'Y'){
     $not_voted = true;
-    $already_voted = false;
+    $already_voted = true;
     
     $pollcheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."' AND user_id='".$user->data['user_id']."'");
     $pollcheck = $db->num_rows($pollcheck_query);
@@ -192,7 +192,7 @@ if (!isset($_GET['request_id'])){
 
       if ($pollcheck != 0) {
        	$not_voted = false;
-      	$already_voted = true;
+        $already_voted = true;
       }
   
       if ($not_voted == true) {
@@ -200,11 +200,9 @@ if (!isset($_GET['request_id'])){
           if (isset($_GET['accept'])){
             $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'Y')");
             $not_voted = false;
-            $already_voted = true;
           } elseif (isset($_GET['decline'])){
             $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'N')");
             $not_voted = false;
-            $already_voted = true;
           }
         }
       }
@@ -217,8 +215,12 @@ if (!isset($_GET['request_id'])){
         $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
         $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
-        $vote_no = (100 - $vote_yes);
-    
+        if ($vote_yes == 0) {
+        	$vote_no = 0;
+        } else {
+          $vote_no = (100 - $vote_yes);
+        }
+   
      	  $poll_yes_bar = create_bar($vote_yes);
     	  $poll_no_bar = create_bar($vote_no);
       }
@@ -263,6 +265,8 @@ $tpl->assign_vars(array(
       'GR_SHOWREQUEST_HEADLINE' => $user->lang['gr_showrequest_headline'],
       'GR_GOBACK'     => $user->lang['gr_goback'],
       'GR_ALREADY_VOTED' => $already_voted,
+      'GR_POLL_VOTED_YET' => $user->lang['gr_poll_voted_yet'],
+      'GR_POLL_SUM'       => $vote_sum_count,
       'GR_POLL_HEADLINE'  => $user->lang['gr_poll_headline'],
       'GR_POLL_YES_F'   => $user->lang['gr_poll_yes'],
       'GR_POLL_YES_B'   => $poll_yes_bar,

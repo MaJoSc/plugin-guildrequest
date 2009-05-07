@@ -128,7 +128,7 @@ $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
 $welcometext = $bbcode->MyEmoticons($welcometext);
 
 // build the form
-$form_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
+$form_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
 while ($form = $db->fetch_record($form_qry)) {
 
   if ($form['type'] == 'singletext') {

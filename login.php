@@ -85,7 +85,7 @@ if (isset($_POST['usercomment_submit'])) {
 
 if (isset($_POST['gr_submit'])){
   if ($_POST['username'] != '' && $_POST['password'] != '') {
-	  $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".$_POST['username']."'");
+	  $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".htmlentities(strip_tags($_POST['username']), ENT_QUOTES)."'");
 	  $login_check = $db->fetch_record($login_query);
 	  
 	  if (md5($_POST['password']) == $login_check['password']){
