@@ -131,5 +131,5 @@ $lang['gr_ad_replyadress']                = 'Dies ist eine automatisch erstellte
 $lang['gr_sendermail']                    = 'Absender:';
 $lang['gr_ad_popup_activated']					  = 'Popup bei inaktiven Bewerbungen anzeigen? (Wird nur benötigt, wenn der Mailversand nicht funktioniert)';
 $lang['gr_ad_notactivated_popup']					= 'Bewerbung noch nicht aktiviert!';
-$lang['gr_poll_voted_yed']                = 'Zwischenstand ';
+$lang['gr_poll_voted_yet']                = 'Zwischenstand ';
 ?>
