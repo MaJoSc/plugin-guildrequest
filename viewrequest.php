@@ -215,7 +215,7 @@ if (!isset($_GET['request_id'])){
         $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
         $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
-        if ($vote_yes == 0) {
+        if ($vote_sum_count == 0) {
         	$vote_no = 0;
         } else {
           $vote_no = (100 - $vote_yes);
