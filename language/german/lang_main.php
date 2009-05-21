@@ -133,4 +133,6 @@ $lang['gr_ad_popup_activated']					  = 'Popup bei inaktiven Bewerbungen anzeigen
 $lang['gr_ad_notactivated_popup']					= 'Bewerbung noch nicht aktiviert!';
 $lang['gr_poll_voted_yet']                = 'Zwischenstand ';
 $lang['gr_vote']                          = 'Abstimmen';
+$lang['gr_ad_form_headline']              = 'Überschrift';
+$lang['gr_ad_form_spaceline']             = 'Leerzeile';
 ?>

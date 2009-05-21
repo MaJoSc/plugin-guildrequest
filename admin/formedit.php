@@ -118,6 +118,18 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
   } else {
     $dropdown = '<option value="dropdown">'.$user->lang['gr_ad_form_dropdown'].'</option>';
   }
+  if ($appvalues['type'] == 'headline') {
+    $headline = '<option selected="selected" value="headline">'.$user->lang['gr_ad_form_headline'].'</option>';
+    $editdropdown = '';
+  } else {
+    $headline = '<option value="headline">'.$user->lang['gr_ad_form_headline'];
+  }
+  if ($appvalues['type'] == 'spaceline') {
+    $spaceline = '<option selected="selected" value="spaceline">'.$user->lang['gr_ad_form_spaceline'].'</option>';
+    $editdropdown = '';
+  } else {
+    $spaceline = '<option value="spaceline">'.$user->lang['gr_ad_form_spaceline'];  
+  }
   if ($appvalues['required'] == 'Y') {
   	$req_yes = '<input checked="checked" type="radio" name="'.$appvalues['ID'].'_required" value="Y">'.$user->lang['gr_poll_yes'];
   	$req_no = '<input type="radio" name="'.$appvalues['ID'].'_required" value="N">'.$user->lang['gr_poll_no'];
@@ -134,6 +146,8 @@ while ($appvalues = $db->fetch_record($appvalues_qry)){
                     '.$singletext.'
                     '.$textfield.'
                     '.$dropdown.'
+                    '.$headline.'
+                    '.$spaceline.'
                   </select>
                 </td>
                 <td>
@@ -199,7 +213,8 @@ $tpl->assign_vars(array(
       'GR_SINGLETEXT'       => $user->lang['gr_ad_form_singletext'],
       'GR_TEXTFIELD'        => $user->lang['gr_ad_form_textfield'],
       'GR_DROPDOWN'         => $user->lang['gr_ad_form_dropdown'],
-      'GR_UPLOAD'           => $user->lang['gr_ad_form_upload'],
+      'GR_HEADLINE'         => $user->lang['gr_ad_form_headline'],
+      'GR_SPACELINE'        => $user->lang['gr_ad_form_spaceline'],
       'GR_YES'              => $user->lang['gr_poll_yes'],
       'GR_NO'               => $user->lang['gr_poll_no'],
     ));

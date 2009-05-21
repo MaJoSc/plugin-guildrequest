@@ -133,4 +133,6 @@ $lang['gr_ad_popup_activated']		  			= 'Show popup when inactive applications ex
 $lang['gr_ad_notactivated_popup']					= 'Application not activated!';
 $lang['gr_poll_voted_yet']                = 'intermediate result ';
 $lang['gr_vote']                          = 'Vote';
+$lang['gr_ad_form_headline']              = 'Headline';
+$lang['gr_ad_form_spaceline']             = 'empty line';
 ?>

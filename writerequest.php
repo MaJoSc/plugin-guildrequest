@@ -55,10 +55,16 @@ if (isset($_POST['gr_submit'])){
       
       // Create the displayed text for the output
 
-      $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
+      $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
       while ($textblk = $db->fetch_record($textblock_qry)){
         if ($_POST[$textblk['ID']] != ''){
-          $textblock .= '<div style="float:left; margin:15px;" [b][i]'.$textblk['value'].':[/b][/i]</div><div style="padding:15px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
+          if ($textblk['type'] == 'headline'){
+            $textblock .= '<div style="float: left; margin-left: 50px;"><H2>'.$textblk['value'].'</H2></div><div style="clear: both"></div>';
+          } elseif ($textblk['type'] == 'spaceline'){
+            $textblock .= '<div style="float: left; height: 15px;"></div><div style="clear: both;"></div>';
+          } else {
+            $textblock .= '<div style="float:left; margin: 5px;"> [b][i]'.$textblk['value'].':[/b][/i]</div><div style="padding:5px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
+          }
         }
       }
 
@@ -148,6 +154,12 @@ while ($form = $db->fetch_record($form_qry)) {
                   <option value="">-----------</option>'.
                   $dropdown;
                   '</select>';  	
+  } elseif ($form['type'] == 'headline') {
+    $inputfield = '<input type="hidden" name="'.$form['ID'].'" value="'.$form['value'].'"><H2>'.$form['value'].'</H2>';
+    $form['value'] = ''; 
+  } elseif ($form['type'] == 'spaceline') {
+    $inputfield = '<input type="hidden" name="'.$form['ID'].'" value="spaceline">&nbsp';
+    $form['value'] = '';
   }
   
   if ($form['required'] == 'Y') {
@@ -156,6 +168,10 @@ while ($form = $db->fetch_record($form_qry)) {
   } else {
     $reqstart = '';
     $required = ':';
+  }
+  if ($form['type'] == 'headline' or $form['type'] == 'spaceline'){
+    $reqstart = '';
+    $required = '';
   }
 	$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
                   <td>&nbsp;</td>
