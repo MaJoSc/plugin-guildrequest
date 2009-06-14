@@ -49,22 +49,16 @@ if (isset($_POST['gr_submit'])){
         }
       }
     
-      $username = htmlentities(strip_tags($_POST['username']), ENT_QUOTES);
-      $password = htmlentities(strip_tags($_POST['password']), ENT_QUOTES);
-      $email = htmlentities(strip_tags($_POST['email']), ENT_QUOTES);
+      $username = htmlentities(strip_tags($in->get('username')), ENT_QUOTES);
+      $password = htmlentities(strip_tags($in->get('password')), ENT_QUOTES);
+      $email = htmlentities(strip_tags($in->get('email')), ENT_QUOTES);
       
       // Create the displayed text for the output
 
-      $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
+      $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
       while ($textblk = $db->fetch_record($textblock_qry)){
         if ($_POST[$textblk['ID']] != ''){
-          if ($textblk['type'] == 'headline'){
-            $textblock .= '<div style="float: left; margin-left: 50px;"><H2>'.$textblk['value'].'</H2></div><div style="clear: both"></div>';
-          } elseif ($textblk['type'] == 'spaceline'){
-            $textblock .= '<div style="float: left; height: 15px;"></div><div style="clear: both;"></div>';
-          } else {
-            $textblock .= '<div style="float:left; margin: 5px;"> [b][i]'.$textblk['value'].':[/b][/i]</div><div style="padding:5px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
-          }
+          $textblock .= '<div style="float:left; margin:15px;" [b][i]'.$textblk['value'].':[/b][/i]</div><div style="padding:15px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
         }
       }
 
@@ -90,38 +84,38 @@ if (isset($_POST['gr_submit'])){
         
 http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/guildrequest/activate.php?activationcode='.$activationcode.'
 
-  '.$user->lang['gr_username_f'].' '.$_POST['username'].'
-  '.$user->lang['gr_password_f'].' '.$_POST['password'].'
+  '.$user->lang['gr_username_f'].' '.$in->get('username').'
+  '.$user->lang['gr_password_f'].' '.$in->get('password').'
   
 '.$gr_config['gr_mail_text2'];
         // ---- Mail Text End ----
     
         $mailheader .= 'FROM:'.$eqdkp->config['admin_email'];
     
-        mail($_POST["email"],
+        mail($in->get('email'),
         $user->lang['gr_mail_topic'],
         $mailtext,
         $mailheader);
         System_Message($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
         $_POST = '';
       } else {
-        $gr_username = $_POST['username'];
-        $gr_email = $_POST['email'];
-        $gr_password = $_POST['password'];
+        $gr_username = $in->get('username');
+        $gr_email = $in->get('email');
+        $gr_password = $in->get('password');
         $gr_text = $textblock;
         System_Message($user->lang['gr_user_double'], $user->lang['gr_write_error'], 'red');
       }
     } else {
-      $gr_username = $_POST['username'];
-      $gr_email = $_POST['email'];
-      $gr_password = $_POST['password'];
+      $gr_username = $in->get('username');
+      $gr_email = $in->get('email');
+      $gr_password = $in->get('password');
       $gr_text = $textblock;
       System_Message($user->lang['gr_write_incorrect_mail'], $user->lang['gr_write_error'], 'red');
     }
   } else {
-    $gr_username = $_POST['username'];
-    $gr_email = $_POST['email'];
-    $gr_password = $_POST['password'];
+    $gr_username = $in->get('username');
+    $gr_email = $in->get('email');
+    $gr_password = $in->get('password');
     $gr_text = $textblock;
     System_Message($user->lang['gr_write_allfields'], $user->lang['gr_write_error'], 'red');
   }
@@ -154,12 +148,6 @@ while ($form = $db->fetch_record($form_qry)) {
                   <option value="">-----------</option>'.
                   $dropdown;
                   '</select>';  	
-  } elseif ($form['type'] == 'headline') {
-    $inputfield = '<input type="hidden" name="'.$form['ID'].'" value="'.$form['value'].'"><H2>'.$form['value'].'</H2>';
-    $form['value'] = ''; 
-  } elseif ($form['type'] == 'spaceline') {
-    $inputfield = '<input type="hidden" name="'.$form['ID'].'" value="spaceline">&nbsp';
-    $form['value'] = '';
   }
   
   if ($form['required'] == 'Y') {
@@ -168,10 +156,6 @@ while ($form = $db->fetch_record($form_qry)) {
   } else {
     $reqstart = '';
     $required = ':';
-  }
-  if ($form['type'] == 'headline' or $form['type'] == 'spaceline'){
-    $reqstart = '';
-    $required = '';
   }
 	$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
                   <td>&nbsp;</td>
