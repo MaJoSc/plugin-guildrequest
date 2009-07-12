@@ -27,13 +27,13 @@ $user->check_auth('a_guildrequest_manage');
 
 // ------- THE SOURCE PART - START -------
 if ($_GET['delete']){
-  $db->query("DELETE FROM __guildrequest_appvalues WHERE ID='".$_GET['delete']."'");
-  $db->query("DELETE FROM __guildrequest_appoptions WHERE opt_ID='".$_GET['delete']."'");
+  $db->query("DELETE FROM __guildrequest_appvalues WHERE ID='".$in->get('delete', 0)."'");
+  $db->query("DELETE FROM __guildrequest_appoptions WHERE opt_ID='".$in->get('delete', 0)."'");
   System_Message($user->lang['gr_ad_succ_del'], $user->lang['gr_ad_update_succ_hl'], 'green');
 }
 
 if ($_POST['welcometext']){
-  $db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['welcometext']."' WHERE config_name='gr_welcome_text'");
+  $db->query("UPDATE __guildrequest_config SET config_value = '".$in->get('welcometext')."' WHERE config_name='gr_welcome_text'");
 
   $settings_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
   while ($settings = $db->fetch_record($settings_qry)) {
@@ -77,7 +77,7 @@ while ($settings = $db->fetch_record($settings_qry)) {
 }
 
 if ($_GET['moveup']){
-  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$_GET['moveup']);
+  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$in->get('moveup'));
   $oldsort = $db->fetch_record($oldsort_qry);
   $newsort = $oldsort['sort']-1;
   $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$newsort." LIMIT 0, 1");
@@ -87,13 +87,13 @@ if ($_GET['moveup']){
   $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldsort['sort']."' WHERE ID='".$oldup['ID']."'");
   
 } elseif ($_GET['movedown']){
-  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$_GET['movedown']);
+  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$in->get('movedown', 0));
   $oldsort = $db->fetch_record($oldsort_qry);
   $newsort = $oldsort['sort']+1;
   $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$newsort." LIMIT 0, 1");
   $oldup = $db->fetch_record($oldup_qry);
   
-  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldup['sort']."' WHERE ID='".$_GET['movedown']."'");
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldup['sort']."' WHERE ID='".$in->get('movedown', 0)."'");
   $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldsort['sort']."' WHERE ID='".$oldup['ID']."'");
 }
 
