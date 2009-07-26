@@ -15,7 +15,7 @@ if (!defined('EQDKP_INC') ){
 }
 
 class guildrequest_plugin_class extends EQdkp_Plugin {
-  var $version    = '0.0.4';
+  var $version    = '0.0.5';
   var $copyright  = 'BadTwin';
   var $vstatus    = 'Stable';
   var $build      = '3601';
@@ -147,7 +147,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     }
 
     // Insert the permission for the installing person
-    $perm_array = array('8955', '8956'. '8957', '8958');
+    $perm_array = array('8955', '8956', '8957', '8958');
 		$this->set_permissions($perm_array);
 			
     // Define uninstallation
