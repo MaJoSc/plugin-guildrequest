@@ -25,7 +25,6 @@ if ($user->data['user_id'] != '-1'){
   $user->check_auth(false);
 }
 
-
 // ------- THE SOURCE PART - START -------
 // --- Open/Close the request - start ---
 if (isset($_POST['admin'])){

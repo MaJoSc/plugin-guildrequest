@@ -18,7 +18,6 @@ $eqdkp_root_path = './../../../';    // Must be set!
 define('IN_ADMIN', true);         // Must be set if admin page
 include_once($eqdkp_root_path . 'common.php');  // Must be set!
 include_once('../include/common.php');  // Must be set!
-$wpfccore->InitAdmin();
 
 // Check if plugin is installed
 if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild request plugin is not installed.'); }
@@ -52,7 +51,6 @@ $versionthing   = array(
       );
 
 // Start Output à DO NOT CHANGE....
-$wpfccore->InitAdmin();
 $rbvcheck = new PluginUpdCheck($versionthing, $cachedb);
 $rbvcheck->PerformUpdateCheck();
 
