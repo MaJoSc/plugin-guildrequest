@@ -1,4 +1,4 @@
-<?PHP
+http://eqdkp-plus.svn.sourceforge.net/svnroot/eqdkp-plus/branches/0.6_late_night <?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -58,7 +58,7 @@ if (isset($_POST['gr_submit'])){
       $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
       while ($textblk = $db->fetch_record($textblock_qry)){
         if ($_POST[$textblk['ID']] != ''){
-          $textblock .= '<div style="float:left; margin:15px;" [b][i]'.$textblk['value'].':[/b][/i]</div><div style="padding:15px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
+          $textblock .= '<div style="float:left; margin:15px;" [b][i]'.htmlentities(strip_tags($textblk['value']), ENT_QUOTES).':[/b][/i]</div><div style="padding:15px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
         }
       }
 
