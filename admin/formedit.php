@@ -32,7 +32,7 @@ if ($_GET['delete']){
 }
 
 if ($_POST['welcometext']){
-  $db->query("UPDATE __guildrequest_config SET config_value = '".$in->get('welcometext')."' WHERE config_name='gr_welcome_text'");
+  $db->query("UPDATE __guildrequest_config SET config_value = '".htmlentities(strip_tags($in->get('welcometext')), ENT_QUOTES)."' WHERE config_name='gr_welcome_text'");
 
   $settings_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
   while ($settings = $db->fetch_record($settings_qry)) {
