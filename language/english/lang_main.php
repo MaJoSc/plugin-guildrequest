@@ -36,7 +36,7 @@ $lang['gr_write_reset']                   = 'reset';
 $lang['gr_write_error']                   = 'Error';
 $lang['gl_write_succ']                    = 'Mail sent';
 $lang['gr_mailsent']                      = 'Please confirm your Request by clicking the link in the mail.';
-$lang['gr_mail_topic']                    = 'Confirm your Request at '.ereg_replace("'", "\'", $eqdkp->config['guildtag']);
+$lang['gr_mail_topic']                    = 'Confirm your Request at '.preg_replace("'", "\'", $eqdkp->config['guildtag']);
 $lang['gr_mail_text1']                    = 'Please confirm your Request by clicking following link:';
 $lang['gr_mail_text2']                    = 'Have a nice day. The Guildleadership.';
 $lang['gr_username_f']                    = 'username:';
@@ -45,7 +45,7 @@ $lang['gr_password_f']                    = 'password:';
 $lang['gr_text_f']                        = 'text:';
 $lang['gr_settings']                      = 'Settings';
 $lang['gr_user_double']                   = 'An user with the same name has already sent a request. Please choose another name.';
-$lang['gr_welcome_text']                  = 'Thank you for you interest on '.ereg_replace("'", "\'", $eqdkp->config['guildtag']).'. Please write your request below:';
+$lang['gr_welcome_text']                  = 'Thank you for you interest on '.preg_replace("'", "\'", $eqdkp->config['guildtag']).'. Please write your request below:';
 
 // Bestätigung
 $lang['gr_activate_succ']                 = 'Your request has been sent!';

@@ -1,6 +1,6 @@
 <?PHP
 	$up_options = array(
-		'redirect'	=> 'admin.php';
+		'redirect'	=> 'admin.php',
 	);
   $up_updates = array(
     '0.0.3' => array(
@@ -10,6 +10,6 @@
     '0.0.4' => array(
       'file'  => '003_to_004.php',
       'old'   => '0.0.3',
-    ) 
+    )
   );
 ?>
