@@ -58,10 +58,10 @@ $rbvcheck->PerformUpdateCheck();
 
 // ------- THE SOURCE PART - START -------
 if (isset($_POST['gr_ad_submit'])) {
-	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['mail1']."' WHERE config_name='gr_mail_text1'");
-	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['mail2']."' WHERE config_name='gr_mail_text2'");
-	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['poll']."' WHERE config_name='gr_poll_activated'");
-	$db->query("UPDATE __guildrequest_config SET config_value = '".$_POST['popup']."' WHERE config_name='gr_popup_activated'");
+	$db->query("UPDATE __guildrequest_config SET config_value = '".$db->escape($_POST['mail1'])."' WHERE config_name='gr_mail_text1'");
+	$db->query("UPDATE __guildrequest_config SET config_value = '".$db->escape($_POST['mail2'])."' WHERE config_name='gr_mail_text2'");
+	$db->query("UPDATE __guildrequest_config SET config_value = '".$db->escape($_POST['poll'])."' WHERE config_name='gr_poll_activated'");
+	$db->query("UPDATE __guildrequest_config SET config_value = '".$db->escape($_POST['popup'])."' WHERE config_name='gr_popup_activated'");
   System_Message($user->lang['gr_ad_update_succ'], $user->lang['gr_ad_update_succ_hl'], 'green');
 }
 

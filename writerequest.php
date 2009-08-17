@@ -1,4 +1,4 @@
-http://eqdkp-plus.svn.sourceforge.net/svnroot/eqdkp-plus/branches/0.6_late_night <?PHP
+<?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
 * ------------------------------------------ * 
@@ -65,11 +65,11 @@ if (isset($_POST['gr_submit'])){
       if (!$userdouble){
         $activationcode = md5(time().microtime());
         $insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
-  				'".$username."', 
-          '".$email."', 
-          '".md5($password)."',
-          '".$textblock."',
-          '".$activationcode."')");
+  		  '".$db->escape($username)."', 
+          '".$db->escape($email)."', 
+          '".$db->escape(md5($password))."',
+          '".$db->escape($textblock)."',
+          '".$db->escape($activationcode)."')");
         
         
         // Send Activation Mail
@@ -132,7 +132,7 @@ $form_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
 while ($form = $db->fetch_record($form_qry)) {
 
   if ($form['type'] == 'singletext') {
-  	$inputfield = '<input type="text" name="'.$form['ID'].'" value="'.$_POST[$form['ID']].'">';
+  	$inputfield = '<input type="text" name="'.$form['ID'].'" value="'.sanitize($_POST[$form['ID']]).'">';
   } elseif ($form['type'] == 'textfield') {
     $inputfield = $jquery->wysiwyg($form['ID']).'<textarea name="'.$form['ID'].'" id="'.$form['ID'].'" class="jTagEditor">'.$_POST[$form['ID']].'</textarea>';
   } elseif ($form['type'] == 'dropdown') {

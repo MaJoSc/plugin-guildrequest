@@ -25,13 +25,13 @@ if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild requ
 $user->check_auth('a_guildrequest_manage');
 
 // ------- THE SOURCE PART - START -------
-$opt_id = $_GET['id'];
+$opt_id = $in->get('id');;
 
-if ($_GET['closing_submit'] != ''){
-  $appdetails_qry = $db->query("SELECT * FROM __guildrequest WHERE id='".$_GET['id']."'");
+if ($in->get('closing_submit') != ''){
+  $appdetails_qry = $db->query("SELECT * FROM __guildrequest WHERE id='".$db->escape($in->get('id'))."'");
   $appdetails = $db->fetch_record($appdetails_qry);
 
-  $requesttext = $bbcode->toHTML($_GET['answer']);
+  $requesttext = $bbcode->toHTML($in->get('answer'));
   $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
   $requesttext = $bbcode->MyEmoticons($requesttext);
   
@@ -40,7 +40,7 @@ if ($_GET['closing_submit'] != ''){
   mail($appdetails['email'],
     'Bewerbung geschlossen',
     $requesttext,
-    'FROM: <'.$_GET['sendermail'].'>'
+    'FROM: <'.$in->get('sendermail').'>'
   );
   
   echo "<script>parent.window.location.href = 'viewrequest.php';</script>";
@@ -52,10 +52,10 @@ while ($settings = $db->fetch_record($settings_query)){
 }
 
 if ($setting['gr_poll_activated'] == 'Y') {
-  $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$opt_id."'");
+  $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get($opt_id))."'");
   $vote_sum_count = $db->num_rows($vote_sum_count_query);
    
-  $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$opt_id."' AND poll_value='Y'");
+  $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get($opt_id))."' AND poll_value='Y'");
   $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
   $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
@@ -76,7 +76,7 @@ if ($setting['gr_poll_activated'] == 'Y') {
 $tpl->assign_vars(array(
       'GR_SENDERMAIL_F'     => $user->lang['gr_sendermail'],
       'GR_SENDERMAIL'       => $user->data['user_email'],
-      'GR_ID'               => $_GET['id'],
+      'GR_ID'               => sanitize($in->get('id')),
       'GR_CM_ANSWER'        => $inputfield,
       'GR_ANSWERTEXT'       => $answertext,
     ));

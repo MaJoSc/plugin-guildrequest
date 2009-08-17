@@ -26,13 +26,13 @@ $user->check_auth('a_guildrequest_manage');
 
 // ------- THE SOURCE PART - START -------
 if ($_GET['delete']){
-  $db->query("DELETE FROM __guildrequest_appvalues WHERE ID='".$in->get('delete', 0)."'");
-  $db->query("DELETE FROM __guildrequest_appoptions WHERE opt_ID='".$in->get('delete', 0)."'");
+  $db->query("DELETE FROM __guildrequest_appvalues WHERE ID='".$db->escape($in->get('delete', 0))."'");
+  $db->query("DELETE FROM __guildrequest_appoptions WHERE opt_ID='".$db->escape($in->get('delete', 0))."'");
   System_Message($user->lang['gr_ad_succ_del'], $user->lang['gr_ad_update_succ_hl'], 'green');
 }
 
 if ($_POST['welcometext']){
-  $db->query("UPDATE __guildrequest_config SET config_value = '".htmlentities(strip_tags($in->get('welcometext')), ENT_QUOTES)."' WHERE config_name='gr_welcome_text'");
+  $db->query("UPDATE __guildrequest_config SET config_value = '".$db->escape($in->get('welcometext'))."' WHERE config_name='gr_welcome_text'");
 
   $settings_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
   while ($settings = $db->fetch_record($settings_qry)) {
@@ -41,10 +41,10 @@ if ($_POST['welcometext']){
       $apptype = $_POST[$settings['ID'].'_type'];
       $apprequired = $_POST[$settings['ID'].'_required'];
   	  $db->query("UPDATE __guildrequest_appvalues SET 
-                  value = '".$appvalue."',
-                  type = '".$apptype."',
-                  required = '".$apprequired."' 
-                WHERE ID='".$settings['ID']."'");
+                  value = '".$db->escape($appvalue)."',
+                  type = '".$db->escape($apptype)."',
+                  required = '".$db->escape($apprequired)."' 
+                WHERE ID='".$db->escape($settings['ID'])."'");
     } else {
       $succ = 'error';
     }
@@ -64,7 +64,7 @@ if ($_POST['newfield']) {
       $required = 'N';
     }
 	  $newsort = $lastcount['sort'] + 1;
-    $db->query("INSERT INTO __guildrequest_appvalues (value, type, required, sort) VALUES ('".$_POST['newfield']."', '".$_POST['newoption']."', '".$required."', '".$newsort."')");
+    $db->query("INSERT INTO __guildrequest_appvalues (value, type, required, sort) VALUES ('".$db->escape($_POST['newfield'])."', '".$db->escape($_POST['newoption'])."', '".$db->escape($required)."', '".$db->escape($newsort)."')");
   } else {
     System_Message($user->lang['gr_ad_err_dropdown'], $user->lang['gr_write_error'], 'red');
   }
@@ -76,24 +76,24 @@ while ($settings = $db->fetch_record($settings_qry)) {
 }
 
 if ($_GET['moveup']){
-  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$in->get('moveup'));
+  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$db->escape($in->get('moveup')));
   $oldsort = $db->fetch_record($oldsort_qry);
   $newsort = $oldsort['sort']-1;
-  $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$newsort." LIMIT 0, 1");
+  $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$db->escape($newsort)." LIMIT 0, 1");
   $oldup = $db->fetch_record($oldup_qry);
   
-  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldup['sort']."' WHERE ID='".$_GET['moveup']."'");
-  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldsort['sort']."' WHERE ID='".$oldup['ID']."'");
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$db->escape($oldup['sort'])."' WHERE ID='".$db->escape($_GET['moveup'])."'");
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$db->escape($oldsort['sort'])."' WHERE ID='".$db->escape($oldup['ID'])."'");
   
 } elseif ($_GET['movedown']){
-  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$in->get('movedown', 0));
+  $oldsort_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE ID=".$db->escape($in->get('movedown', 0)));
   $oldsort = $db->fetch_record($oldsort_qry);
   $newsort = $oldsort['sort']+1;
-  $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$newsort." LIMIT 0, 1");
+  $oldup_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE sort=".$db->escape($newsort)." LIMIT 0, 1");
   $oldup = $db->fetch_record($oldup_qry);
   
-  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldup['sort']."' WHERE ID='".$in->get('movedown', 0)."'");
-  $db->query("UPDATE __guildrequest_appvalues SET sort='".$oldsort['sort']."' WHERE ID='".$oldup['ID']."'");
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$db->escape($oldup['sort'])."' WHERE ID='".$db->escape($in->get('movedown', 0))."'");
+  $db->query("UPDATE __guildrequest_appvalues SET sort='".$db->escape($oldsort['sort'])."' WHERE ID='".$db->escape($oldup['ID'])."'");
 }
 
 // Output of the AppValues in the DB

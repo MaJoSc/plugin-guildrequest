@@ -33,28 +33,28 @@ if ($_GET['id']) {
 
 
 if ($_GET['delete']) {
-	$db->query("DELETE FROM __guildrequest_appoptions WHERE ID = '".$_GET['delete']."'");
+	$db->query("DELETE FROM __guildrequest_appoptions WHERE ID = '".$db->escape($_GET['delete'])."'");
 	$db->free_result();
 }
 
 
 if ($_POST['opt_id']) {
-	$opt_qry = $db->query("SELECT * FROM __guildrequest_appoptions WHERE opt_id='".$opt_id."'");
+	$opt_qry = $db->query("SELECT * FROM __guildrequest_appoptions WHERE opt_id='".$db->escape($opt_id)."'");
 	while ($opt = $db->fetch_record($opt_qry)) {
- 	  $db->query("UPDATE __guildrequest_appoptions SET appoption = '".$_POST['opt_'.$opt['ID']]."' WHERE ID='".$opt['ID']."'");
+ 	  $db->query("UPDATE __guildrequest_appoptions SET appoption = '".$db->escape($_POST['opt_'.$opt['ID']])."' WHERE ID='".$db->escape($opt['ID'])."'");
   }
 }
 
 if ($_POST['newoption']){
-  $db->query("INSERT INTO __guildrequest_appoptions (opt_id, appoption) VALUES ('".$_POST['opt_id']."','".$_POST['newoption']."')");
+  $db->query("INSERT INTO __guildrequest_appoptions (opt_id, appoption) VALUES ('".$db->escape($_POST['opt_id'])."','".$db->escape($_POST['newoption'])."')");
 }
 
 
-$opt_qry = $db->query("SELECT * FROM __guildrequest_appoptions WHERE opt_id='".$opt_id."'");
+$opt_qry = $db->query("SELECT * FROM __guildrequest_appoptions WHERE opt_id='".$db->escape($opt_id)."'");
 while ($opt = $db->fetch_record($opt_qry)) {
 	$output .= '<tr class="'.$eqdkp->switch_row_class().'">
                 <td>
-                  <input name="opt_'.$opt['ID'].'" value="'.$opt['appoption'].'">
+                  <input name="opt_'.$opt['ID'].'" value="'.sanitize($opt['appoption']).'">
                 </td>
                 <td>
                   <a href="addoptions.php?delete='.$opt['ID'].'&id='.$opt_id.'"><img src="'.$eqdkp_root_path.'images/global/delete.png" /></a>

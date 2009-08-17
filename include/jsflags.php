@@ -20,11 +20,11 @@
 			if ($user->check_auth('u_guildrequest_view', false)){
 				$request_query = $db->query("SELECT * FROM __guildrequest WHERE activated='Y' AND closed='N'");
 				while ($request = $db->fetch_record($request_query)) {
-					$vote_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$request['id']."' AND user_id ='".$user->data['user_id']."'");
+					$vote_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$db->escape($request['id'])."' AND user_id ='".$db->escape($user->data['user_id'])."'");
 					$vote = $db->fetch_record($vote_query);
 					if (!isset($vote['id'])){
 						$request_text = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'"><b>'.$user->lang['gr_vr_view'].'</b></a>';
-						$request_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'">'.$user->lang['gr_pu_new_query'].'<i>'.$request['username'].'</i></a>';
+						$request_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'">'.$user->lang['gr_pu_new_query'].'<i>'.sanitize($request['username']).'</i></a>';
 						System_Message($request_text, $request_from, 'default');
 					}
 				}

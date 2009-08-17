@@ -19,8 +19,8 @@ include_once($eqdkp_root_path . 'common.php');  // Must be set!
 if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild request plugin is not installed.'); }
 
 // ------- THE SOURCE PART - START -------
-if (isset($_GET['activationcode'])) {
-  $db->query("UPDATE __guildrequest SET activated='Y' WHERE activation='".$_GET['activationcode']."'");  
+if ($in->get('activationcode') != "") {
+  $db->query("UPDATE __guildrequest SET activated='Y' WHERE activation='".$db->escape($in->get('activationcode'))."'");  
   $output = $user->lang['gr_activate_succ'];
 }  
 

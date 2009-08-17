@@ -27,41 +27,41 @@ if ($user->data['user_id'] != '-1'){
 
 // ------- THE SOURCE PART - START -------
 // --- Open/Close the request - start ---
-if (isset($_POST['admin'])){
-  $db->query("UPDATE __guildrequest SET closed='".$_POST['newstatus']."' WHERE id='".$_POST['request_id']."'");
-  if ($_POST['newstatus'] == 'N') {
+if ($in->get('admin') != ""){
+  $db->query("UPDATE __guildrequest SET closed='".$db->escape($in->get('newstatus'))."' WHERE id='".$db->escape($in->get('request_id'))."'");
+  if ($in->get('newstatus') == 'N') {
     System_Message($user->lang['gr_vr_ad_opened'], $user->lang['gr_vr_ad_opened_f'], 'green');  	
   } else {
-    $closingmail = $jquery->Dialog_URL('EditForm', $user->lang['gr_ad_editoptions'], 'closingmail.php?id='.$_POST['request_id'], '740', '300');
+    $closingmail = $jquery->Dialog_URL('EditForm', $user->lang['gr_ad_editoptions'], 'closingmail.php?id='.sanitize($in->get('request_id')), '740', '300');
     System_Message($user->lang['gr_vr_ad_closed'], $user->lang['gr_vr_ad_closed_f'], 'red');  	
   }
 
 }
 // --- Open/Close the request - end ---
-if (isset($_POST['act_submit'])){
-  $db->query("UPDATE __guildrequest SET activated='Y' WHERE id='".$_POST['not_act_id']."'");
+if ($in->get('act_submit') != ""){
+  $db->query("UPDATE __guildrequest SET activated='Y' WHERE id='".$db->escape($in->get('not_act_id'))."'");
   System_Message($user->lang['gr_vr_ad_activated'], $user->lang['gr_vr_ad_activated_f'], 'green');  	
 }
 
-if (isset($_POST['del_submit'])) {
-  $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['request_id']."'");
+if ($in->get('del_submit') != "") {
+  $db->query("DELETE FROM __guildrequest WHERE id='".$db->escape($in->get('request_id'))."'");
   System_Message($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
 }
 
-if (isset($_POST['del_not_act'])) {
-  $db->query("DELETE FROM __guildrequest WHERE id='".$_POST['not_act_id']."'");
+if ($in->get('del_not_act') != "") {
+  $db->query("DELETE FROM __guildrequest WHERE id='".$db->escape($in->get('not_act_id'))."'");
   System_Message($user->lang['gr_vr_ad_deleted'], $user->lang['gr_vr_ad_deleted_f'], 'red');
 }
 
 // Display the Overview
-if (!isset($_GET['request_id'])){
+if ($in->get('request_id') == ""){
   $listrequest_query = $db->query("SELECT * FROM __guildrequest WHERE closed='N' AND activated='Y' ORDER BY id desc");
   while($listquery = $db->fetch_record($listrequest_query)){
     // Check, if already voted
     $poll_query = $db->query("SELECT * FROM __guildrequest_config WHERE config_name = 'gr_poll_activated'");
     $poll = $db->fetch_record($poll_query);
     if ($poll['config_value'] == 'Y'){
-      $votecheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$listquery['id']."' AND user_id = '".$user->data['user_id']."'");
+      $votecheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$db->escape($listquery['id'])."' AND user_id = '".$db->escape($user->data['user_id'])."'");
       $votecheck = $db->num_rows($votecheck_query);
       $db->free_result($votecheck_query);
 
@@ -72,7 +72,7 @@ if (!isset($_GET['request_id'])){
       }
     }
     $tpl->assign_block_vars('request_list', array(
-			'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
+		'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
       'GR_USERNAME'   => $listquery['username'],
       'GR_TEXT'       => $user->lang['gr_vr_view'],
       'GR_REQUEST_ID' => $listquery['id'],
@@ -87,7 +87,7 @@ if (!isset($_GET['request_id'])){
     
       $tpl->assign_block_vars('admin_request_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
-        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
+        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.sanitize($adminlistquery['username']).'</a>',
         'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$user->lang['gr_vr_view'].'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
@@ -110,7 +110,7 @@ if (!isset($_GET['request_id'])){
     
       $tpl->assign_block_vars('admin_not_activated_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
-        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
+        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.sanitize($adminlistquery['username']).'</a>',
         'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$user->lang['gr_vr_view'].'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
@@ -141,7 +141,7 @@ if (!isset($_GET['request_id'])){
   // --- comment system - start ---
 	if(is_object($pcomments) && $pcomments->version > '1.0.3'){
     $comm_settings = array(
-      'attach_id' => $_GET['request_id'], 
+      'attach_id' => $in->get('request_id'), 
       'page'      => 'guildrequest',
       'userauth'  => 'u_guildrequest_comment'
     );
@@ -155,7 +155,7 @@ if (!isset($_GET['request_id'])){
   
   // --- the admin part - start ---
   if ($user->check_auth('a_guildrequest_manage', false)){
-  $change_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$_GET['request_id']."'");
+  $change_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$db->escape($in->get('request_id'))."'");
   $change = $db->fetch_record($change_query);
   
   if ($change['closed'] == 'Y') {
@@ -165,7 +165,7 @@ if (!isset($_GET['request_id'])){
   }
 
   $changestatus = '<form action="viewrequest.php" method="POST">
-    <input type="hidden" name="request_id" value="'.$_GET['request_id'].'">
+    <input type="hidden" name="request_id" value="'.sanitize($in->get('request_id')).'">
     <input type="radio" name="newstatus" value="N"'.$no_sel.'>'.$user->lang['gr_poll_ad_opened'].'<br>
     <input type="radio" name="newstatus" value="Y"'.$yes_sel.'>'.$user->lang['gr_poll_ad_closed'].'<br>
 		<input type="submit" name="admin" value="'.$user->lang['gr_poll_ad_save'].'" class="mainoption">
@@ -183,10 +183,10 @@ if (!isset($_GET['request_id'])){
     $not_voted = true;
     $already_voted = true;
     
-    $pollcheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."' AND user_id='".$user->data['user_id']."'");
+    $pollcheck_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('request_id'))."' AND user_id='".$db->escape($user->data['user_id'])."'");
     $pollcheck = $db->num_rows($pollcheck_query);
 
-    $pollclosed_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$_GET['request_id']."'");
+    $pollclosed_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$db->escape($in->get('request_id'))."'");
     $pollclosed = $db->fetch_record($pollclosed_query);
 
       if ($pollcheck != 0) {
@@ -196,21 +196,21 @@ if (!isset($_GET['request_id'])){
   
       if ($not_voted == true) {
         if ($pollclosed['closed'] == 'N'){
-          if (isset($_GET['accept'])){
-            $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'Y')");
+          if ($in->get('accept') != ""){
+            $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$db->escape($in->get('request_id'))."', '".$user->data['user_id']."', 'Y')");
             $not_voted = false;
-          } elseif (isset($_GET['decline'])){
-            $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$_GET['request_id']."', '".$user->data['user_id']."', 'N')");
+          } elseif ($in->get('decline') != ""){
+            $vote_sql = $db->query("INSERT INTO __guildrequest_poll (query_id, user_id, poll_value) VALUES ('".$db->escape($in->get('request_id'))."', '".$user->data['user_id']."', 'N')");
             $not_voted = false;
           }
         }
       }
   
       if ($already_voted == true) {
-        $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."'");
+        $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('request_id'))."'");
         $vote_sum_count = $db->num_rows($vote_sum_count_query);
     
-        $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$_GET['request_id']."' AND poll_value='Y'");
+        $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('request_id'))."' AND poll_value='Y'");
         $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
         $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
@@ -230,7 +230,7 @@ if (!isset($_GET['request_id'])){
   // --- the poll part - end ---
   
 
-  $request_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$_GET['request_id']."'");
+  $request_query = $db->query("SELECT * FROM __guildrequest WHERE id='".$db->escape($in->get('request_id'))."'");
   $request = $db->fetch_record($request_query);
 
   $listrequests = false;
@@ -247,16 +247,16 @@ if (!isset($_GET['request_id'])){
    
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
-      'GR_USERNAME'   => $request['username'],
+      'GR_USERNAME'   => sanitize($request['username']),
       'GR_VIEWREQUEST' => $user->lang['gr_view'], 
-      'GR_TEXT'       => $requesttext,
+      'GR_TEXT'       => sanitize($requesttext),
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_TEXT_F'     => $user->lang['gr_text_f'],
       'GR_ADMIN_ONLY' => $adminonly,
       'GR_ADMIN_USER_F' => $admin_user_f,
       'GR_ADMIN_TEXT_F' => $admin_text_f,
       'GR_ADMIN_NOT_ACTIVATED_F' => $admin_not_activated,
-      'GR_REQUEST_ID' => $_GET['request_id'],
+      'GR_REQUEST_ID' => sanitize($in->get('request_id')),
       'GR_AD_DELETE'  => $user->lang['gr_ad_delete'],
       'GR_AD_ACTIVATE'  => $user->lang['gr_ad_activate'],
       'GR_LISTREQUESTS' => $listrequests,

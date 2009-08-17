@@ -22,7 +22,7 @@ if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild requ
 include_once($eqdkp_root_path . 'plugins/guildrequest/include/libloader.inc.php');
 
 // include the Comment System
-  $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".$_POST['username']."'");
+  $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".$db->escape($in->get('username'))."'");
   $login_check = $db->fetch_record($login_query);
   $attach_id = $login_check['id'];
 
@@ -49,16 +49,16 @@ $show_closed = false;
 $insert_answer = false;
 $show_answer = true;
 
-if (isset($_POST['usercomment_submit'])) {
-  if ($_POST['usercomment'] != ''){
+if ($in->get('usercomment_submit') != "") {
+  if ($in->get('usercomment') != ''){
   
-    $htmlinsert = htmlentities(strip_tags($_POST['usercomment']), ENT_QUOTES); /*No html or javascript in comments*/
+    $htmlinsert = sanitize($in->get('usercomment')); /*No html or javascript in comments*/
         
 	  $comment_query = $db->query("INSERT INTO __comments (attach_id, userid, date, text, page) VALUES(
-      '".$attach_id."',
-      '".$userid."',
-      '".time()."',
-      '".$htmlinsert."',
+      '".$db->escape($attach_id)."',
+      '".$db->escape($userid)."',
+      '".$db->escape(time())."',
+      '".$db->escape($htmlinsert)."',
       'guildrequest')");
     }
     $show_login = false;
@@ -74,8 +74,8 @@ if (isset($_POST['usercomment_submit'])) {
       </head>
       <body onload='MyFormSubmit()'> 
         <form action='login.php' method='POST' name='newanswer'>
-          <input type='hidden' name='username' value='".$_POST['username']."' />
-          <input type='hidden' name='password' value='".$_POST['password']."' />
+          <input type='hidden' name='username' value='".sanitize($in->get('username'))."' />
+          <input type='hidden' name='password' value='".sanitize($in->get('password'))."' />
           <input type='hidden' name='gr_submit' value='1' />
         </form>
       </body>
@@ -83,12 +83,12 @@ if (isset($_POST['usercomment_submit'])) {
 }
 
 
-if (isset($_POST['gr_submit'])){
-  if ($_POST['username'] != '' && $_POST['password'] != '') {
-	  $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".htmlentities(strip_tags($_POST['username']), ENT_QUOTES)."'");
+if ($in->get('gr_submit') != ""){
+  if ($in->get('username') != '' && $in->get('password') != '') {
+	  $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".$db->escape($in->get('username'))."'");
 	  $login_check = $db->fetch_record($login_query);
 	  
-	  if (md5($_POST['password']) == $login_check['password']){
+	  if (md5($in->get('password')]) == $login_check['password']){
 	    if ($login_check['activated'] != 'Y') {
         System_Message($user->lang['gr_login_not_activated'], $user->lang['gr_write_error'], 'red');
      	  $show_answer = false;
@@ -103,10 +103,10 @@ if (isset($_POST['gr_submit'])){
           }
           if ($setting['gr_poll_activated'] == 'Y') {
             // --- the poll part - start ---
-            $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$login_check['id']."'");
+            $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($login_check['id'])."'");
             $vote_sum_count = $db->num_rows($vote_sum_count_query);
     
-            $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$login_check['id']."' AND poll_value='Y'");
+            $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($login_check['id'])."' AND poll_value='Y'");
             $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
             if ($vote_sum_count == 0){
