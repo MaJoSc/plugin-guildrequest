@@ -1,80 +1,68 @@
 <!-- INCLUDE ../../../../templates/{TMPL_FOLDERNAME}/page_header.html -->
 {UPDCHECK_BOX}
 {UPDATE_BOX}
-<!-- IF ALPHA_STATUS -->
-	<table style="border: 4px red solid;" cellpadding="30" width="100%" bgcolor="white">
-		<tr>
-			<td>
-				<h1><font color="red"><center>
-					DIES IST EINE ALPHA-VERSION UND NOCH IM ENTWICKLUNGSSTADIUM!<br />
-					DIESE VERSION IST KEINESFALLS F&Uuml;R DEN PRODUKTIVEN EINSATZ GEDACHT!
-				</center></font></h1>
-			</td>
-		</tr>
-	</table>
-<!-- ENDIF -->
-
-<!-- IF BETA_STATUS -->
-	<table style="border: 4px red solid;" cellpadding="30" width="100%" bgcolor="white">
-		<tr>
-			<td>
-				<h1><font color="red"><center>
-					DIES IST EINE BETA-VERSION!<br />
-					WENN DU BUGS ENTDECKST, MELDE DIE BITTE AUF <a style="color: red; text-decoration: underline;" href="http://www.eqdkp-plus.com/forum">EQdkp-PLUS.com</a>!
-				</center></font></h1>
-			</td>
-		</tr>
-	</table>
-<!-- ENDIF -->
-
+{STATUS}
 	<form action="{F_CONFIG}" method="GET">
-		<table width="100%" cellspacing="0">
-			<tr class="row1">
-				<td>
+		<table width="100%">
+			<tr>
+				<th colspan="2">
+					{GR_S_TITLE}
+				</th>
+			</tr>
+			<tr>
+				<td class="row1" valign="top">
 					{GR_F_UPD_CHECK}
 				</td>
-				<td>
+				<td class="row2">
 					<input type="checkbox" name="upd_check" value="1" {GR_UPD_CHECK} />
 				</td>
 			</tr>
-			<tr class="row2">
-				<td>
+			<tr>
+				<td class="row1" valign="top">
 					{GR_F_MAILTEXT1}
 				</td>
-				<td>
+				<td class="row2">
 					{GR_MAILTEXT1}
 				</td>
 			</tr>
-			<tr class="row1">
-				<td>
+			<tr>
+				<td class="row1" valign="top">
 					{GR_F_MAILTEXT2}
 				</td>
-				<td>
+				<td class="row2">
 					{GR_MAILTEXT2}
 				</td>
 			</tr>
-			<tr class="row2">
-				<td>
+			<tr>
+				<td class="row1" valign="top">
 					{GR_F_POLL}
 				</td>
-				<td>
+				<td class="row2">
 					<input type="checkbox" name="poll" value="Y" {GR_POLL} />
 				</td>
 			</tr>
-			<tr class="row1">
-				<td>
+			<tr>
+				<td class="row1" valign="top">
 					{GR_F_POPUP}
 				</td>
-				<td>
+				<td class="row2">
 					<input type="checkbox" name="popup" value="Y" {GR_POPUP} />
 				</td>
 			</tr>
 			<tr>
+				<td class="row1" valign="top">
+					{GR_F_CLOSETEXT}
+				</td>
+				<td class="row2">
+					{GR_CLOSETEXT}
+				</td>
+			</tr>
+			<tr>
 				<th colspan="2" align="right">
-					<input type="submit" name="settings_submit" value="{GR_SAVE}" />
+					<input type="submit" name="settings_submit" value="{GR_SAVE}" class="mainoption" />
 				</th>
 			</tr>
 		</table>
 	</form>
-{GR_CREDITS}
+{GR_FOOTER}
 <!-- INCLUDE ../../../../templates/{TMPL_FOLDERNAME}/page_tail.html -->

@@ -9,7 +9,7 @@
   * Author:    BadTwin                                                               *
   * Copyright: 2009 Andreas (BadTwin) Schrottenbaum                                  *
   * Link:      http://badtwin.dyndns.org                                             *
-  * Package: Guildrequest                                                            *
+  * Package:   Guildrequest                                                          *
   \**********************************************************************************/
 
 define('EQDKP_INC', true);
@@ -41,32 +41,25 @@ $cachedb = array(
   'f_lastcheck' => 'vc_lastcheck'
 );
 
-// The Version Information
-$versionthing   = array(
-  'name' => 'guildrequest', 
-  'version' => $pm->get_data('guildrequest', 'version'),
-//  'build' => $pm->plugins['bosssuite']->build, 
-//  'vstatus' => $pm->plugins['bosssuite']->vstatus,
-  'enabled' => $updchk_enbled
-);
-
 // Start Output ?DO NOT CHANGE....
-$guildrequestvcheck = new PluginUpdCheck($versionthing, $cachedb);
+$guildrequestvcheck = new PluginUpdCheck($versionthing);
 $guildrequestvcheck->PerformUpdateCheck();
 
 // Save the settings
 if ($in->get('settings_submit')){
-	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('mailtext1'))."' WHERE config_name='gr_mail_text1'");
-	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('mailtext2'))."' WHERE config_name='gr_mail_text2'");
+	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('mailtext1', ''))."' WHERE config_name='gr_mail_text1'");
+	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('mailtext2', ''))."' WHERE config_name='gr_mail_text2'");
 	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('poll', 'N'))."' WHERE config_name='gr_poll_activated'");
 	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('popup', 'N'))."' WHERE config_name='gr_popup_activated'");
 	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('upd_check', 0))."' WHERE config_name='gr_upd_check'");
+	$db->query("UPDATE __guildrequest_config SET config_value='".$db->escape($in->get('closetext', ''))."' WHERE config_name='gr_mail_close'");
 
-	$conf['gr_mail_text1'] = $db->escape($in->get('mailtext1'));
-	$conf['gr_mail_text2'] = $db->escape($in->get('mailtext2'));
-	$conf['gr_poll_activated'] = $db->escape($in->get('poll', 'N'));
-	$conf['gr_popup_activated'] = $db->escape($in->get('popup', 'N'));
-	$conf['gr_upd_check'] = $db->escape($in->get('upd_check', 0));
+	$conf['gr_mail_text1'] = $in->get('mailtext1', '');
+	$conf['gr_mail_text2'] = $in->get('mailtext2', '');
+	$conf['gr_poll_activated'] = $in->get('poll', 'N');
+	$conf['gr_popup_activated'] = $in->get('popup', 'N');
+	$conf['gr_upd_check'] = $in->get('upd_check', 0);
+	$conf['gr_mail_close'] = $in->get('closetext', '');
 }
 
 // Deliver the output to the template
@@ -75,19 +68,21 @@ $tpl->assign_vars(array (
 	'UPDCHECK_BOX'	=> $guildrequestvcheck->OutputHTML(),
 	'F_CONFIG'			=> 'settings.php' . $SID,
 	
-	'GR_MAILTEXT1'	=> $jquery->wysiwyg('mailtext1').'<textarea name="mailtext1" rows="8" cols="69" id="mailtext1" class="jTagEditor">'.sanitize($conf['gr_mail_text1']).'</textarea>',
-	'GR_MAILTEXT2'	=> $jquery->wysiwyg('mailtext2').'<textarea name="mailtext2" rows="8" cols="69" id="mailtext2" class="jTagEditor">'.sanitize($conf['gr_mail_text2']).'</textarea>',
+	'GR_MAILTEXT1'	=> $jquery->wysiwyg('mailtext1').'<textarea name="mailtext1" id="mailtext1" class="jTagEditor">'.sanitize($conf['gr_mail_text1']).'</textarea>',
+	'GR_MAILTEXT2'	=> $jquery->wysiwyg('mailtext2').'<textarea name="mailtext2" id="mailtext2" class="jTagEditor">'.sanitize($conf['gr_mail_text2']).'</textarea>',
 	'GR_POLL'				=> ($conf['gr_poll_activated'] == 'Y') ? ' checked="checked"' : '',
 	'GR_POPUP'			=> ($conf['gr_popup_activated'] == 'Y') ? ' checked="checked"' : '',
 	'GR_UPD_CHECK'	=> ($conf['gr_upd_check'] == 1) ? ' checked="checked"' : '',
-	'GR_CREDITS' 		=> $pm->get_data('guildrequest', 'version'),
+	'GR_CLOSETEXT'	=> $jquery->wysiwyg('closetext').'<textarea name="closetext" id="closetext" class="jTagEditor">'.sanitize($conf['gr_mail_close']).'</textarea>',
 
 	// Language Terms
+	'GR_S_TITLE'			=> $user->lang['gr_admin_menu_manage'],
 	'GR_F_MAILTEXT1'	=> $user->lang['gr_admin_f_mailtext1'],
 	'GR_F_MAILTEXT2'	=> $user->lang['gr_admin_f_mailtext2'],
 	'GR_F_POLL'				=> $user->lang['gr_admin_f_poll'],
 	'GR_F_POPUP'			=> $user->lang['gr_admin_f_popup'],
 	'GR_F_UPD_CHECK'	=> $user->lang['gr_admin_f_upd_check'],
+	'GR_F_CLOSETEXT'	=> $user->lang['gr_admin_f_close'],
 	
 	'GR_SAVE'					=> $user->lang['gr_save'],
 ));

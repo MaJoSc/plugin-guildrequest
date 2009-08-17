@@ -9,7 +9,7 @@
   * Author:    BadTwin                                                               *
   * Copyright: 2009 Andreas (BadTwin) Schrottenbaum                                  *
   * Link:      http://badtwin.dyndns.org                                             *
-  * Package: Guildrequest                                                            *
+  * Package:   Guildrequest                                                          *
   \**********************************************************************************/
 
 if (!defined('EQDKP_INC')) {
@@ -120,7 +120,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 
 		// Include the System Messages
 		if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
-			include_once($eqdkp_root_path.'plugins/'.$this->get_data('path').'/include/jsflags.php');
+			include_once($eqdkp_root_path.'plugins/'.$this->get_data('path').'/includes/jsflags.php');
 		}
 	}
 

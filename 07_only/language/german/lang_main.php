@@ -9,7 +9,7 @@
   * Author:    BadTwin                                                               *
   * Copyright: 2009 Andreas (BadTwin) Schrottenbaum                                  *
   * Link:      http://badtwin.dyndns.org                                             *
-  * Package: Guildrequest                                                            *
+  * Package:   Guildrequest                                                          *
   \**********************************************************************************/
 
 if (!defined('EQDKP_INC')) {
@@ -43,6 +43,8 @@ $lang['gr_admin_f_mailtext2']		= 'Mailtext 2 (unterer Teil)';
 $lang['gr_admin_f_poll']				= 'Umfragen aktiviert?';
 $lang['gr_admin_f_popup']				= 'Popup bei neuen Bewerbungen?<br />(nur notwendig, falls der Mailversand nicht funktioniert)';
 $lang['gr_admin_f_upd_check']		= 'Updatecheck einschalten?';
+$lang['gr_admin_f_close']				= 'Closetext';
 
+$lang['gr_about_header']				= 'Impressum';
 $lang['gr_save']								= 'speichern';
 ?>
