@@ -20,8 +20,6 @@ if (!defined('EQDKP_INC')) {
 $lang['guildrequest']						= 'GuildRequest';
 $lang['gr_class_short_desc']		= 'Bewerbungs-Plugin';
 $lang['gr_class_long_desc']			= 'Plugin um Bewerbungen zu Verwalten, mit Abstimmungs-Funktion';
-
-
 $lang['gr_class_perm_manage']		= 'Verwalten';
 $lang['gr_class_perm_view']			= 'Ansehen';
 $lang['gr_class_perm_comment']	= 'Kommentieren';
@@ -37,6 +35,14 @@ $lang['gr_user_aspirant']				= 'Bewerber';
 $lang['gr_menu_view']						= 'Bewerbungen ansehen';
 $lang['gr_menu_write']					= 'Bewerbung schreiben';
 
-$lang['gr_admin_menu_manage']		= 'Bewerbungen verwalten';
+$lang['gr_admin_menu_manage']		= 'Einstellungen';
 $lang['gr_admin_menu_formedit']	= 'Formular bearbeiten';
+
+$lang['gr_admin_f_mailtext1']		= 'Mailtext 1 (oberer Teil)';
+$lang['gr_admin_f_mailtext2']		= 'Mailtext 2 (unterer Teil)';
+$lang['gr_admin_f_poll']				= 'Umfragen aktiviert?';
+$lang['gr_admin_f_popup']				= 'Popup bei neuen Bewerbungen?<br />(nur notwendig, falls der Mailversand nicht funktioniert)';
+$lang['gr_admin_f_upd_check']		= 'Updatecheck einschalten?';
+
+$lang['gr_save']								= 'speichern';
 ?>

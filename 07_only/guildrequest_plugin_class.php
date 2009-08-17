@@ -21,7 +21,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
   var $version    = '1.0.0';
   var $build      = '2892';
   var $copyright  = 'BadTwin';
-  var $vstatus    = 'Alpha';
+  var $vstatus    = 'alpha';
   var $fwversion  = '1.0.2';  // required framework Version
 
 	function guildrequest_plugin_class($pm) {
@@ -36,6 +36,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 			'path'							=>	'guildrequest',
 			'contact'						=>	'badtwin@gmx.at',
 			'template_path'			=>	'plugins/guildrequest/templates/',
+			'imageurl'					=>	'plugins/guildrequest/images/screen.jpg',
 			'version'						=>	$this->version,
 			'author'						=>	$this->copyright,
 			'description'				=>	$user->lang['gr_class_short_desc'],
@@ -123,62 +124,62 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		}
 	}
 
-		// Generate the Main Menu
-		function gen_main_menu1() {
-			global $user, $SID, $db;
+	// Generate the Main Menu
+	function gen_main_menu1() {
+		global $user, $SID, $db, $eqdkp_root_path;
 
-			if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
-				if ($user->data['user_id'] != ANONYMOUS){
-					$counter_query = $db->query("SELECT * FROM __guildrequest_users WHERE closed='N' AND activated='Y'");
-					$counter = $db->num_rows($counter_query);
-					if ($counter != 0){
-						$counter_out = ' ('.$counter.')';
-					}
-					$db->free_result($counter_query);
-
-					$main_menu1 = array(
-						array(
-							'link'	=> 'plugins/' . $this->get_data('path') . '/viewrequest.php' . $SID,
-							'text'	=> $user->lang['gr_menu_view'],
-							'check'	=> 'u_guildrequest_view',
-						)
-					);
-				} else {
-					$main_menu1 = array(
-						array(
-							'link'	=> 'plugins/' . $this->get_data('path') . '/writerequest.php' . $SID,
-							'text'	=> $user->lang['gr_menu_write'],
-						)
-					);
+		if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
+			if ($user->data['user_id'] != ANONYMOUS){
+				$counter_query = $db->query("SELECT * FROM __guildrequest_users WHERE closed='N' AND activated='Y'");
+				$counter = $db->num_rows($counter_query);
+				if ($counter != 0){
+					$counter_out = ' ('.$counter.')';
 				}
-				return $main_menu1;
+				$db->free_result($counter_query);
+
+				$main_menu1 = array(
+					array(
+						'link'	=> 'plugins/' . $this->get_data('path') . '/viewrequest.php' . $SID,
+						'text'	=> $user->lang['gr_menu_view'],
+						'check'	=> 'u_guildrequest_view',
+					)
+				);
+			} else {
+				$main_menu1 = array(
+					array(
+						'link'	=> 'plugins/' . $this->get_data('path') . '/writerequest.php' . $SID,
+						'text'	=> $user->lang['gr_menu_write'],
+					)
+				);
 			}
-			return;
+			return $main_menu1;
 		}
-
-		// Generate the Admin Menu
-		function gen_admin_menu() {
-			global $user, $SID, $eqdkp_root_path;
-
-			if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest') && $user->check_auth('a_guildrequest_', false)) {
-				$admin_menu = array(
-					'guildrequest' => array(
-						99	=> './../../plugins/guildrequest/images/write.png',
-						0		=> $user->lang['guildrequest'],
-						1		=> array(
-							'link' => $eqdkp_root_path . 'plugins/guildrequest/admin/admin.php' . $SID,
-							'text' => $user->lang['gr_admin_menu_manage'],
-							'check' => 'a_guildrequest_manage'),
-						2 => array(
-							'link' => $eqdkp_root_path . 'plugins/guildrequest/admin/formedit.php' . $SID,
-							'text' => $user->lang['gr_admin_menu_formedit'],
-							'check' => 'a_guildrequest_manage'),
-				));
-				return $admin_menu;
-			}
 		return;
-		}
+	}
 
+	// Generate the Admin Menu
+	function gen_admin_menu() {
+		global $user, $SID, $eqdkp_root_path;
+		$url_prefix = ( EQDKP_VERSION < '1.3.2' ) ? $eqdkp_root_path : '';
+
+		if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest') && $user->check_auth('a_guildrequest_', false)) {
+			$admin_menu = array(
+				'guildrequest' => array(
+					99	=> './../../plugins/guildrequest/images/write.png',
+					0		=> $user->lang['guildrequest'],
+					1		=> array(
+						'link' => $url_prefix . 'plugins/guildrequest/admin/settings.php' . $SID,
+						'text' => $user->lang['gr_admin_menu_manage'],
+						'check' => 'a_guildrequest_manage'),
+					2 => array(
+						'link' => $url_prefix . 'plugins/guildrequest/admin/formedit.php' . $SID,
+						'text' => $user->lang['gr_admin_menu_formedit'],
+						'check' => 'a_guildrequest_manage'),
+			));
+			return $admin_menu;
+		}
+	return;
+	}
 
 	function InsertIntoConfig($tarray){
 		foreach($tarray as $fieldname=>$insertvalue){

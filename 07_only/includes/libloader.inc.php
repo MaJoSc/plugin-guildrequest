@@ -12,25 +12,28 @@
   * Package: Guildrequest                                                            *
   \**********************************************************************************/
 
-if (!defined('EQDKP_INC')) {
-	header('HTTP/1.1 403 Forbidden');
-	exit;
-}
-
-$config_vars = array(
-	'gr_inst_version'			=> $this->version,
-	'gr_upd_check'				=> '1',
-	'gr_mail_text1'				=> $user->lang['gr_sett_mail_text1'],
-	'gr_mail_text2'				=> $user->lang['gr_sett_mail_text2'],
-	'gr_welcome_text'			=> $user->lang['gr_sett_welcome_text'],
-	'gr_poll_activated'		=> 'Y',
-	'gr_popup_activated'	=> 'N'
-);
-
-$appvalues_vars = array(
-	'Name'	=> array('singletext', 'Y', '1'),
-	'Class'	=> array('singletext', 'Y', '2'),
-	'Level'	=> array('singletext', 'N', '3'),
-	'Text'	=> array('textfield',  'Y', '4')
-);
+	if (!defined('EQDKP_INC')) {
+		header('HTTP/1.1 403 Forbidden');
+		exit;
+	}
+  
+  // Configuration
+  $myPluginID       = 'guildrequest';
+  $myPluginIncludes = 'includes';
+  
+	// EQDKP PLUS 0.7.x ++
+	if(is_object($libloader)){
+		$libloader->CheckLibVersion('Libraries', false, $pm->plugins[$myPluginID]->fwversion);
+		$khrml = $html; $khrml->SetPluginName($myPluginID);
+  
+  // EQDKP PLUS 0.6.3.1 ++
+	}else{
+		if(!file_exists($eqdkp_root_path . 'libraries/libraries.php')) {
+			message_die((($user->lang['libloader_notfound']) ? $user->lang['libloader_notfound'] : 'Library Loader not available! Check if the "eqdkp/libraries/" folder is uploaded correctly'));
+		}
+		require_once($eqdkp_root_path . 'libraries/libraries.php');
+		$libloader  = new libraries();
+		$libloader->CheckLibVersion('Libraries',false, $pm->plugins[$myPluginID]->fwversion);
+		$jquery = $jqueryp; $khrml = new myHTML($myPluginID);
+  }
 ?>
