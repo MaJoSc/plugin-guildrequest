@@ -1,4 +1,7 @@
 <?PHP
+	$up_options = array(
+		'redirect'	=> 'admin.php';
+	);
   $up_updates = array(
     '0.0.3' => array(
       'file'  => '002_to_003.php',

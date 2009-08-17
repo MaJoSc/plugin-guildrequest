@@ -32,15 +32,6 @@ $updchk_enbled = ( $row['gl_updatecheck'] == 1 ) ? true : false;
 // Include the Database Updater
 $grupdater = new PluginUpdater('guildrequest', 'gr_', 'guildrequest_config', 'include');
 
-// The Data for the Cache Table
-$cachedb        = array(
-      'table' => 'guildrequest_config',
-      'data' => $conf['vc_data'],
-      'f_data' => 'vc_data',
-      'lastcheck' => $conf['vc_lastcheck'],
-      'f_lastcheck' => 'vc_lastcheck'
-      );
-
 // The Version Information
 $versionthing   = array(
       'name' => 'guildrequest',
@@ -50,8 +41,8 @@ $versionthing   = array(
       'enabled' => $updchk_enbled
       );
 
-// Start Output à DO NOT CHANGE....
-$rbvcheck = new PluginUpdCheck($versionthing, $cachedb);
+// Start Output ï¿½ DO NOT CHANGE....
+$rbvcheck = new PluginUpdCheck($versionthing);
 $rbvcheck->PerformUpdateCheck();
 
 // ------- UPDATE CHECK - END -------
