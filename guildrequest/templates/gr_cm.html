@@ -1,0 +1,26 @@
+<form action="closingmail.php" method="GET">
+  <table width="100%" cellspacing="0" cellpadding="5">    
+    <tr>
+      <th colspan="2">Mailtext</th>
+    </tr>
+    <tr class="row2">
+      <td>
+        {GR_SENDERMAIL_F}
+      </td>
+      <td>
+        <input type="text" name="sendermail" value="{GR_SENDERMAIL}">
+        <input type="hidden" name="id" value="{GR_ID}">
+      </td>
+    </tr>
+    <tr class="row1">
+      <td colspan="2">
+        {GR_CM_ANSWER}<textarea name="answer" id="closingtext" class="jTagEditor">{GR_ANSWERTEXT}</textarea>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2">
+        <input type="submit" value="eintragen" name="closing_submit" class="mainoption">
+      </th>
+    </tr>
+</table>
+</form>
