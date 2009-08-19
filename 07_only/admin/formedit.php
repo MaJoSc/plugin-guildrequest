@@ -33,8 +33,16 @@ if ($in->get('form_submit')){
 	$conf['gr_welcome_text'] = $in->get('welcometext', '');
 
 		$row=1;
-		for ($row=1; $row <= 255; $row++){
-			if ($in->get($row.'_id') != ''){
+		for ($row=1; $row <= 1024; $row++){
+			if ($in->get($row.'_new')){
+				$db->query("INSERT INTO __guildrequest_appvalues :params", array(
+											'id'				=> $db->escape($in->get($row.'_id', 0)),
+											'value'			=> $db->escape($in->get($row.'_value', '')),
+											'type'			=> $db->escape($in->get($row.'_type', '')),
+											'required'	=> $db->escape($in->get($row.'_required', '')),
+											'sort'			=> $db->escape($in->get($row.'_sort', 0)),
+							));
+			} elseif ($in->get($row.'_id') != ''){
 				$db->query("UPDATE __guildrequest_appvalues SET :params WHERE id='".$row."'", array(
 											'id'				=> $db->escape($in->get($row.'_id', 0)),
 											'value'			=> $db->escape($in->get($row.'_value', '')),
@@ -47,8 +55,7 @@ if ($in->get('form_submit')){
 }
 
 // Generate the Output
-//	$form_output = '<table width="100%" border="0">';
-	if ($in->get('form_preview')){
+	if (($in->get('form_preview', '')) or ($in->get('form_addrow'))){
 		for ($row=1; $row <= 1024; $row++){
 			if ($in->get($row.'_id') != ''){
 				$line[$row]['id']				= $in->get($row.'_id', 0);
@@ -56,8 +63,19 @@ if ($in->get('form_submit')){
 				$line[$row]['type']			= $in->get($row.'_type', '');
 				$line[$row]['required']	= $in->get($row.'_required', '');
 				$line[$row]['sort']			= $in->get($row.'_sort', 0);
+				$line[$row]['new']			= $in->get($row.'_new', 0);
 			}
 		}
+		if ($in->get('form_addrow', '')){
+			$row++;
+			$line[$row]['id']				= $in->get('new_id', '');
+			$line[$row]['value']		= $in->get('new_value', '');
+			$line[$row]['type']			= $in->get('new_type', '');
+			$line[$row]['required']	= $in->get('new_required', '');
+			$line[$row]['sort']			= $in->get('new_sort', 0);
+			$line[$row]['new']			= '1';
+		}
+		System_Message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
 	} else {
 		$form_sql = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
 		$row = 1;
@@ -67,21 +85,25 @@ if ($in->get('form_submit')){
 			$line[$row]['type']			= $form_qry['type'];
 			$line[$row]['required']	= $form_qry['required'];
 			$line[$row]['sort']			= $form_qry['sort'];
+			$line[$row]['new']			= 'N';
 			$row++;
 		}
 	}
 
-	$form_output = '<table width="100%">';
+	$form_output = '';
 	foreach ($line as $out){
 		$form_output .= '<tr class="'.$eqdkp->switch_row_class().'">
-											<td><input name="'.sanitize($out['id']).'_id" value="'.sanitize($out['id']).'" /></td>
-											<td><input name="'.sanitize($out['id']).'_value" value="'.sanitize($out['value']).'" /></td>
-											<td><input name="'.sanitize($out['id']).'_type" value="'.sanitize($out['type']).'" /></td>
-											<td><input name="'.sanitize($out['id']).'_required" value="'.sanitize($out['required']).'" /></td>
-											<td><input name="'.sanitize($out['id']).'_sort" value="'.sanitize($out['sort']).'" /></td>
+											<td><input type="text" name="'.sanitize($out['id']).'_id" value="'.sanitize($out['id']).'" /></td>
+											<td><input type="text" name="'.sanitize($out['id']).'_value" value="'.sanitize($out['value']).'" /></td>
+											<td><input type="text" name="'.sanitize($out['id']).'_type" value="'.sanitize($out['type']).'" /></td>
+											<td><input type="text" name="'.sanitize($out['id']).'_required" value="'.sanitize($out['required']).'" /></td>
+											<td>
+												<input type="text" name="'.sanitize($out['id']).'_sort" value="'.sanitize($out['sort']).'" />
+												<input type="hidden" name="'.sanitize($out['id']).'_new" value="'.sanitize($out['new']).'" />
+											</td>
+											<td>&nbsp;</td>
 										</tr>';
 	}
-	$form_output .= '</table>';
 
 // Deliver the output to the template
 $tpl->assign_vars(array (
@@ -90,6 +112,13 @@ $tpl->assign_vars(array (
 	'GR_WELCOME'				=> $jquery->wysiwyg('welcometext').'<textarea name="welcometext" id="welcometext" class="jTagEditor">'.sanitize($conf['gr_welcome_text']).'</textarea>',
 	'GR_FORM_OUTPUT'		=> $form_output,
 
+	'GR_NEW_ID'					=> $out['id']+1,
+	'GR_NEW_SORT'				=> $out['sort']+1,
+				$line[$row]['id']				= $in->get('new_id', 0),
+				$line[$row]['value']		= $in->get('new_value', ''),
+				$line[$row]['type']			= $in->get($row.'new_type', ''),
+				$line[$row]['required']	= $in->get($row.'new_required', ''),
+				$line[$row]['sort']			= $in->get($row.'new_sort', 0),
 
 	// Language Terms
 	'GR_F_WELCOME'			=> $user->lang['gr_admin_f_welcome'],
