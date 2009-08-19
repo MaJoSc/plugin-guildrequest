@@ -3,7 +3,7 @@
 {UPDATE_BOX}
 {STATUS}
 {PREVIEW}
-	<form action="{GR_FILE}" method="POST">
+	<form action="{GR_FILE}" method="GET">
 		<table width="100%" cellpadding="3" cellspacing="0">
 			<tr>
 				<th colspan="6">
@@ -28,8 +28,10 @@
 				</th>
 			</tr>
 			<tr class="row1">
-				<td><input name="new_id" value="{GR_NEW_ID}" /></td>
-				<td><input name="new_value" /></td>
+				<td>
+					<input type="hidden" name="new_id" value="{GR_NEW_ID}" />
+					<input name="new_value" />
+				</td>
 				<td><input name="new_type" /></td>
 				<td><input name="new_required" /></td>
 				<td><input name="new_sort" value="{GR_NEW_SORT}" /></td>

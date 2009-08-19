@@ -54,10 +54,17 @@ if ($in->get('form_submit')){
 		}
 }
 
+	for ($row=1; $row <= 1024; $row++){
+		if ($in->get($row.'_delrow')){
+			$delrow = $row;
+			break;
+		}
+	}
+
 // Generate the Output
-	if (($in->get('form_preview', '')) or ($in->get('form_addrow'))){
+	if (($in->get('form_preview', '')) or ($in->get('form_addrow')) or isset($delrow)){
 		for ($row=1; $row <= 1024; $row++){
-			if ($in->get($row.'_id') != ''){
+			if (($in->get($row.'_id', 0)) && ($delrow != $row)){
 				$line[$row]['id']				= $in->get($row.'_id', 0);
 				$line[$row]['value']		= $in->get($row.'_value', '');
 				$line[$row]['type']			= $in->get($row.'_type', '');
@@ -73,17 +80,19 @@ if ($in->get('form_submit')){
 			$line[$row]['type']			= $in->get('new_type', '');
 			$line[$row]['required']	= $in->get('new_required', '');
 			$line[$row]['sort']			= $in->get('new_sort', 0);
-			$line[$row]['new']			= '1';
+			$line[$row]['new']			= 1;
 		} else {
-			$tpl->assign_vars(array (
-				'PREVIEW'		=> '<script language="JavaScript" type="text/javascript">
-											function preview(){
-												'.$jquery->Dialog_URL('GRPreview', $user->lang['gr_admin_f_preview'], $eqdkp_root_path . 'plugins/guildrequest/admin/preview.php?line='.serialize($line), '800', '600').'
-											}
-										</script>
-										<body onload="javascript:preview()">
-										</body>',
-			));
+			if (!$delrow){
+				$tpl->assign_vars(array (
+					'PREVIEW'		=> '<script language="JavaScript" type="text/javascript">
+												function preview(){
+													'.$jquery->Dialog_URL('GRPreview', $user->lang['gr_admin_f_preview'], $eqdkp_root_path . 'plugins/guildrequest/admin/preview.php?line='.addslashes(serialize($line)), '800', '600').'
+												}
+											</script>
+											<body onload="javascript:preview()">
+											</body>',
+				));
+			}
 		}
 		System_Message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
 	} else {
@@ -95,7 +104,7 @@ if ($in->get('form_submit')){
 			$line[$row]['type']			= $form_qry['type'];
 			$line[$row]['required']	= $form_qry['required'];
 			$line[$row]['sort']			= $form_qry['sort'];
-			$line[$row]['new']			= 'N';
+			$line[$row]['new']			= 0;
 			$row++;
 		}
 	}
@@ -103,15 +112,19 @@ if ($in->get('form_submit')){
 	$form_output = '';
 	foreach ($line as $out){
 		$form_output .= '<tr class="'.$eqdkp->switch_row_class().'">
-											<td><input type="text" name="'.sanitize($out['id']).'_id" value="'.sanitize($out['id']).'" /></td>
-											<td><input type="text" name="'.sanitize($out['id']).'_value" value="'.sanitize($out['value']).'" /></td>
+											<td>
+												<input type="hidden" name="'.sanitize($out['id']).'_id" value="'.sanitize($out['id']).'" />
+												<input type="text" name="'.sanitize($out['id']).'_value" value="'.sanitize($out['value']).'" />
+											</td>
 											<td><input type="text" name="'.sanitize($out['id']).'_type" value="'.sanitize($out['type']).'" /></td>
 											<td><input type="text" name="'.sanitize($out['id']).'_required" value="'.sanitize($out['required']).'" /></td>
 											<td>
 												<input type="text" name="'.sanitize($out['id']).'_sort" value="'.sanitize($out['sort']).'" />
 												<input type="hidden" name="'.sanitize($out['id']).'_new" value="'.sanitize($out['new']).'" />
 											</td>
-											<td>&nbsp;</td>
+											<td>
+												<input type="submit" name="'.sanitize($out['id']).'_delrow" value="-" />
+											</td>
 										</tr>';
 	}
 
