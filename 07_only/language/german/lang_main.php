@@ -17,6 +17,8 @@ if (!defined('EQDKP_INC')) {
 	exit;
 }
 
+global $eqdkp;
+
 $lang['guildrequest']						= 'GuildRequest';
 $lang['gr_class_short_desc']		= 'Bewerbungs-Plugin';
 $lang['gr_class_long_desc']			= 'Plugin um Bewerbungen zu Verwalten, mit Abstimmungs-Funktion';
@@ -26,9 +28,13 @@ $lang['gr_class_perm_comment']	= 'Kommentieren';
 $lang['gr_class_perm_vote']			= 'Abstimmen';
 $lang['gr_class_perm_offi']			= 'Offi-Kommentare';
 
-$lang['gr_sett_mail_text1']			= 'Mailtext1';
-$lang['gr_sett_mail_text2']			= 'Mailtext2';
-$lang['gr_sett_welcome_text']		= 'Welcometext';
+$lang['gr_sett_mail_text1']			= 'Vielen Dank für dein Interesse an unserer Gilde,
+bitte bestätige deine Bewerbung über folgenden Link:';
+$lang['gr_sett_mail_text2']			= 'mit freundlichen Grüßen
+Die Gildenleitung';
+$lang['gr_sett_close_text']			= 'Deine Bewerbung wurde geschlossen.
+Die Abstimmung ist wie folgt ausgegangen:';
+$lang['gr_sett_welcome_text']		= 'Vielen Dank für dein Interesse bei '.sanitize($eqdkp->config['guildtag']).'. Bitte fülle die folgenden Felder aus:';
 
 $lang['gr_user_aspirant']				= 'Bewerber';
 
@@ -38,13 +44,17 @@ $lang['gr_menu_write']					= 'Bewerbung schreiben';
 $lang['gr_admin_menu_manage']		= 'Einstellungen';
 $lang['gr_admin_menu_formedit']	= 'Formular bearbeiten';
 
-$lang['gr_admin_f_mailtext1']		= 'Mailtext 1 (oberer Teil)';
-$lang['gr_admin_f_mailtext2']		= 'Mailtext 2 (unterer Teil)';
-$lang['gr_admin_f_poll']				= 'Umfragen aktiviert?';
-$lang['gr_admin_f_popup']				= 'Popup bei neuen Bewerbungen?<br />(nur notwendig, falls der Mailversand nicht funktioniert)';
-$lang['gr_admin_f_upd_check']		= 'Updatecheck einschalten?';
-$lang['gr_admin_f_close']				= 'Closetext';
+$lang['gr_admin_s_mailtext1']		= 'Mailtext 1 (oberer Teil)';
+$lang['gr_admin_s_mailtext2']		= 'Mailtext 2 (unterer Teil)';
+$lang['gr_admin_s_poll']				= 'Umfragen aktiviert?';
+$lang['gr_admin_s_popup']				= 'Popup bei neuen Bewerbungen?<br />(nur notwendig, falls der Mailversand nicht funktioniert)';
+$lang['gr_admin_s_upd_check']		= 'Updatecheck einschalten?';
+$lang['gr_admin_s_close']				= 'Closetext';
+
+$lang['gr_admin_f_welcome']			= 'Willkommensnachricht:';
+$lang['gr_admin_f_preview']			= 'Vorschau';
 
 $lang['gr_about_header']				= 'Impressum';
 $lang['gr_save']								= 'speichern';
+$lang['gr_reset']								= 'zurücksetzen';
 ?>

@@ -25,7 +25,7 @@ if ($user->data['user_id'] != ANONYMOUS) {
 
 	if ($poll['config_value'] == 'Y'){
 		if ($user->check_auth('u_guildrequest_view', false)){
-			$request_query = $db->query("SELECT * FROM __guildrequest WHERE activated='Y' AND closed='N'");
+			$request_query = $db->query("SELECT * FROM __guildrequest_users WHERE activated='Y' AND closed='N'");
 			while ($request = $db->fetch_record($request_query)) {
 				$vote_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$request['id']."' AND user_id ='".$user->data['user_id']."'");
 				$vote = $db->fetch_record($vote_query);

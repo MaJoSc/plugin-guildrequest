@@ -66,7 +66,7 @@ if ($in->get('settings_submit')){
 $tpl->assign_vars(array (
 	'UPDATER'				=> $guildrequestupdater->OutputHTML(),
 	'UPDCHECK_BOX'	=> $guildrequestvcheck->OutputHTML(),
-	'F_CONFIG'			=> 'settings.php' . $SID,
+	'GR_S_CONFIG'		=> 'settings.php' . $SID,
 	
 	'GR_MAILTEXT1'	=> $jquery->wysiwyg('mailtext1').'<textarea name="mailtext1" id="mailtext1" class="jTagEditor">'.sanitize($conf['gr_mail_text1']).'</textarea>',
 	'GR_MAILTEXT2'	=> $jquery->wysiwyg('mailtext2').'<textarea name="mailtext2" id="mailtext2" class="jTagEditor">'.sanitize($conf['gr_mail_text2']).'</textarea>',
@@ -77,12 +77,12 @@ $tpl->assign_vars(array (
 
 	// Language Terms
 	'GR_S_TITLE'			=> $user->lang['gr_admin_menu_manage'],
-	'GR_F_MAILTEXT1'	=> $user->lang['gr_admin_f_mailtext1'],
-	'GR_F_MAILTEXT2'	=> $user->lang['gr_admin_f_mailtext2'],
-	'GR_F_POLL'				=> $user->lang['gr_admin_f_poll'],
-	'GR_F_POPUP'			=> $user->lang['gr_admin_f_popup'],
-	'GR_F_UPD_CHECK'	=> $user->lang['gr_admin_f_upd_check'],
-	'GR_F_CLOSETEXT'	=> $user->lang['gr_admin_f_close'],
+	'GR_S_MAILTEXT1'	=> $user->lang['gr_admin_s_mailtext1'],
+	'GR_S_MAILTEXT2'	=> $user->lang['gr_admin_s_mailtext2'],
+	'GR_S_POLL'				=> $user->lang['gr_admin_s_poll'],
+	'GR_S_POPUP'			=> $user->lang['gr_admin_s_popup'],
+	'GR_S_UPD_CHECK'	=> $user->lang['gr_admin_s_upd_check'],
+	'GR_S_CLOSETEXT'	=> $user->lang['gr_admin_s_close'],
 	
 	'GR_SAVE'					=> $user->lang['gr_save'],
 ));
