@@ -2,30 +2,41 @@
 {UPDCHECK_BOX}
 {UPDATE_BOX}
 {STATUS}
-	<form action="{GR_FILE}" method="GET">
-		<table width="100%">
+{PREVIEW}
+	<form action="{GR_FILE}" method="POST">
+		<table width="100%" cellpadding="3" cellspacing="0">
 			<tr>
-				<th colspan="2">
+				<th colspan="6">
 					{GR_F_WELCOME}
 				</th>
 			</tr>
 			<tr>
-				<td colspan="2" class="row1" valign="top">
+				<td colspan="6" class="row1" valign="top">
 					{GR_WELCOME}
 				</td>
 			</tr>
 			<tr>
-				<th>
+				<th colspan="6">
 					{GR_F_TITLE}
 				</th>
 			</tr>
 			<tr>
-				<td>
-					{GR_FORM_OUTPUT}
-				</td>
+			{GR_FORM_OUTPUT}
+			<tr>
+				<th colspan="6" style:"height:5px;">
+					<td>&nbsp;</td>
+				</th>
+			</tr>
+			<tr class="row1">
+				<td><input name="new_id" value="{GR_NEW_ID}" /></td>
+				<td><input name="new_value" /></td>
+				<td><input name="new_type" /></td>
+				<td><input name="new_required" /></td>
+				<td><input name="new_sort" value="{GR_NEW_SORT}" /></td>
+				<td><input type="submit" name="form_addrow" value="+" /></td>
 			</tr>
 			<tr>
-				<th colspan="2" align="right">
+				<th colspan="6">
 					<input class="mainoption" type="submit" name="form_submit" value="{GR_SAVE}" />
 					<input class="mainoption" type="submit" name="form_preview" value="{GR_F_PREVIEW}" />
 					<input class="liteoption" type="submit" name="form_reset" value="{GR_RESET}" />

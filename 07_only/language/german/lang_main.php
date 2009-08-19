@@ -54,6 +54,8 @@ $lang['gr_admin_s_close']				= 'Closetext';
 $lang['gr_admin_f_welcome']			= 'Willkommensnachricht:';
 $lang['gr_admin_f_preview']			= 'Vorschau';
 
+$lang['gr_js_warning']					= 'Warnung';
+$lang['gr_js_notsaved']					= 'Die &Auml;nderungen sind noch nicht gespeichert!';
 $lang['gr_about_header']				= 'Impressum';
 $lang['gr_save']								= 'speichern';
 $lang['gr_reset']								= 'zurücksetzen';

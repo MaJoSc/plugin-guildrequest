@@ -74,6 +74,16 @@ if ($in->get('form_submit')){
 			$line[$row]['required']	= $in->get('new_required', '');
 			$line[$row]['sort']			= $in->get('new_sort', 0);
 			$line[$row]['new']			= '1';
+		} else {
+			$tpl->assign_vars(array (
+				'PREVIEW'		=> '<script language="JavaScript" type="text/javascript">
+											function preview(){
+												'.$jquery->Dialog_URL('GRPreview', $user->lang['gr_admin_f_preview'], $eqdkp_root_path . 'plugins/guildrequest/admin/preview.php?line='.serialize($line), '800', '600').'
+											}
+										</script>
+										<body onload="javascript:preview()">
+										</body>',
+			));
 		}
 		System_Message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
 	} else {
