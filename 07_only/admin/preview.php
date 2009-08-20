@@ -27,5 +27,25 @@ if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
 }
 
 $line = unserialize($in->get('line'));
-print_r($line);
+
+// Order Output by sorting
+	foreach ($line as $key => $row) {
+			$sort[$key] = $row['sort'];
+	}
+	array_multisort($sort, $line);
+
+echo '<table width="100%">';
+for ($row=0; $row <= 1024; $row++){
+	if ($line[$row]['sort']) {
+	echo '<tr>
+					<td>'.$line[$row]['id'].'</td>
+					<td>'.$line[$row]['value'].'</td>
+					<td>'.$line[$row]['type'].'</td>
+					<td>'.$line[$row]['required'].'</td>
+					<td>'.$line[$row]['sort'].'</td>
+					<td>'.$line[$row]['new'].'</td>
+				</tr>';
+	}
+}
+echo '</table>';
 ?>

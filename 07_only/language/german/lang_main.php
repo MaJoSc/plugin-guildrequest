@@ -53,7 +53,17 @@ $lang['gr_admin_s_close']				= 'Closetext';
 
 $lang['gr_admin_f_welcome']			= 'Willkommensnachricht:';
 $lang['gr_admin_f_preview']			= 'Vorschau';
+$lang['gr_admin_f_newline']			= 'Neue Zeile einf&uuml;gen';
 
+$lang['gr_admin_f_hl_title']		= 'Titel';
+$lang['gr_admin_f_hl_type']			= 'Typ';
+$lang['gr_admin_f_hl_required'] = 'Plichtfeld';
+$lang['gr_admin_f_hl_sort']			= 'Reihenfolge';
+
+$lang['gr_yes']									= 'Ja';
+$lang['gr_no']									= 'Nein';
+$lang['gr_js_saved']						= 'Die &Auml;nderungen wurden gespeichert!';
+$lang['gr_js_saved_head']				= 'Gespeichert!';
 $lang['gr_js_warning']					= 'Warnung';
 $lang['gr_js_notsaved']					= 'Die &Auml;nderungen sind noch nicht gespeichert!';
 $lang['gr_about_header']				= 'Impressum';

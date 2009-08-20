@@ -3,7 +3,18 @@
 {UPDATE_BOX}
 {STATUS}
 {PREVIEW}
-	<form action="{GR_FILE}" method="GET">
+<!-- disable the Enter-Key - begin -->
+<script type="text/javascript">
+	function stopRKey(evt) {
+		var evt = (evt) ? evt : ((event) ? event : null);
+		var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+		if ((evt.keyCode == 13) && (node.type=="text"))  {return false;}
+	}
+	document.onkeypress = stopRKey;
+</script>
+<!-- disable the Enter-Button - end -->
+
+	<form action="{GR_FILE}" method="POST">
 		<table width="100%" cellpadding="3" cellspacing="0">
 			<tr>
 				<th colspan="6">
@@ -19,12 +30,26 @@
 				<th colspan="6">
 					{GR_F_TITLE}
 				</th>
+			<tr class="row1">
+				<td>
+					{GR_F_HL_TITLE}
+				</td>
+				<td>
+					{GR_F_HL_TYPE}
+				</td>
+				<td>
+					{GR_F_HL_REQUIRED}
+				</td>
+				<td colspan="2">
+					{GR_F_HL_SORT}
+				</td>
+			</tr>
 			</tr>
 			<tr>
 			{GR_FORM_OUTPUT}
 			<tr>
 				<th colspan="6" style:"height:5px;">
-					<td>&nbsp;</td>
+					{GR_F_NEWLINE}
 				</th>
 			</tr>
 			<tr class="row1">
@@ -32,10 +57,19 @@
 					<input type="hidden" name="new_id" value="{GR_NEW_ID}" />
 					<input name="new_value" />
 				</td>
-				<td><input name="new_type" /></td>
-				<td><input name="new_required" /></td>
-				<td><input name="new_sort" value="{GR_NEW_SORT}" /></td>
-				<td><input type="submit" name="form_addrow" value="+" /></td>
+				<td>
+					<select name="new_type">
+						<option value="singletext">Einfache Zeile</option>
+						<option value="textfield">Textfeld</option>
+						<option value="dropdown">Auswahlliste</option>
+					</select>
+				</td>
+				<td>
+					<input type="radio" name="new_required" value="Y" />{GR_YES}
+					<input type="radio" name="new_required" value="N" checked="checked" />{GR_NO}
+				</td>
+				<td><input name="new_sort" size="5" value="{GR_NEW_SORT}" /></td>
+				<td><input type="image" src="./../images/add.png" name="form_addrow" value="add" /></td>
 			</tr>
 			<tr>
 				<th colspan="6">
