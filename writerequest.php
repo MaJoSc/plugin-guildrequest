@@ -49,7 +49,7 @@ if (isset($_POST['gr_submit'])){
         }
       }
     
-      $username = strip_tags($in->get('username'));
+      $username = htmlentities(strip_tags($in->get('username')), ENT_QUOTES);
       $password = htmlentities(strip_tags($in->get('password')), ENT_QUOTES);
       $email = htmlentities(strip_tags($in->get('email')), ENT_QUOTES);
       
