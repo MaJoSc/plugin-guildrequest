@@ -49,23 +49,29 @@ if (isset($_POST['gr_submit'])){
         }
       }
     
-      $username = htmlentities(strip_tags($in->get('username')), ENT_QUOTES);
+      $username = strip_tags($in->get('username'));
       $password = htmlentities(strip_tags($in->get('password')), ENT_QUOTES);
       $email = htmlentities(strip_tags($in->get('email')), ENT_QUOTES);
       
       // Create the displayed text for the output
 
-      $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues");
+      $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
       while ($textblk = $db->fetch_record($textblock_qry)){
         if ($_POST[$textblk['ID']] != ''){
-          $textblock .= '<div style="float:left; margin:15px;" [b][i]'.htmlentities(strip_tags($textblk['value']), ENT_QUOTES).':[/b][/i]</div><div style="padding:15px;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div>';
+					if ($textblk['type'] == 'spaceline'){
+						$textblock .= '<p>&nbsp;</p>';
+					} elseif ($textblk['type'] == 'headline'){
+						$textblock .= '<div style="float:left; width:100%; text-align:center; font-size: 1.4em; margin:15px;">[b][i]'.htmlentities(strip_tags($textblk['value']), ENT_QUOTES).'[/b][/i]</div><div class="clear"></div>';
+					} else {
+          	$textblock .= '<div style="float:left; margin:15px;"> [b][i]'.htmlentities(strip_tags($textblk['value']), ENT_QUOTES).':[/b][/i]</div><div style="padding:15px; display:block;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div><div class="clear"></div>';
+					}
         }
       }
 
       if (!$userdouble){
         $activationcode = md5(time().microtime());
         $insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
-  		  '".$db->escape($username)."', 
+  		  	'".$db->escape($username)."', 
           '".$db->escape($email)."', 
           '".$db->escape(md5($password))."',
           '".$db->escape($textblock)."',
@@ -159,6 +165,27 @@ while ($form = $db->fetch_record($form_qry)) {
     $reqstart = '';
     $required = ':';
   }
+<<<<<<< .mine
+	if ($form['type'] == 'headline'){
+		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
+										<td colspan="6" align="center">
+											<input type="hidden" name="'.$form['ID'].'" value="'.$form['value'].'" />
+											<h2>'.$form['value'].'</h2>
+										</td>
+									</tr>';
+	} elseif ($form['type'] == 'spaceline'){
+		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
+										<input type="hidden" name="'.$form['ID'].'" value="<p>&nbsp;</p>" />
+										<td colspan="6">&nbsp;</td>
+									</tr>';
+	} else {
+		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
+    	              <td>&nbsp;</td>
+      	            <td align="right" valign="top">'.$reqstart.$form['value'].$required.'</td>
+        	          <td colspan="4">'.$inputfield.'</td>
+          	      </tr>';
+	}
+=======
 	if ($form['type'] == 'headline'){
 		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
 										<td colspan="6" align="center">
@@ -176,6 +203,7 @@ while ($form = $db->fetch_record($form_qry)) {
         	          <td colspan="4">'.$inputfield.'</td>
           	      </tr>';
 	}
+>>>>>>> .r5773
 }
 
 // ------- THE SOURCE PART - END -------

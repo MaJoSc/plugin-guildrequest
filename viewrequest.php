@@ -213,7 +213,12 @@ if ($in->get('request_id') == ""){
         $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('request_id'))."' AND poll_value='Y'");
         $vote_yes_count = $db->num_rows($vote_yes_count_querey);
     
-        $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
+        if (($vote_yes_count != 0) or ($vote_sum_count != 0)){
+					$vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
+				} else {
+					$vote_yes = 0;
+				}
+
         if ($vote_sum_count == 0) {
         	$vote_no = 0;
         } else {
@@ -249,7 +254,7 @@ if ($in->get('request_id') == ""){
 $tpl->assign_vars(array(
       'GR_USERNAME'   => sanitize($request['username']),
       'GR_VIEWREQUEST' => $user->lang['gr_view'], 
-      'GR_TEXT'       => sanitize($requesttext),
+      'GR_TEXT'       => $requesttext,
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_TEXT_F'     => $user->lang['gr_text_f'],
       'GR_ADMIN_ONLY' => $adminonly,
