@@ -87,7 +87,7 @@ if ($in->get('request_id') == ""){
     
       $tpl->assign_block_vars('admin_request_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
-        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.sanitize($adminlistquery['username']).'</a>',
+        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
         'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$user->lang['gr_vr_view'].'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
@@ -110,7 +110,7 @@ if ($in->get('request_id') == ""){
     
       $tpl->assign_block_vars('admin_not_activated_list', array(
 			  'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
-        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.sanitize($adminlistquery['username']).'</a>',
+        'GR_USERNAME'   => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$adminlistquery['username'].'</a>',
         'GR_TEXT'       => '<a href="viewrequest.php?request_id='.$adminlistquery['id'].'">'.$user->lang['gr_vr_view'].'</a>',
         'GR_REQUEST_ID' => $adminlistquery['id'],
 		  ));
