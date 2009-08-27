@@ -165,7 +165,6 @@ while ($form = $db->fetch_record($form_qry)) {
     $reqstart = '';
     $required = ':';
   }
-<<<<<<< .mine
 	if ($form['type'] == 'headline'){
 		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
 										<td colspan="6" align="center">
@@ -180,30 +179,11 @@ while ($form = $db->fetch_record($form_qry)) {
 									</tr>';
 	} else {
 		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
-    	              <td>&nbsp;</td>
-      	            <td align="right" valign="top">'.$reqstart.$form['value'].$required.'</td>
-        	          <td colspan="4">'.$inputfield.'</td>
-          	      </tr>';
+		      <td>&nbsp;</td>
+		    <td align="right" valign="top">'.$reqstart.$form['value'].$required.'</td>
+			  <td colspan="4">'.$inputfield.'</td>
+	  	      </tr>';
 	}
-=======
-	if ($form['type'] == 'headline'){
-		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
-										<td colspan="6" align="center">
-											<h2>'.$form['value'].'</h2>
-										</td>
-									</tr>';
-	} elseif ($form['type'] == 'spaceline'){
-		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
-										<td colspan="6">&nbsp;</td>
-									</tr>';
-	} else {
-		$formblock .= '<tr class="'.$eqdkp->switch_row_class().'">
-    	              <td>&nbsp;</td>
-      	            <td align="right" valign="top">'.$reqstart.$form['value'].$required.'</td>
-        	          <td colspan="4">'.$inputfield.'</td>
-          	      </tr>';
-	}
->>>>>>> .r5773
 }
 
 // ------- THE SOURCE PART - END -------
