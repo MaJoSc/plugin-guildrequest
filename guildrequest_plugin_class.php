@@ -15,7 +15,7 @@ if (!defined('EQDKP_INC') ){
 }
 
 class guildrequest_plugin_class extends EQdkp_Plugin {
-  var $version    = '0.0.8';
+  var $version    = '0.0.9';
   var $copyright  = 'BadTwin';
   var $vstatus    = 'Stable';
   var $build      = '3601';
