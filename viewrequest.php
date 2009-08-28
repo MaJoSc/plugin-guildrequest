@@ -72,7 +72,7 @@ if ($in->get('request_id') == ""){
       }
     }
     $tpl->assign_block_vars('request_list', array(
-		'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
+			'GR_ROW_CLASS'	=> $eqdkp->switch_row_class(),
       'GR_USERNAME'   => $listquery['username'],
       'GR_TEXT'       => $user->lang['gr_vr_view'],
       'GR_REQUEST_ID' => $listquery['id'],
@@ -252,7 +252,7 @@ if ($in->get('request_id') == ""){
    
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
-      'GR_USERNAME'   => sanitize($request['username']),
+      'GR_USERNAME'   => $request['username'],
       'GR_VIEWREQUEST' => $user->lang['gr_view'], 
       'GR_TEXT'       => $requesttext,
       'GR_USERNAME_F' => $user->lang['gr_username_f'],

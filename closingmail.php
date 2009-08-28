@@ -52,11 +52,11 @@ while ($settings = $db->fetch_record($settings_query)){
 }
 
 if ($setting['gr_poll_activated'] == 'Y') {
-  $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get($opt_id))."'");
+  $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('id', 0))."'");
   $vote_sum_count = $db->num_rows($vote_sum_count_query);
    
-  $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get($opt_id))."' AND poll_value='Y'");
-  $vote_yes_count = $db->num_rows($vote_yes_count_querey);
+  $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('id', 0))."' AND poll_value='Y'");
+  $vote_yes_count = $db->num_rows($vote_yes_count_query);
     
   $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
   $vote_no = (100 - $vote_yes);
