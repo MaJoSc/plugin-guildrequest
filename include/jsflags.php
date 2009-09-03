@@ -24,7 +24,7 @@
 					$vote = $db->fetch_record($vote_query);
 					if (!isset($vote['id'])){
 						$request_text = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'"><b>'.$user->lang['gr_vr_view'].'</b></a>';
-						$request_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'">'.$user->lang['gr_pu_new_query'].'<i>'.sanitize($request['username']).'</i></a>';
+						$request_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php?request_id='.$request['id'].'">'.$user->lang['gr_pu_new_query'].'<i>'.sanitize(html_entity_decode($request['username'])).'</i></a>';
 						System_Message($request_text, $request_from, 'default');
 					}
 				}
@@ -43,7 +43,7 @@
 				$opopup_query = $db->query("SELECT * FROM __guildrequest WHERE activated='N'");
 				while($opopup = $db->fetch_record($opopup_query)){
 					$opopup_text = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php">'.$user->lang['gr_ad_notactivated_popup'].'</a>';
-					$opopup_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php">'.$opopup['username'].'</a>';
+					$opopup_from = '<a href="'.$eqdkp_root_path.'plugins/guildrequest/viewrequest.php">'.html_entity_decode($opopup['username']).'</a>';
 					System_Message($opopup_text, $opopup_from, 'red');
 				}
 			}
