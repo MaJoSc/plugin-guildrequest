@@ -88,7 +88,7 @@ if ($in->get('gr_submit') != ""){
 	  $login_query = $db->query("SELECT * FROM __guildrequest WHERE username='".$db->escape($in->get('username'))."'");
 	  $login_check = $db->fetch_record($login_query);
 	  
-	  if (md5($in->get('password')]) == $login_check['password']){
+	  if (md5($in->get('password')) == $login_check['password']){
 	    if ($login_check['activated'] != 'Y') {
         System_Message($user->lang['gr_login_not_activated'], $user->lang['gr_write_error'], 'red');
      	  $show_answer = false;
