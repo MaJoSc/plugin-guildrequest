@@ -216,6 +216,7 @@ $tpl->assign_vars(array(
       'GR_SPACELINE'        => $user->lang['gr_ad_form_spaceline'],
       'GR_YES'              => $user->lang['gr_poll_yes'],
       'GR_NO'               => $user->lang['gr_poll_no'],
+			'GR_SAVE'							=> $user->lang['gr_poll_ad_save'],
     ));
 
 // Init the Template
