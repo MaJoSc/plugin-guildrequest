@@ -17,7 +17,7 @@
 	  $poll = $db->fetch_record($poll_query);
   	
 		if ($poll['config_value'] == 'Y'){
-			if ($user->check_auth('u_guildrequest_view', false)){
+			if ($user->check_auth('u_guildrequest_vote', false)){
 				$request_query = $db->query("SELECT * FROM __guildrequest WHERE activated='Y' AND closed='N'");
 				while ($request = $db->fetch_record($request_query)) {
 					$vote_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id = '".$db->escape($request['id'])."' AND user_id ='".$db->escape($user->data['user_id'])."'");
