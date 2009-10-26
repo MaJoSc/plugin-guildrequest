@@ -1,7 +1,7 @@
 <?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
-* ------------------------------------------ * 
+* ------------------------------------------ *
 * Project Start: 01/2009                     *
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
@@ -34,15 +34,15 @@ if ($in->get('closing_submit') != ''){
   $requesttext = $bbcode->toHTML($in->get('answer'));
   $bbcode->SetSmiliePath($eqdkp_root_path.'libraries/jquery/images/editor/icons');
   $requesttext = $bbcode->MyEmoticons($requesttext);
-  
+
   $requesttext = strip_tags($requesttext);
-  
+
   mail($appdetails['email'],
-    'Bewerbung geschlossen',
+    $user->lang['gr_vr_ad_closed'],
     $requesttext,
     'FROM: <'.$in->get('sendermail').'>'
   );
-  
+
   echo "<script>parent.window.location.href = 'viewrequest.php';</script>";
 }
 
@@ -54,24 +54,24 @@ while ($settings = $db->fetch_record($settings_query)){
 if ($setting['gr_poll_activated'] == 'Y') {
   $vote_sum_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('id', 0))."'");
   $vote_sum_count = $db->num_rows($vote_sum_count_query);
-   
+
   $vote_yes_count_query = $db->query("SELECT * FROM __guildrequest_poll WHERE query_id='".$db->escape($in->get('id', 0))."' AND poll_value='Y'");
   $vote_yes_count = $db->num_rows($vote_yes_count_query);
-    
+
   $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
   $vote_no = (100 - $vote_yes);
 }
 
 	$answertext .= $user->lang['gr_ad_closingtext'].'
-	
+
 '.$user->lang['gr_poll_yes'].': '.$vote_yes.'%
 '.$user->lang['gr_poll_no'].': '.$vote_no.'%';
-  
+
   $inputfield = $jquery->wysiwyg('closingtext');
 
 // ------- THE SOURCE PART - END -------
 
-   
+
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
       'GR_SENDERMAIL_F'     => $user->lang['gr_sendermail'],
