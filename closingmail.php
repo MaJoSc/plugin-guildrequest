@@ -79,6 +79,7 @@ $tpl->assign_vars(array(
       'GR_ID'               => sanitize($in->get('id')),
       'GR_CM_ANSWER'        => $inputfield,
       'GR_ANSWERTEXT'       => $answertext,
+      'GR_SUBMIT'						=> $user->lang['gr_ad_sm_submit'],
     ));
 
 // Init the Template

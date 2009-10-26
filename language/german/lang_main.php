@@ -1,7 +1,7 @@
 <?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
-* ------------------------------------------ * 
+* ------------------------------------------ *
 * Project Start: 01/2009                     *
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
@@ -88,7 +88,7 @@ $lang['gr_poll_no']                       = 'Nein';
   $lang['gr_vr_ad_deleted_f']             = 'Gelöscht';
   $lang['gr_vr_ad_deleted']               = 'Die Bewerbung wurde gelöscht';
 
-  
+
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Bewerbungen - Einstellungen';
 $lang['gr_ad_headline_f']                 = 'Begrüßungstext:';
@@ -135,4 +135,5 @@ $lang['gr_poll_voted_yet']                = 'Zwischenstand ';
 $lang['gr_vote']                          = 'Abstimmen';
 $lang['gr_ad_form_headline']              = 'Überschrift';
 $lang['gr_ad_form_spaceline']             = 'Leerzeile';
+$lang['gr_ad_sm_submit']									= 'Absenden';
 ?>
