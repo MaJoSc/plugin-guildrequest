@@ -2,6 +2,10 @@
   body {
     min-width: 1250px;
   }
+
+  #captcha input[type=submit]{
+		visibility: hidden;
+  }
 </style>
 <form action="login.php">
   <table width="100%" cellspacing="0" cellpadding="6">
@@ -50,11 +54,14 @@
       <th colspan="6">&nbsp;</th>
     </tr>
     {GR_FORMBLOCK}
+    <tr>
+			<td colspan="6" class="row2"><div id="captcha">{GR_RECAPTCHA}</div></td>
+    </tr>
     <tr class="row2">
-      <td colspan="6">
+      <th colspan="6">
         <input type="submit" class="mainoption" name="gr_submit" value="{GR_SENDREQUEST}">
         <input type="reset"  class="liteoption"  value="{GR_RESET}">
-      </td>
+      </th>
     </tr>
   </table>
 </form>

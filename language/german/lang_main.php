@@ -140,4 +140,5 @@ $lang['gr_mailnotsent']										= 'Fehler beim senden der Akivierungs-Mail. Bit
 $lang['gr_write_error']										= 'Fehler!';
 $lang['gr_closingmail_hl']								= 'Bewerbung geschlossen';
 $lang['gr_closingmail_submit']						= 'Absenden';
+$lang['gr_wrongcaptcha']									= 'Du hast einen falschen Best&auml;tigungscode eingegeben!';
 ?>

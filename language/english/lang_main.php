@@ -141,4 +141,5 @@ $lang['gr_mailnotsent']										= 'Error while sending activation mail. Please 
 $lang['gr_write_error']										= 'Error!';
 $lang['gr_closingmail_hl']								= 'Application closed';
 $lang['gr_closingmail_submit']						= 'Send';
+$lang['gr_wrongcaptcha']									= 'You\'ve entered a wrong confirmation code!';
 ?>

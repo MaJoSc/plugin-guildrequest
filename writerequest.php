@@ -20,8 +20,23 @@ if (!$pm->check(PLUGIN_INSTALLED, 'guildrequest')) { message_die('The guild requ
 
 // Include the libraries
 include_once($eqdkp_root_path . 'plugins/guildrequest/include/libloader.inc.php');
+$captcha = new recaptcha;
 
 // ------- THE SOURCE PART - START -------
+if ($conf_plus['lib_recaptcha_pkey']){
+	$response = $captcha -> recaptcha_check_answer ($conf_plus['lib_recaptcha_pkey'],
+	 	$_SERVER["REMOTE_ADDR"],
+	 	$in->get('recaptcha_challenge_field'),
+		$in->get('recaptcha_response_field'));
+	if ($response->is_valid){
+		$captchacheck = true;
+	} else {
+		$captchacheck = false;
+	}
+} else {
+	$captchacheck = true;
+}
+
 if (isset($_POST['gr_submit'])){
   // check, if all user-defined required fields are filled
   $reqcheck_qry = $db->query("SELECT * FROM __guildrequest_appvalues WHERE required = 'Y'");
@@ -69,47 +84,52 @@ if (isset($_POST['gr_submit'])){
       }
 
       if (!$userdouble){
-        $activationcode = md5(time().microtime());
-        $insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
-  		  	'".$db->escape($username)."',
-          '".$db->escape($email)."',
-          '".$db->escape(md5($password))."',
-          '".$db->escape($textblock)."',
-          '".$db->escape($activationcode)."')");
+
+				if ($captchacheck) {
+					$activationcode = md5(time().microtime());
+					$insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
+						'".$db->escape($username)."',
+						'".$db->escape($email)."',
+						'".$db->escape(md5($password))."',
+						'".$db->escape($textblock)."',
+						'".$db->escape($activationcode)."')");
 
 
-        // Send Activation Mail
-        $config_query = $db->query("SELECT * FROM __guildrequest_config");
-        while ($gr_config_array = $db->fetch_record($config_query)){
-          $gr_config[$gr_config_array['config_name']] = $gr_config_array['config_value'];
-        }
+					// Send Activation Mail
+					$config_query = $db->query("SELECT * FROM __guildrequest_config");
+					while ($gr_config_array = $db->fetch_record($config_query)){
+						$gr_config[$gr_config_array['config_name']] = $gr_config_array['config_value'];
+					}
 
-				$maileroptions = array(
-					'sender_mail'			=> $conf_plus['lib_email_sender_email'],
-					'mail_type'				=> 'text',
-					'template_type'		=> 'file',
-					'sendmail_path'		=> $conf_plus['lib_email_sendmail_path'],
-					'smtp_auth'				=> $conf_plus['lib_email_smtp_auth'],
-					'smtp_host'				=> $conf_plus['lib_email_smtp_host'],
-					'smtp_username'		=> $conf_plus['lib_email_smtp_user'],
-					'smtp_password'		=> $conf_plus['lib_email_smtp_pw'],
-				);
-				$mailer = new MyMailer($maileroptions);
+					$maileroptions = array(
+						'sender_mail'			=> $conf_plus['lib_email_sender_email'],
+						'mail_type'				=> 'text',
+						'template_type'		=> 'file',
+						'sendmail_path'		=> $conf_plus['lib_email_sendmail_path'],
+						'smtp_auth'				=> $conf_plus['lib_email_smtp_auth'],
+						'smtp_host'				=> $conf_plus['lib_email_smtp_host'],
+						'smtp_username'		=> $conf_plus['lib_email_smtp_user'],
+						'smtp_password'		=> $conf_plus['lib_email_smtp_pw'],
+					);
+					$mailer = new MyMailer($maileroptions);
 
-				$dkplink = $mailer->BuildLink();
+					$dkplink = $mailer->BuildLink();
 
-				$bodyvars = array(
-						'MAILTEXT1'   => $gr_config['gr_mail_text1'],
-						'MAILTEXT2'   => $gr_config['gr_mail_text2'],
-						'ACTLINK'			=> $dkplink.'plugins/guildrequest/activate.php?activationcode='.$activationcode,
-						'USERNAME'		=> $user->lang['gr_username_f'].' '.$in->get('username', ''),
-  					'PASSWORD'		=> $user->lang['gr_password_f'].' '.$in->get('password'),
-				);
-				if ($mailer->SendMailFromAdmin($in->get('email', ''), $user->lang['gr_mail_topic'], 'activationmail.txt', $bodyvars, $conf_plus['lib_email_method'])){
-  	      System_Message($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
-    	    $_POST = '';
+					$bodyvars = array(
+							'MAILTEXT1'   => $gr_config['gr_mail_text1'],
+							'MAILTEXT2'   => $gr_config['gr_mail_text2'],
+							'ACTLINK'			=> $dkplink.'plugins/guildrequest/activate.php?activationcode='.$activationcode,
+							'USERNAME'		=> $user->lang['gr_username_f'].' '.$in->get('username', ''),
+							'PASSWORD'		=> $user->lang['gr_password_f'].' '.$in->get('password'),
+					);
+					if ($mailer->SendMailFromAdmin($in->get('email', ''), $user->lang['gr_mail_topic'], 'activationmail.txt', $bodyvars, $conf_plus['lib_email_method'])){
+						System_Message($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
+						$_POST = '';
+					} else {
+						System_Message($user->lang['gr_mailnotsent'], $user->lang['gr_write_error'], 'red');
+					}
 				} else {
-  	      System_Message($user->lang['gr_mailnotsent'], $user->lang['gr_write_error'], 'red');
+					System_Message($user->lang['gr_wrongcaptcha'], $user->lang['gr_write_error'], 'red');
 				}
       } else {
         $gr_username = $in->get('username');
@@ -194,6 +214,12 @@ while ($form = $db->fetch_record($form_qry)) {
 }
 
 // ------- THE SOURCE PART - END -------
+
+if ($conf_plus['lib_recaptcha_pkey']){
+	$tpl->assign_vars(array(
+		'GR_RECAPTCHA'            => $captcha->GenerateCaptcha(),
+	));
+}
 
 
 // Send the Output to the template Files.
