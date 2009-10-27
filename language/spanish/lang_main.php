@@ -1,7 +1,7 @@
 <?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
-* ------------------------------------------ * 
+* ------------------------------------------ *
 * Project Start: 01/2009                     *
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
@@ -88,7 +88,7 @@ $lang['gr_poll_no']                       = 'No';
   $lang['gr_vr_ad_deleted_f']             = 'Borrada';
   $lang['gr_vr_ad_deleted']               = 'La petición ha sido borrada';
 
-  
+
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Peticiones - Ajustes';
 $lang['gr_ad_poll_activated']             = 'Encuestas activadas';
@@ -135,4 +135,5 @@ $lang['gr_poll_voted_yet']                = 'resultado intermedio ';
 $lang['gr_vote']                          = 'Voto';
 $lang['gr_ad_form_headline']              = 'Cabecera';
 $lang['gr_ad_form_spaceline']             = 'línea vacía';
+$lang['gr_ad_sm_submit']									= 'enviar';
 ?>

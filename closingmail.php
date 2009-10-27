@@ -37,11 +37,22 @@ if ($in->get('closing_submit') != ''){
 
   $requesttext = strip_tags($requesttext);
 
-  mail($appdetails['email'],
-    $user->lang['gr_vr_ad_closed'],
-    $requesttext,
-    'FROM: <'.$in->get('sendermail').'>'
-  );
+	$maileroptions = array(
+		'sender_mail'			=> $in->get('sendermail', ''),
+		'mail_type'				=> 'text',
+		'template_type'		=> 'file',
+		'sendmail_path'		=> $conf_plus['lib_email_sendmail_path'],
+		'smtp_auth'				=> $conf_plus['lib_email_smtp_auth'],
+		'smtp_host'				=> $conf_plus['lib_email_smtp_host'],
+		'smtp_username'		=> $conf_plus['lib_email_smtp_user'],
+		'smtp_password'		=> $conf_plus['lib_email_smtp_pw'],
+	);
+	$mailer = new MyMailer($maileroptions);
+
+	$bodyvars = array(
+			'MAILTEXT'   => $requesttext,
+	);
+	$mailer->SendMailFromAdmin($appdetails['email'], $user->lang['gr_closingmail_hl'], 'closingmail.txt', $bodyvars, $conf_plus['lib_email_method']);
 
   echo "<script>parent.window.location.href = 'viewrequest.php';</script>";
 }
@@ -59,7 +70,11 @@ if ($setting['gr_poll_activated'] == 'Y') {
   $vote_yes_count = $db->num_rows($vote_yes_count_query);
 
   $vote_yes = round(($vote_yes_count/$vote_sum_count)*100);
-  $vote_no = (100 - $vote_yes);
+  if ($vote_sum_count){
+		$vote_no = (100 - $vote_yes);
+  } else {
+		$vote_no = 0;
+  }
 }
 
 	$answertext .= $user->lang['gr_ad_closingtext'].'
@@ -79,7 +94,7 @@ $tpl->assign_vars(array(
       'GR_ID'               => sanitize($in->get('id')),
       'GR_CM_ANSWER'        => $inputfield,
       'GR_ANSWERTEXT'       => $answertext,
-      'GR_SUBMIT'						=> $user->lang['gr_ad_sm_submit'],
+      'GR_SUBMIT_F'					=> $user->lang['gr_closingmail_submit'],
     ));
 
 // Init the Template

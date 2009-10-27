@@ -1,7 +1,7 @@
 <?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
-* ------------------------------------------ * 
+* ------------------------------------------ *
 * Project Start: 01/2009                     *
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
@@ -88,7 +88,7 @@ $lang['gr_poll_no']                       = 'No';
   $lang['gr_vr_ad_deleted_f']             = 'Deleted';
   $lang['gr_vr_ad_deleted']               = 'The request has been deleted';
 
-  
+
 // Administrationsbereich
 $lang['gr_ad_config_headline']            = 'Requests - Settings';
 $lang['gr_ad_poll_activated']             = 'Polls activated';
@@ -117,7 +117,7 @@ $lang['gr_ad_fieldtype_f']                = 'Field Type';
 $lang['gr_ad_requiredfield_f']            = 'Required';
 $lang['gr_ad_editdropdown']               = 'Edit options';
 $lang['gr_ad_editoptions']                = 'Edit options';
-$lang['gr_ad_succ_head']                  = 'Changes saved';
+$lang['gr_ad_succ_head']                  = 'Changes Saved';
 $lang['gr_ad_succ_text']                  = 'The Changes have been saved successfully';
 $lang['gr_ad_err_dropdown']               = 'You didn\'t choose a fieldname';
 $lang['gr_ad_succ_del']                   = 'Field deleted successfully';
@@ -135,4 +135,10 @@ $lang['gr_poll_voted_yet']                = 'Intermediate result ';
 $lang['gr_vote']                          = 'Vote';
 $lang['gr_ad_form_headline']              = 'Headline';
 $lang['gr_ad_form_spaceline']             = 'Empty line';
+$lang['gr_ad_sm_submit']									= 'Send';
+
+$lang['gr_mailnotsent']										= 'Error while sending activation mail. Please contact the administrator.';
+$lang['gr_write_error']										= 'Error!';
+$lang['gr_closingmail_hl']								= 'Application closed';
+$lang['gr_closingmail_submit']						= 'Send';
 ?>

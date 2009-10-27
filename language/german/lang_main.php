@@ -135,5 +135,9 @@ $lang['gr_poll_voted_yet']                = 'Zwischenstand ';
 $lang['gr_vote']                          = 'Abstimmen';
 $lang['gr_ad_form_headline']              = 'Überschrift';
 $lang['gr_ad_form_spaceline']             = 'Leerzeile';
-$lang['gr_ad_sm_submit']									= 'Absenden';
+
+$lang['gr_mailnotsent']										= 'Fehler beim senden der Akivierungs-Mail. Bitte wende dich an den Administrator';
+$lang['gr_write_error']										= 'Fehler!';
+$lang['gr_closingmail_hl']								= 'Bewerbung geschlossen';
+$lang['gr_closingmail_submit']						= 'Absenden';
 ?>
