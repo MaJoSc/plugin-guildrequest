@@ -136,4 +136,9 @@ $lang['gr_vote']                          = 'Vote';
 $lang['gr_ad_form_headline']              = 'Headline';
 $lang['gr_ad_form_spaceline']             = 'Empty line';
 $lang['gr_ad_sm_submit']									= 'Send';
+
+$lang['gr_mailnotsent']										= 'Error while sending activation mail. Please contact the administrator.';
+$lang['gr_write_error']										= 'Error!';
+$lang['gr_closingmail_hl']								= 'Application closed';
+$lang['gr_closingmail_submit']						= 'Send';
 ?>

@@ -1,7 +1,7 @@
 <?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
-* ------------------------------------------ * 
+* ------------------------------------------ *
 * Project Start: 01/2009                     *
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
@@ -33,13 +33,13 @@ if (isset($_POST['gr_submit'])){
   }
 
   if ($_POST['username'] != '' && $_POST['email'] != '' && $_POST['password'] != '' && $requiredfields == 'success'){
-  
+
     // Check the Mail adress
-    function check_email($email) { 
-      $email = eregi('^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}', $email); 
-      return $email; 
-    } 
- 
+    function check_email($email) {
+      $email = eregi('^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}', $email);
+      return $email;
+    }
+
     if (check_email($_POST['email'])){
       $usercheck_query = $db->query("SELECT * FROM __guildrequest");
       while ($usercheck = $db->fetch_record($usercheck_query)) {
@@ -48,11 +48,11 @@ if (isset($_POST['gr_submit'])){
         	break;
         }
       }
-    
+
       $username = htmlentities(strip_tags($in->get('username')), ENT_QUOTES);
       $password = htmlentities(strip_tags($in->get('password')), ENT_QUOTES);
       $email = htmlentities(strip_tags($in->get('email')), ENT_QUOTES);
-      
+
       // Create the displayed text for the output
 
       $textblock_qry = $db->query("SELECT * FROM __guildrequest_appvalues ORDER BY sort");
@@ -61,9 +61,9 @@ if (isset($_POST['gr_submit'])){
 					if ($textblk['type'] == 'spaceline'){
 						$textblock .= '<p>&nbsp;</p>';
 					} elseif ($textblk['type'] == 'headline'){
-						$textblock .= '<div style="float:left; width:100%; text-align:center; font-size: 1.4em; margin:15px;">[b][i]'.htmlentities(strip_tags($textblk['value']), ENT_QUOTES).'[/b][/i]</div><div class="clear"></div>';
+						$textblock .= '<div style="float:left; width:100%; text-align:center; font-size: 1.4em; margin:15px;">[b][i]'.sanitize($textblk['value']).'[/b][/i]</div><div class="clear"></div>';
 					} else {
-          	$textblock .= '<div style="float:left; margin:15px;"> [b][i]'.htmlentities(strip_tags($textblk['value']), ENT_QUOTES).':[/b][/i]</div><div style="padding:15px; display:block;">'.htmlentities(strip_tags($_POST[$textblk['ID']]), ENT_QUOTES).'</div><div class="clear"></div>';
+          	$textblock .= '<div style="float:left; margin:15px;"> [b][i]'.sanitize($textblk['value']).':[/b][/i]</div><div style="padding:15px; display:block;">'.sanitize($_POST[$textblk['ID']]).'</div><div class="clear"></div>';
 					}
         }
       }
@@ -71,39 +71,46 @@ if (isset($_POST['gr_submit'])){
       if (!$userdouble){
         $activationcode = md5(time().microtime());
         $insertquery = $db->query("INSERT INTO __guildrequest (username, email, password, text, activation) VALUES (
-  		  	'".$db->escape($username)."', 
-          '".$db->escape($email)."', 
+  		  	'".$db->escape($username)."',
+          '".$db->escape($email)."',
           '".$db->escape(md5($password))."',
           '".$db->escape($textblock)."',
           '".$db->escape($activationcode)."')");
-        
-        
+
+
         // Send Activation Mail
         $config_query = $db->query("SELECT * FROM __guildrequest_config");
         while ($gr_config_array = $db->fetch_record($config_query)){
           $gr_config[$gr_config_array['config_name']] = $gr_config_array['config_value'];
         }
-    
-        // ---- Mail Text Start - DO NOT CHANGE ----
-      $mailtext = 
-       $gr_config['gr_mail_text1'].'
-        
-http://'.$eqdkp->config['server_name'].$eqdkp->config['server_path'].'plugins/guildrequest/activate.php?activationcode='.$activationcode.'
 
-  '.$user->lang['gr_username_f'].' '.$in->get('username').'
-  '.$user->lang['gr_password_f'].' '.$in->get('password').'
-  
-'.$gr_config['gr_mail_text2'];
-        // ---- Mail Text End ----
-    
-        $mailheader .= 'FROM:'.$eqdkp->config['admin_email'];
-    
-        mail($in->get('email'),
-        $user->lang['gr_mail_topic'],
-        $mailtext,
-        $mailheader);
-        System_Message($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
-        $_POST = '';
+				$maileroptions = array(
+					'sender_mail'			=> $conf_plus['lib_email_sender_email'],
+					'mail_type'				=> 'text',
+					'template_type'		=> 'file',
+					'sendmail_path'		=> $conf_plus['lib_email_sendmail_path'],
+					'smtp_auth'				=> $conf_plus['lib_email_smtp_auth'],
+					'smtp_host'				=> $conf_plus['lib_email_smtp_host'],
+					'smtp_username'		=> $conf_plus['lib_email_smtp_user'],
+					'smtp_password'		=> $conf_plus['lib_email_smtp_pw'],
+				);
+				$mailer = new MyMailer($maileroptions);
+
+				$dkplink = $mailer->BuildLink();
+
+				$bodyvars = array(
+						'MAILTEXT1'   => $gr_config['gr_mail_text1'],
+						'MAILTEXT2'   => $gr_config['gr_mail_text2'],
+						'ACTLINK'			=> $dkplink.'plugins/guildrequest/activate.php?activationcode='.$activationcode,
+						'USERNAME'		=> $user->lang['gr_username_f'].' '.$in->get('username', ''),
+  					'PASSWORD'		=> $user->lang['gr_password_f'].' '.$in->get('password'),
+				);
+				if ($mailer->SendMailFromAdmin($in->get('email', ''), $user->lang['gr_mail_topic'], 'activationmail.txt', $bodyvars, $conf_plus['lib_email_method'])){
+  	      System_Message($user->lang['gr_mailsent'], $user->lang['gr_write_succ'], 'green');
+    	    $_POST = '';
+				} else {
+  	      System_Message($user->lang['gr_mailnotsent'], $user->lang['gr_write_error'], 'red');
+				}
       } else {
         $gr_username = $in->get('username');
         $gr_email = $in->get('email');
@@ -153,11 +160,11 @@ while ($form = $db->fetch_record($form_qry)) {
     $inputfield = '<select name="'.$form['ID'].'">
                   <option value="">-----------</option>'.
                   $dropdown;
-                  '</select>';  	
+                  '</select>';
   } else {
 		$inputfield = '';
 	}
-  
+
   if ($form['required'] == 'Y') {
   	$reqstart = '<b>';
     $required = ':*</b>';
@@ -188,7 +195,7 @@ while ($form = $db->fetch_record($form_qry)) {
 
 // ------- THE SOURCE PART - END -------
 
-   
+
 // Send the Output to the template Files.
 $tpl->assign_vars(array(
       'OUTPUT'        => $output,
@@ -199,12 +206,12 @@ $tpl->assign_vars(array(
       'GR_FORMBLOCK'  => $formblock,
       'GR_USERNAME_F' => $user->lang['gr_username_f'],
       'GR_EMAIL_F' => $user->lang['gr_email_f'],
-      'GR_PASSWORD_F' => $user->lang['gr_password_f'],      
+      'GR_PASSWORD_F' => $user->lang['gr_password_f'],
       'GR_WRITE_HEADLINE' => $user->lang['gr_write_headline'],
       'GR_WRITE_WELCOME'  => $welcometext,
       'GR_SENDREQUEST'    => $user->lang['gr_write_sendrequest'],
       'GR_RESET'          => $user->lang['gr_write_reset'],
-      'GR_INFOBOX'        => $infobox, 
+      'GR_INFOBOX'        => $infobox,
     ));
 
 // Init the Template
