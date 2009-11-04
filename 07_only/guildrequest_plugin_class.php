@@ -43,7 +43,11 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 			'long_description'	=>	$user->lang['gr_class_long_desc'],
 			'homepage'					=>	'http://www.eqdkp-plus.com',
 			'manuallink'				=>	false,
-			'plus_version'			=>	'0.7',
+		));
+		
+		$this->add_dependency(array(
+			'plus_version'			=> '0.7',
+			'lib_version'				=> '2.0.0',
 		));
 
 		$this->add_permission(8955, 'a_guildrequest_manage',	'N', $user->lang['gr_class_perm_manage']);
@@ -88,26 +92,43 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		if($pm->installed['guildrequest']){
 			if ($user_exist_check['username'] != $user->lang['gr_user_aspirant']) {
 				$query = $db->build_query('INSERT', array(
-					'username'       => $user->lang['gr_user_aspirant'],
-					'user_password'  => md5(time().microtime()),
-					'user_email'     => $user->lang['gr_user_email'],
-					'user_alimit'    => $eqdkp->config['default_alimit'],
-					'user_elimit'    => $eqdkp->config['default_elimit'],
-					'user_ilimit'    => $eqdkp->config['default_ilimit'],
-					'user_nlimit'    => $eqdkp->config['default_nlimit'],
-					'user_rlimit'    => $eqdkp->config['default_rlimit'],
-					'user_style'     => $eqdkp->config['default_style'],
-					'user_lang'      => $eqdkp->config['default_lang'],
-					'first_name'     => 'Guildrequest',
-					'user_key'       => '',
-					'user_active'    => '0',
-					'user_lastvisit' => time())
-				);
+					'username'					=> $user->lang['gr_user_aspirant'],
+					'user_password'			=> md5(time().microtime()),
+					'user_email'				=> $user->lang['gr_user_email'],
+					'user_alimit'				=> $eqdkp->config['default_alimit'],
+					'user_elimit'				=> $eqdkp->config['default_elimit'],
+					'user_ilimit'				=> $eqdkp->config['default_ilimit'],
+					'user_nlimit'				=> $eqdkp->config['default_nlimit'],
+					'user_rlimit'				=> $eqdkp->config['default_rlimit'],
+					'user_style'				=> $eqdkp->config['default_style'],
+					'user_lang'					=> $eqdkp->config['default_lang'],
+					'user_key'					=> '',
+					'user_active'				=> 0,
+					'user_lastvisit'		=> time(),
+					'first_name' 				=> 'GuildRequest',
+					'last_name' 				=> '',
+					'country' 					=> '',
+					'town' 							=> '',
+					'state'							=> '',
+					'ZIP_code' 					=> 0,
+					'phone' 						=> 0,
+					'cellphone' 				=> 0,
+					'address'						=> '',
+					'allvatar_nick' 		=> '',
+					'icq' 							=> 0,
+					'skype' 						=> '',
+					'msn' 							=> '',
+					'irq' 							=> '',
+					'gender' 						=> '',
+					'birthday' 					=> '',
+					'privacy_settings'	=> 0,
+				));
+				
 				$sql = 'INSERT INTO __users ' . $query;
 				$this->add_sql(SQL_INSTALL, $sql);
 
 				if (!($db->query($sql))){
-					System_Message('Could not add user information', 'Error', 'red');
+					$eqdkp->message('Could not add user information', 'Error', 'red');
 				}
 				$user_id = $db->insert_id();
 			}
@@ -159,8 +180,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 
 	// Generate the Admin Menu
 	function gen_admin_menu() {
-		global $user, $SID, $eqdkp_root_path;
-		$url_prefix = ( EQDKP_VERSION < '1.3.2' ) ? $eqdkp_root_path : '';
+		global $user, $SID;
 
 		if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest') && $user->check_auth('a_guildrequest_', false)) {
 			$admin_menu = array(
@@ -168,11 +188,11 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 					99	=> './../../plugins/guildrequest/images/write.png',
 					0		=> $user->lang['guildrequest'],
 					1		=> array(
-						'link' => $url_prefix . 'plugins/guildrequest/admin/settings.php' . $SID,
+						'link' => 'plugins/guildrequest/admin/settings.php' . $SID,
 						'text' => $user->lang['gr_admin_menu_manage'],
 						'check' => 'a_guildrequest_manage'),
 					2 => array(
-						'link' => $url_prefix . 'plugins/guildrequest/admin/formedit.php' . $SID,
+						'link' => 'plugins/guildrequest/admin/formedit.php' . $SID,
 						'text' => $user->lang['gr_admin_menu_formedit'],
 						'check' => 'a_guildrequest_manage'),
 			));
