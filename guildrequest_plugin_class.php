@@ -1,7 +1,7 @@
 <?PHP
 /********************************************\
 * Guildrequest Plugin for EQdkp plus         *
-* ------------------------------------------ * 
+* ------------------------------------------ *
 * Project Start: 01/2009                     *
 * Author: BadTwin                            *
 * Copyright: Andreas (BadTwin) Schrottenbaum *
@@ -15,7 +15,7 @@ if (!defined('EQDKP_INC') ){
 }
 
 class guildrequest_plugin_class extends EQdkp_Plugin {
-  var $version    = '0.0.12';
+  var $version    = '0.0.13';
   var $copyright  = 'BadTwin';
   var $vstatus    = 'Stable';
   var $build      = '3601';
@@ -23,9 +23,9 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
   function guildrequest_plugin_class($pm){
 
     global $eqdkp_root_path, $user, $SID, $table_prefix, $db, $eqdkp;
-        
+
     $this->eqdkp_plugin($pm);
-		
+
     $this->pm->get_language_pack('guildrequest');
 
     $this->add_data(array(
@@ -36,7 +36,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
       'template_path'	=> 'plugins/guildrequest/templates/',
       'version'				=> $this->version,)
     );
-        
+
     // Addition Information for eqdkpPLUS
     $this->additional_data = array(
       'author'            => 'BadTwin',
@@ -45,18 +45,18 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
       'homepage'          => 'http://www.eqdkp-plus.com/',
       'manuallink'        => '',
     );
-        
-		// Register the permissions... 
+
+		// Register the permissions...
     $this->add_permission('8955', 'a_guildrequest_manage',  'N', $user->lang['gr_manage']);
     $this->add_permission('8956', 'u_guildrequest_view',    'Y', $user->lang['gr_view']);
     $this->add_permission('8957', 'u_guildrequest_comment', 'Y', $user->lang['gr_comment']);
     $this->add_permission('8958', 'u_guildrequest_vote', 'Y', $user->lang['gr_vote']);
-      
+
     // Add Menus (configuration of the menu entries, see below)
 		$this->add_menu('main_menu1', $this->gen_main_menu1());      // This is the main Menu
 		$this->add_menu('admin_menu', $this->gen_admin_menu());      // This is the admin Menu
 
-    // Define installation. 
+    // Define installation.
 		$sql = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "guildrequest (
 			`id` INT PRIMARY KEY AUTO_INCREMENT,
 		  `username` varchar(255) NOT NULL default '',
@@ -67,7 +67,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
       `activation` varchar(255) NOT NULL default'',
       `activated` ENUM ('N', 'Y') NOT NULL DEFAULT 'N')";
 		$this->add_sql(SQL_INSTALL, $sql);
-		
+
 		$sql = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "guildrequest_config (
 		  `config_name` varchar(255) PRIMARY KEY NOT NULL default '',
 		  `config_value` text NOT NULL default '')";
@@ -78,7 +78,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     $this->InsertIntoTable('gr_poll_activated', 'Y');
     $this->InsertIntoTable('gr_popup_activated', 'N');
     $this->InsertIntoTable('gr_inst_version', $this->version);
-        
+
 		$sql = "CREATE TABLE IF NOT EXISTS " . $table_prefix . "guildrequest_poll (
 		  `id` INT PRIMARY KEY AUTO_INCREMENT,
       `query_id` INT NOT NULL,
@@ -104,14 +104,14 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
                         appoption VARCHAR(255) NOT NULL
                       );";
     $this->add_sql(SQL_INSTALL, $sql);
-                      
-                      
+
+
     // Create a new User for the Guest's comments
     $user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
     $user_exist_check = $db->fetch_record($user_exist_check_qry);
     if($pm->installed['guildrequest']){
       if ($user_exist_check['username'] != $user->lang['gr_user_aspirant']) {
-    	
+
 
         $query = $db->build_query('INSERT', array(
             'username'       => $user->lang['gr_user_aspirant'],
@@ -131,45 +131,45 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
         );
         $sql = 'INSERT INTO __users ' . $query;
         $this->add_sql(SQL_INSTALL, $sql);
-        
+
         if ( !($db->query($sql)) )
         {
             System_Message('Could not add user information', 'Error', 'red');
         }
         $user_id = $db->insert_id();
-        
+
       }
     } else {
       if ($user_exist_check['username'] == $user->lang['gr_user_aspirant']) {
         $sql = "DELETE from __users WHERE username ='".$user->lang['gr_user_aspirant']."' LIMIT 1";
         $db->query($sql);
-      }    
+      }
     }
 
     // Insert the permission for the installing person
     $perm_array = array('8955', '8956', '8957', '8958');
 		$this->set_permissions($perm_array);
-			
+
     // Define uninstallation
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_config");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_poll");
     $this->add_sql(SQL_UNINSTALL, "DROP TABLE IF EXISTS " . $table_prefix . "guildrequest_appvalues");
     $this->add_sql(SQL_UNINSTALL, "DELETE FROM ".$table_prefix."comments WHERE page='guildrequest'");
-    
+
     if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')) {
       if (file_exists($eqdkp_root_path.'plugins/guildrequest/include/jsflags.php')) {
-        include_once($eqdkp_root_path.'plugins/guildrequest/include/jsflags.php');	
+        include_once($eqdkp_root_path.'plugins/guildrequest/include/jsflags.php');
       }
     }
   }
 
   /* GENERATE THE MENUS - START */
-  
+
   // generate the Main Menu
   function gen_main_menu1(){
     global $user, $SID, $db, $eqdkp, $tpl;
-    
+
     // check if its enabled
     if ($this->pm->check(PLUGIN_INSTALLED, 'guildrequest')){
       // Start the Menu array
@@ -194,7 +194,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     }
     return;
   }
-  
+
 	// Generate admin menu
   function gen_admin_menu(){
     global $user, $SID, $eqdkp, $eqdkp_root_path;
@@ -221,7 +221,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     }
     return;
   }
-   
+
   /* GENERATE THE MENUS - END */
 
   // Function for saving the settings from the installing person
@@ -235,9 +235,9 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     		$sql = "UPDATE `".$table_prefix."auth_users` SET auth_setting='".$perm_setting."' WHERE user_id='".$userid."' AND auth_id='".$value."';";
     		$this->add_sql(SQL_INSTALL, $sql);
   		}
-		} 
+		}
 	}
-	
+
 	// Instert Standard Values in the Table
   function InsertIntoTable($fieldname,$insertvalue){
 		global $eqdkp_root_path, $user, $SID, $table_prefix;
