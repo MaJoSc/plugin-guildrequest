@@ -81,7 +81,7 @@ if ($in->get('form_submit')){
 				));
 			}
 		}
-		System_Message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
+		$eqdkp->message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
 	} else {
 		$form_sql = $db->query("SELECT * FROM __guildrequest_appvalues");
 		$row = 1;

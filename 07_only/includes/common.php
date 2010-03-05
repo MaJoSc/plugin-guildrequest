@@ -22,11 +22,7 @@
 	}
 	include_once($eqdkp_root_path . 'common.php');
 	
-	/**
-	* Framework include
-	**/
-	include_once($eqdkp_root_path . 'plugins/guildrequest/includes/libloader.inc.php');
-	
+
 	/**
 	* Load the global Configuration
 	**/
