@@ -81,7 +81,7 @@ if ($in->get('form_submit')){
 				));
 			}
 		}
-		$eqdkp->message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
+		$core->message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
 	} else {
 		$form_sql = $db->query("SELECT * FROM __guildrequest_appvalues");
 		$row = 1;
@@ -141,7 +141,7 @@ if ($in->get('form_submit')){
 			default:
 				$selbox = $out['type'];
 		}
-		$form_output .= '<tr class="'.$eqdkp->switch_row_class().'">
+		$form_output .= '<tr class="'.$core->switch_row_class().'">
 											<td>
 												<input type="hidden" name="'.sanitize($out['id']).'_id" value="'.sanitize($out['id']).'" />
 												<input type="text" name="'.sanitize($out['id']).'_value" value="'.sanitize($out['value']).'" />
@@ -188,8 +188,8 @@ $tpl->assign_vars(array (
 	'GR_RESET'					=> $user->lang['gr_reset'],
 ));
 
-$eqdkp->set_vars(array (
-	'page_title' => sprintf($user->lang['admin_title_prefix'], $eqdkp->config['guildtag'], $eqdkp->config['dkp_name']).': '.$user->lang['guildrequest'],
+$core->set_vars(array (
+	'page_title' => sprintf($user->lang['admin_title_prefix'], $core->config['guildtag'], $core->config['dkp_name']).': '.$user->lang['guildrequest'],
 	'template_path' => $pm->get_data('guildrequest', 'template_path'),
 	'template_file' => 'admin/formedit.html', 'display' => true
 	)

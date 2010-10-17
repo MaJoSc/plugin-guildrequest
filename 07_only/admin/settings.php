@@ -87,8 +87,8 @@ $tpl->assign_vars(array (
 	'GR_SAVE'					=> $user->lang['gr_save'],
 ));
 
-$eqdkp->set_vars(array (
-	'page_title' => sprintf($user->lang['admin_title_prefix'], $eqdkp->config['guildtag'], $eqdkp->config['dkp_name']).': '.$user->lang['guildrequest'],
+$core->set_vars(array (
+	'page_title' => sprintf($user->lang['admin_title_prefix'], $core->config['guildtag'], $core->config['dkp_name']).': '.$user->lang['guildrequest'],
 	'template_path' => $pm->get_data('guildrequest', 'template_path'),
 	'template_file' => 'admin/settings.html', 'display' => true
 	)

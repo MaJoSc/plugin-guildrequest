@@ -17,7 +17,7 @@ if (!defined('EQDKP_INC')) {
 	exit;
 }
 
-global $eqdkp;
+global $core;
 
 $lang['guildrequest']						= 'GuildRequest';
 $lang['gr_class_short_desc']		= 'Bewerbungs-Plugin';
@@ -34,7 +34,7 @@ $lang['gr_sett_mail_text2']			= 'mit freundlichen Grüßen
 Die Gildenleitung';
 $lang['gr_sett_close_text']			= 'Deine Bewerbung wurde geschlossen.
 Die Abstimmung ist wie folgt ausgegangen:';
-$lang['gr_sett_welcome_text']		= 'Vielen Dank für dein Interesse bei '.sanitize($eqdkp->config['guildtag']).'. Bitte fülle die folgenden Felder aus:';
+$lang['gr_sett_welcome_text']		= 'Vielen Dank für dein Interesse bei '.sanitize($core->config['guildtag']).'. Bitte fülle die folgenden Felder aus:';
 
 $lang['gr_user_aspirant']				= 'Bewerber';
 

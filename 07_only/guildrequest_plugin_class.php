@@ -25,7 +25,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
   var $fwversion  = '1.0.2';  // required framework Version
 
 	function guildrequest_plugin_class($pm) {
-		global $eqdkp_root_path, $user, $db, $eqdkp;
+		global $eqdkp_root_path, $user, $db, $core;
 
 		$this->eqdkp_plugin($pm);
 		$this->pm->get_language_pack('guildrequest');
@@ -95,13 +95,13 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 					'username'					=> $user->lang['gr_user_aspirant'],
 					'user_password'			=> md5(time().microtime()),
 					'user_email'				=> $user->lang['gr_user_email'],
-					'user_alimit'				=> $eqdkp->config['default_alimit'],
-					'user_elimit'				=> $eqdkp->config['default_elimit'],
-					'user_ilimit'				=> $eqdkp->config['default_ilimit'],
-					'user_nlimit'				=> $eqdkp->config['default_nlimit'],
-					'user_rlimit'				=> $eqdkp->config['default_rlimit'],
-					'user_style'				=> $eqdkp->config['default_style'],
-					'user_lang'					=> $eqdkp->config['default_lang'],
+					'user_alimit'				=> $core->config['default_alimit'],
+					'user_elimit'				=> $core->config['default_elimit'],
+					'user_ilimit'				=> $core->config['default_ilimit'],
+					'user_nlimit'				=> $core->config['default_nlimit'],
+					'user_rlimit'				=> $core->config['default_rlimit'],
+					'user_style'				=> $core->config['default_style'],
+					'user_lang'					=> $core->config['default_lang'],
 					'user_key'					=> '',
 					'user_active'				=> 0,
 					'user_lastvisit'		=> time(),
@@ -128,7 +128,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 				$this->add_sql(SQL_INSTALL, $sql);
 
 				if (!($db->query($sql))){
-					$eqdkp->message('Could not add user information', 'Error', 'red');
+					$core->message('Could not add user information', 'Error', 'red');
 				}
 				$user_id = $db->insert_id();
 			}
