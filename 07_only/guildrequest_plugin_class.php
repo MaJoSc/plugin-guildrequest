@@ -89,7 +89,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
     // Create a new User for the Guest's comments
 		$user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
 		$user_exist_check = $db->fetch_record($user_exist_check_qry);
-		if($pm->installed['guildrequest']){
+		if(isset($pm->installed['guildrequest'])){
 			if ($user_exist_check['username'] != $user->lang['gr_user_aspirant']) {
 				$query = $db->build_query('INSERT', array(
 					'username'					=> $user->lang['gr_user_aspirant'],
