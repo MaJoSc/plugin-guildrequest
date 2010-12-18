@@ -31,7 +31,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		$this->pm->get_language_pack('guildrequest');
 
 		$this->add_data(array(
-			'name'							=>	$user->lang['guildrequest'],
+			'name'							=>	$user->lang('guildrequest'),
 			'code'							=>	'guildrequest',
 			'path'							=>	'guildrequest',
 			'contact'						=>	'badtwin@gmx.at',
@@ -39,8 +39,8 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 			'imageurl'					=>	'plugins/guildrequest/images/screen.jpg',
 			'version'						=>	$this->version,
 			'author'						=>	$this->copyright,
-			'description'				=>	$user->lang['gr_class_short_desc'],
-			'long_description'	=>	$user->lang['gr_class_long_desc'],
+			'description'				=>	$user->lang('gr_class_short_desc'),
+			'long_description'	=>	$user->lang('gr_class_long_desc'),
 			'homepage'					=>	'http://www.eqdkp-plus.com',
 			'manuallink'				=>	false,
 		));
@@ -50,11 +50,11 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 			'lib_version'				=> '2.0.0',
 		));
 
-		$this->add_permission(8955, 'a_guildrequest_manage',	'N', $user->lang['gr_class_perm_manage']);
-		$this->add_permission(8956, 'u_guildrequest_view', 		'Y', $user->lang['gr_class_perm_view']);
-		$this->add_permission(8957, 'u_guildrequest_comment',	'Y', $user->lang['gr_class_perm_comment']);
-		$this->add_permission(8958, 'u_guildrequest_vote',		'Y', $user->lang['gr_class_perm_vote']);
-		$this->add_permission(8959, 'u_guildrequest_offi',		'N', $user->lang['gr_class_perm_offi']);
+		$this->add_permission(8955, 'a_guildrequest_manage',	'N', $user->lang('gr_class_perm_manage'));
+		$this->add_permission(8956, 'u_guildrequest_view', 		'Y', $user->lang('gr_class_perm_view'));
+		$this->add_permission(8957, 'u_guildrequest_comment',	'Y', $user->lang('gr_class_perm_comment'));
+		$this->add_permission(8958, 'u_guildrequest_vote',		'Y', $user->lang('gr_class_perm_vote'));
+		$this->add_permission(8959, 'u_guildrequest_offi',		'N', $user->lang('gr_class_perm_offi'));
 
 		// Add Menus
 		$this->add_menu('main_menu1', $this->gen_main_menu1());
@@ -87,14 +87,14 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 		}
 
     // Create a new User for the Guest's comments
-		$user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang['gr_user_aspirant']."'");
+		$user_exist_check_qry = $db->query("SELECT * FROM __users WHERE username = '".$user->lang('gr_user_aspirant')."'");
 		$user_exist_check = $db->fetch_record($user_exist_check_qry);
 		if(isset($pm->installed['guildrequest'])){
-			if ($user_exist_check['username'] != $user->lang['gr_user_aspirant']) {
+			if ($user_exist_check['username'] != $user->lang('gr_user_aspirant')) {
 				$query = $db->build_query('INSERT', array(
-					'username'					=> $user->lang['gr_user_aspirant'],
+					'username'					=> $user->lang('gr_user_aspirant'),
 					'user_password'			=> md5(time().microtime()),
-					'user_email'				=> $user->lang['gr_user_email'],
+					'user_email'				=> $user->lang('gr_user_email'),
 					'user_alimit'				=> $core->config['default_alimit'],
 					'user_elimit'				=> $core->config['default_elimit'],
 					'user_ilimit'				=> $core->config['default_ilimit'],
@@ -133,8 +133,8 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 				$user_id = $db->insert_id();
 			}
 		} else {
-			if ($user_exist_check['username'] == $user->lang['gr_user_aspirant']) {
-				$sql = $db->query("DELETE from __users WHERE username ='".$user->lang['gr_user_aspirant']."' LIMIT 1");
+			if ($user_exist_check['username'] == $user->lang('gr_user_aspirant')) {
+				$sql = $db->query("DELETE from __users WHERE username ='".$user->lang('gr_user_aspirant')."' LIMIT 1");
 				$db->free_result($sql);
 			}
 		}
@@ -161,7 +161,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 				$main_menu1 = array(
 					array(
 						'link'	=> 'plugins/' . $this->get_data('path') . '/viewrequest.php' . $SID,
-						'text'	=> $user->lang['gr_menu_view'],
+						'text'	=> $user->lang('gr_menu_view'),
 						'check'	=> 'u_guildrequest_view',
 					)
 				);
@@ -169,7 +169,7 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 				$main_menu1 = array(
 					array(
 						'link'	=> 'plugins/' . $this->get_data('path') . '/writerequest.php' . $SID,
-						'text'	=> $user->lang['gr_menu_write'],
+						'text'	=> $user->lang('gr_menu_write'),
 					)
 				);
 			}
@@ -186,14 +186,14 @@ class guildrequest_plugin_class extends EQdkp_Plugin {
 			$admin_menu = array(
 				'guildrequest' => array(
 					99	=> './../../plugins/guildrequest/images/write.png',
-					0		=> $user->lang['guildrequest'],
+					0		=> $user->lang('guildrequest'),
 					1		=> array(
 						'link' => 'plugins/guildrequest/admin/settings.php' . $SID,
-						'text' => $user->lang['gr_admin_menu_manage'],
+						'text' => $user->lang('gr_admin_menu_manage'),
 						'check' => 'a_guildrequest_manage'),
 					2 => array(
 						'link' => 'plugins/guildrequest/admin/formedit.php' . $SID,
-						'text' => $user->lang['gr_admin_menu_formedit'],
+						'text' => $user->lang('gr_admin_menu_formedit'),
 						'check' => 'a_guildrequest_manage'),
 			));
 			return $admin_menu;

@@ -20,12 +20,12 @@ if (!defined('EQDKP_INC')) {
 $config_vars = array(
 	'gr_inst_version'			=> $this->version,
 	'gr_upd_check'				=> '1',
-	'gr_mail_text1'				=> $user->lang['gr_sett_mail_text1'],
-	'gr_mail_text2'				=> $user->lang['gr_sett_mail_text2'],
-	'gr_welcome_text'			=> $user->lang['gr_sett_welcome_text'],
+	'gr_mail_text1'				=> $user->lang('gr_sett_mail_text1'),
+	'gr_mail_text2'				=> $user->lang('gr_sett_mail_text2'),
+	'gr_welcome_text'			=> $user->lang('gr_sett_welcome_text'),
 	'gr_poll_activated'		=> 'Y',
 	'gr_popup_activated'	=> 'N',
-	'gr_mail_close'				=> $user->lang['gr_sett_close_text'],
+	'gr_mail_close'				=> $user->lang('gr_sett_close_text'),
 );
 
 $appvalues_vars = array(

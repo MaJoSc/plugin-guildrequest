@@ -45,7 +45,7 @@ if ($in->get('form_submit')){
 							));
 			}
 		}
-		System_Message('<center>'.$user->lang['gr_js_saved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_saved_head'].'</center></H2>', 'green');
+		System_Message('<center>'.$user->lang('gr_js_saved').'<br />&nbsp;</center>', '<H2><center>'.$user->lang('gr_js_saved_head').'</center></H2>', 'green');
 }
 
 // Generate the Output
@@ -73,7 +73,7 @@ if ($in->get('form_submit')){
 				$tpl->assign_vars(array (
 					'PREVIEW'		=> '<script language="JavaScript" type="text/javascript">
 												function preview(){
-													'.$jquery->Dialog_URL('GRPreview', $user->lang['gr_admin_f_preview'], $eqdkp_root_path . 'plugins/guildrequest/admin/preview.php?line='.addslashes(serialize($line)), '800', '600').'
+													'.$jquery->Dialog_URL('GRPreview', $user->lang('gr_admin_f_preview'), $eqdkp_root_path . 'plugins/guildrequest/admin/preview.php?line='.addslashes(serialize($line)), '800', '600').'
 												}
 											</script>
 											<body onload="javascript:preview()">
@@ -81,7 +81,7 @@ if ($in->get('form_submit')){
 				));
 			}
 		}
-		$core->message('<center>'.$user->lang['gr_js_notsaved'].'<br />&nbsp;</center>', '<H2><center>'.$user->lang['gr_js_warning'].'</center></H2>', 'red');
+		$core->message('<center>'.$user->lang('gr_js_notsaved').'<br />&nbsp;</center>', '<H2><center>'.$user->lang('gr_js_warning').'</center></H2>', 'red');
 	} else {
 		$form_sql = $db->query("SELECT * FROM __guildrequest_appvalues");
 		$row = 1;
@@ -148,8 +148,8 @@ if ($in->get('form_submit')){
 											</td>
 											<td>'.$selbox.'</td>
 											<td>
-												<input type="radio" name="'.sanitize($out['id']).'_required" value="Y"'.$req_yes.' />'.$user->lang['gr_yes'].'
-												<input type="radio" name="'.sanitize($out['id']).'_required" value="N"'.$req_no.' />'.$user->lang['gr_no'].'
+												<input type="radio" name="'.sanitize($out['id']).'_required" value="Y"'.$req_yes.' />'.$user->lang('gr_yes').'
+												<input type="radio" name="'.sanitize($out['id']).'_required" value="N"'.$req_no.' />'.$user->lang('gr_no').'
 											</td>
 											<td>
 												<input type="text" name="'.sanitize($out['id']).'_sort" size="5" value="'.sanitize($out['sort']).'" />
@@ -172,24 +172,24 @@ $tpl->assign_vars(array (
 	'GR_NEW_SORT'				=> $out['sort']+1,
 
 	// Language Terms
-	'GR_F_WELCOME'			=> $user->lang['gr_admin_f_welcome'],
-	'GR_F_TITLE'				=> $user->lang['gr_admin_menu_formedit'],
-	'GR_F_PREVIEW'			=> $user->lang['gr_admin_f_preview'],
-	'GR_F_NEWLINE'			=> $user->lang['gr_admin_f_newline'],
+	'GR_F_WELCOME'			=> $user->lang('gr_admin_f_welcome'),
+	'GR_F_TITLE'				=> $user->lang('gr_admin_menu_formedit'),
+	'GR_F_PREVIEW'			=> $user->lang('gr_admin_f_preview'),
+	'GR_F_NEWLINE'			=> $user->lang('gr_admin_f_newline'),
 
-	'GR_F_HL_TITLE'			=> $user->lang['gr_admin_f_hl_title'],
-	'GR_F_HL_TYPE'			=> $user->lang['gr_admin_f_hl_type'],
-	'GR_F_HL_REQUIRED'	=> $user->lang['gr_admin_f_hl_required'],
-	'GR_F_HL_SORT'			=> $user->lang['gr_admin_f_hl_sort'],
+	'GR_F_HL_TITLE'			=> $user->lang('gr_admin_f_hl_title'),
+	'GR_F_HL_TYPE'			=> $user->lang('gr_admin_f_hl_type'),
+	'GR_F_HL_REQUIRED'	=> $user->lang('gr_admin_f_hl_required'),
+	'GR_F_HL_SORT'			=> $user->lang('gr_admin_f_hl_sort'),
 
-	'GR_YES'						=> $user->lang['gr_yes'],
-	'GR_NO'							=> $user->lang['gr_no'],
-	'GR_SAVE'						=> $user->lang['gr_save'],
-	'GR_RESET'					=> $user->lang['gr_reset'],
+	'GR_YES'						=> $user->lang('gr_yes'),
+	'GR_NO'							=> $user->lang('gr_no'),
+	'GR_SAVE'						=> $user->lang('gr_save'),
+	'GR_RESET'					=> $user->lang('gr_reset'),
 ));
 
 $core->set_vars(array (
-	'page_title' => sprintf($user->lang['admin_title_prefix'], $core->config['guildtag'], $core->config['dkp_name']).': '.$user->lang['guildrequest'],
+	'page_title' => sprintf($user->lang('admin_title_prefix'), $core->config['guildtag'], $core->config['dkp_name']).': '.$user->lang('guildrequest'),
 	'template_path' => $pm->get_data('guildrequest', 'template_path'),
 	'template_file' => 'admin/formedit.html', 'display' => true
 	)

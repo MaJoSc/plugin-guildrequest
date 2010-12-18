@@ -29,7 +29,7 @@
   // EQDKP PLUS 0.6.3.1 ++
 	}else{
 		if(!file_exists($eqdkp_root_path . 'libraries/libraries.php')) {
-			message_die((($user->lang['libloader_notfound']) ? $user->lang['libloader_notfound'] : 'Library Loader not available! Check if the "eqdkp/libraries/" folder is uploaded correctly'));
+			message_die((($user->lang('libloader_notfound')) ? $user->lang('libloader_notfound') : 'Library Loader not available! Check if the "eqdkp/libraries/" folder is uploaded correctly'));
 		}
 		require_once($eqdkp_root_path . 'libraries/libraries.php');
 		$libloader  = new libraries();

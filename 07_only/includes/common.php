@@ -73,7 +73,7 @@
 	$tpl->assign_vars(array(
 		'GR_FOOTER'	=> '<script language="JavaScript" type="text/javascript">
 											function aboutDialog(){
-												'.$jquery->Dialog_URL('GRAbout', $user->lang['gr_about_header'], $eqdkp_root_path . 'plugins/guildrequest/about.php', '400', '300').'
+												'.$jquery->Dialog_URL('GRAbout', $user->lang('gr_about_header'), $eqdkp_root_path . 'plugins/guildrequest/about.php', '400', '300').'
 											}
 										</script>
 										<table width="100%" cellpadding="20">

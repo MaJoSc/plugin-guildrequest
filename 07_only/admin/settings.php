@@ -76,19 +76,19 @@ $tpl->assign_vars(array (
 	'GR_CLOSETEXT'	=> $jquery->wysiwyg('closetext').'<textarea name="closetext" id="closetext" class="jTagEditor">'.sanitize($conf['gr_mail_close']).'</textarea>',
 
 	// Language Terms
-	'GR_S_TITLE'			=> $user->lang['gr_admin_menu_manage'],
-	'GR_S_MAILTEXT1'	=> $user->lang['gr_admin_s_mailtext1'],
-	'GR_S_MAILTEXT2'	=> $user->lang['gr_admin_s_mailtext2'],
-	'GR_S_POLL'				=> $user->lang['gr_admin_s_poll'],
-	'GR_S_POPUP'			=> $user->lang['gr_admin_s_popup'],
-	'GR_S_UPD_CHECK'	=> $user->lang['gr_admin_s_upd_check'],
-	'GR_S_CLOSETEXT'	=> $user->lang['gr_admin_s_close'],
+	'GR_S_TITLE'			=> $user->lang('gr_admin_menu_manage'),
+	'GR_S_MAILTEXT1'	=> $user->lang('gr_admin_s_mailtext1'),
+	'GR_S_MAILTEXT2'	=> $user->lang('gr_admin_s_mailtext2'),
+	'GR_S_POLL'				=> $user->lang('gr_admin_s_poll'),
+	'GR_S_POPUP'			=> $user->lang('gr_admin_s_popup'),
+	'GR_S_UPD_CHECK'	=> $user->lang('gr_admin_s_upd_check'),
+	'GR_S_CLOSETEXT'	=> $user->lang('gr_admin_s_close'),
 	
-	'GR_SAVE'					=> $user->lang['gr_save'],
+	'GR_SAVE'					=> $user->lang('gr_save'),
 ));
 
 $core->set_vars(array (
-	'page_title' => sprintf($user->lang['admin_title_prefix'], $core->config['guildtag'], $core->config['dkp_name']).': '.$user->lang['guildrequest'],
+	'page_title' => sprintf($user->lang('admin_title_prefix'), $core->config['guildtag'], $core->config['dkp_name']).': '.$user->lang('guildrequest'),
 	'template_path' => $pm->get_data('guildrequest', 'template_path'),
 	'template_file' => 'admin/settings.html', 'display' => true
 	)
