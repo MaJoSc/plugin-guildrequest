@@ -1,0 +1,18 @@
+<form method="post" action="{ACTION}" name="post">
+	<table width="100%" border="0" cellspacing="1" cellpadding="2" class="borderless">
+		<tr>
+			<td align="center" class="menu">{GR_PAGINATION}</td>
+		</tr>
+	</table>
+	<table width="100%" border="0" cellspacing="1" cellpadding="2" class="colorswitch">
+		{PAGE_OUT}
+	</table>
+	<table width="100%" border="0" cellspacing="1" cellpadding="2" class="borderless">
+		<tr>
+			<td align="center" class="menu">{GR_PAGINATION}</td>
+		</tr>
+	</table>
+	<input type="button" name="del" value="{L_gr_delete_selected_requests}" class="mainoption bi_delete"  onclick="delete_warning();" />
+	<input type="hidden" name="del" value="1" disabled="disabled" id="mass_del_submit" />
+{CSRF_TOKEN}
+</form>
