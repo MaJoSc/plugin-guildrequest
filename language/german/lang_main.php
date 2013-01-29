@@ -36,11 +36,11 @@ $lang = array(
   'gr_comment'						=> 'Öffentlichen Kommentar schreiben',
   
   'gr_plugin_not_installed'			=> 'Das GuildRequest-Plugin ist nicht installiert.',
-  'gr_select_options'				=> 'Auswahlfeld-Optionen (1 pro Zeile)',
+  'gr_select_options'				=> 'Optionen (1 pro Zeile)',
   'gr_required'						=> 'Verpflichtend',
   'gr_delete_selected_fields'		=> 'Ausgewählte Felder löschen',
   'gr_types'						=> array(
-	'Textfeld', 'Textbereich', 'Auswahlfeld', 'Gruppenüberschrift', 'Freitext',
+	'Textfeld', 'Textbereich', 'Auswahlfeld', 'Gruppenüberschrift', 'Freitext', 'Checkboxen', 'Radio-Buttons',
   ),
   'gr_add_field'					=> 'Neues Feld hinzufügen',
   'gr_delete_field'					=> 'Feld löschen',
@@ -54,7 +54,6 @@ $lang = array(
   'gr_vote'							=> 'Abstimmung',
   'gr_internal_comments'			=> 'Interne Kommentare',
   'gr_newcomment_subject'			=> 'Neuer Kommentar zu deiner Bewerbung',
-  'gr_closed'						=> 'Deine Bewerbung wurde geschlossen.',
   'gr_status'						=> array('neu', 'in Bearbeitung', 'Aufgenommen', 'Abgelehnt'),
   'gr_status_text'					=> 'Deine Bewerbung befindet sich in folgendem Status: <b>%s</b>',
   'gr_vote_button'					=> 'Abstimmen',

@@ -205,7 +205,7 @@ class guildrequestViewrequest extends page_generic
 			$intGroup++;
 		}
 		
-		if ($row['type'] == 0 || $row['type'] == 1 || $row['type'] == 2){
+		if ($row['type'] == 0 || $row['type'] == 1 || $row['type'] == 2 || $row['type'] == 6){
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
@@ -215,6 +215,22 @@ class guildrequestViewrequest extends page_generic
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 					'NAME'			=> $row['name'],
 					'FIELD'			=> isset($arrContent[$row['id']]) ? $this->autolink($arrContent[$row['id']],array("target"=>"_blank")) : '',
+			));
+		}
+		
+		if ($row['type'] == 5){
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+				));
+				$blnGroupOpen = true;
+			}
+			
+			$content = isset($arrContent[$row['id']]) ? unserialize($arrContent[$row['id']]) : array();
+
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
+					'NAME'			=> $row['name'],
+					'FIELD'			=> implode('; ', array_keys($content)),
 			));
 		}
 

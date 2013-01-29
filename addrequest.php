@@ -68,6 +68,13 @@ class guildrequestAddrequest extends page_generic
 			'input' 	=> $this->in->get(str_replace(" ", "_", $row['name'])),
 			'required'	=> ($row['required']),
 		);
+		if ($row['type'] == 5){
+			$arrInput[$row['name']] = array(
+				'id'		=> $row['id'],
+				'input' 	=> serialize($this->in->getArray(str_replace(" ", "_", $row['name']), 'int')),
+				'required'	=> ($row['required']),
+			);
+		}
 	}
 	$arrInput[$this->user->lang('email')] = array(
 		'input' 	=> $this->in->get('gr_email'),
@@ -77,7 +84,7 @@ class guildrequestAddrequest extends page_generic
 		'input' 	=> $this->in->get('gr_name'),
 		'required'	=> true,
 	);
-	
+
 	$this->data = $arrInput;
 
 	//Check Captcha	
@@ -101,7 +108,7 @@ class guildrequestAddrequest extends page_generic
 	$arrRequired = array();
 	foreach ($arrInput as $key => $val){
 		if (!$val['required']) continue;
-		if ($val['input'] == '') $arrRequired[] = $key;
+		if ($val['input'] == '' || $val['input'] == 'a:0:{}') $arrRequired[] = $key;
 	}
 	if (count($arrRequired) > 0) {
 		$this->core->message(implode(', ', $arrRequired), $this->user->lang('missing_values'), 'red');
@@ -292,6 +299,75 @@ class guildrequestAddrequest extends page_generic
 			$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'			=> $row['name'],
 					'S_NO_FIELDSET' => true,
+			));
+		}
+		
+		//Checkboxes
+		if ($row['type'] == 5){
+			if (!$blnPersonalGroup){
+				$this->add_personal_group();
+				$blnPersonalGroup = true;
+			}
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+				));
+				$blnGroupOpen = true;
+			}
+			
+			$field = '';
+			
+			$selected = isset($this->data[$row['name']]) ? unserialize($this->data[$row['name']]['input']) : array();
+			
+			foreach($row['options'] as $val){
+				$options = array(
+					'fieldtype' => 'checkbox',
+					'name'		=> $row['name'].'['.trim($val).']',
+					'options'	=> trim($val),
+					'no_lang'	=> true,
+					'selected'	=> isset($selected[trim($val)]) ? $selected[trim($val)] : '',
+					'text'		=> trim($val),
+				);
+				$field .= $this->html->widget($options).'&nbsp;&nbsp;&nbsp;';
+			}
+			
+
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
+				'NAME'		=> $row['name'],
+				'FIELD'		=> $field,
+				'REQUIRED'	=> ($row['required']),
+			));
+		}
+		
+		//Radioboxes
+		if ($row['type'] == 6){
+			if (!$blnPersonalGroup){
+				$this->add_personal_group();
+				$blnPersonalGroup = true;
+			}
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+				));
+				$blnGroupOpen = true;
+			}
+			
+			$arrOptions = array();
+			foreach($row['options'] as $val){
+				$arrOptions[trim($val)] = trim($val);
+			}
+			
+			$options = array(
+				'fieldtype' => 'radio',
+				'name'		=> $row['name'],
+				'options'	=> $arrOptions,
+				'no_lang'	=> true,
+				'selected'	=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+			);
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
+				'NAME'		=> $row['name'],
+				'FIELD'		=> $this->html->widget($options),
+				'REQUIRED'	=> ($row['required']),
 			));
 		}
 	}
