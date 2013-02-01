@@ -215,6 +215,7 @@ class guildrequestAddrequest extends page_generic
 				'NAME'		=> $row['name'],
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
+				'HELP'		=> $row['help'],
 			));
 			
 		}
@@ -244,6 +245,7 @@ class guildrequestAddrequest extends page_generic
 				'NAME'		=> $row['name'],
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
+				'HELP'		=> $row['help'],
 			));
 		}
 		
@@ -277,6 +279,7 @@ class guildrequestAddrequest extends page_generic
 				'NAME'		=> $row['name'],
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
+				'HELP'		=> $row['help'],
 			));
 		}
 		
@@ -336,6 +339,7 @@ class guildrequestAddrequest extends page_generic
 				'NAME'		=> $row['name'],
 				'FIELD'		=> $field,
 				'REQUIRED'	=> ($row['required']),
+				'HELP'		=> $row['help'],
 			));
 		}
 		
@@ -368,6 +372,7 @@ class guildrequestAddrequest extends page_generic
 				'NAME'		=> $row['name'],
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
+				'HELP'		=> $row['help'],
 			));
 		}
 	}

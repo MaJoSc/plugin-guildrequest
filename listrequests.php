@@ -48,12 +48,22 @@ class guildrequestListrequests extends page_generic
 	
     $handler = array(
 		//'vote' => array('process' => 'vote', 'csrf' => true, 'check' => 'u_guildrequest_vote'),
+		'mark_all_read' => array('process' => 'mark_all_read', 'csrf' => 'true'),
     );
     parent::__construct(false, $handler,array('guildrequest_requests', 'username'), null, 'gr[]');
 
     $this->process();
   }
+	
+	public function mark_all_read(){
+		$arrApplicationIDs = $this->pdh->get('guildrequest_requests', 'id_list', array());
+		foreach($arrApplicationIDs as $intID){
+			$this->pdh->put('guildrequest_visits', 'add', array($intID));
+		}
+		$this->pdh->process_hook_queue();
+	}
 
+	
   public function delete(){
 	$this->user->check_auth('a_guildrequest_manage');
 	$arrItems = $this->in->getArray('gr', 'int');
@@ -160,6 +170,7 @@ class guildrequestListrequests extends page_generic
 	$this->tpl->assign_vars(array (
 		'PAGE_OUT'			=> $hptt->get_html_table($sort, $pagination_suffix.$date_suffix, $start, $this->user->data['user_rlimit'], $footer_text),
 		'GR_PAGINATION'		=> generate_pagination('listraids.php'.$this->SID.$sort_suffix.$date_suffix, $raid_count, $this->user->data['user_rlimit'], $start),
+		'S_GR_ADMIN'		=> $this->user->check_auth('a_guildrequest_manage'),
 	));
 	
 	$this->confirm_delete($this->user->lang('gr_confirm_delete_requests'));

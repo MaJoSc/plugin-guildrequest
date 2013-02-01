@@ -94,6 +94,7 @@ if (!class_exists('pdh_r_guildrequest_fields'))
             'id' 			=> (int)$row['id'],
             'type'          => $row['type'],
             'name'          => $row['name'],
+			'help'			=> $row['help'],
 			'options'		=> $row['options'],
 			'sortid'		=> (int)$row['sortid'],
 			'required'		=> (int)$row['required'],
@@ -141,6 +142,13 @@ if (!class_exists('pdh_r_guildrequest_fields'))
 	public function get_name($intID){
 		if (isset($this->data[$intID])){
 			return $this->data[$intID]['name'];
+		}
+		return false;
+	}
+	
+	public function get_help($intID){
+		if (isset($this->data[$intID])){
+			return $this->data[$intID]['help'];
 		}
 		return false;
 	}

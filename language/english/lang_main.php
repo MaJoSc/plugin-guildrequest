@@ -71,6 +71,7 @@ $lang = array(
   'gr_delete_success'				=> 'The selected applications have been deleted successfully.',
   'gr_notification'					=> '%s Notifications',
   'gr_notification_open'			=> '%s open',
+  'gr_mark_all_as_read'				=> 'Mark all Applications as read',
 );
 
 ?>

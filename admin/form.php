@@ -73,6 +73,7 @@ class guildrequestForm extends page_generic
 			
 			$strType = $val['type'];
 			$strName = $val['name'];
+			$strHelp = $val['help'];
 			if (isset($val['options']) && $val['options'] != '') {
 				$arrOptions = explode("\n", $val['options']);
 			} else {
@@ -82,7 +83,7 @@ class guildrequestForm extends page_generic
 			$intRequired = (isset($val['required']) && (int)$val['required']) ? 1 : 0;
 			$intInList = (isset($val['in_list']) && (int)$val['in_list']) ? 1 : 0;
 			
-			$this->pdh->put('guildrequest_fields', 'add', array($val['id'], $strType, $strName, $arrOptions, $intSortID, $intRequired, $intInList));
+			$this->pdh->put('guildrequest_fields', 'add', array($val['id'], $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList));
 			$id++;
 		}
 	}
@@ -120,8 +121,10 @@ class guildrequestForm extends page_generic
 		$this->tpl->assign_block_vars('field_row', array(
 			'KEY'				=> $row['id'],
 			'NAME'				=> $row['name'],
+			'HELP'				=> $row['help'],
 			'TYP_DD'			=> $this->html->DropDown('field['.$row['id'].'][type]', $this->user->lang('gr_types'), $row['type'], '', 'onchange="type_change_listener(this)"'),
 			'OPTIONS_DISABLED'	=> ($row['type'] != 2 && $row['type'] != 5 && $row['type'] != 6) ? 'disabled="disabled"' : '',
+			'HELP_DISABLED'		=> ($row['type'] == 3 || $row['type'] == 4) ? 'disabled="disabled"' : '',
 			'OPTIONS_HEIGHT'	=> ($row['type'] != 2 && $row['type'] != 5 && $row['type'] != 6) ? '20' : '60',
 			'OPTIONS'			=> (count($row['options'])) ? implode("\n", $row['options']) : '',
 			'REQUIRED'			=> ($row['required']) ? 'checked="checked"' : '',

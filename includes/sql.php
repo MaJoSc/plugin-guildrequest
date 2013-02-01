@@ -34,6 +34,7 @@ $guildrequestSQL = array(
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`type` VARCHAR(50) NOT NULL,
 	`name` TEXT COLLATE utf8_bin NOT NULL,
+	`help` TEXT COLLATE utf8_bin NULL,
 	`options` TEXT COLLATE utf8_bin DEFAULT NULL,
 	`sortid` INT(10) UNSIGNED NULL DEFAULT '0',
 	`required` TINYINT(3) UNSIGNED NULL DEFAULT '0',

@@ -71,6 +71,7 @@ $lang = array(
   'gr_delete_success'				=> 'Die ausgewählten Bewerbungen wurden erfolgreich gelöscht.',
   'gr_notification'					=> '%s Benachrichtigungen',
   'gr_notification_open'			=> '%s offen',
+  'gr_mark_all_as_read'				=> 'Alle Bewerbungen als gelesen markieren',
 );
 
 ?>

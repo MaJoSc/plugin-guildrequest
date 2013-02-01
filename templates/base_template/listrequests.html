@@ -12,7 +12,11 @@
 			<td align="center" class="menu">{GR_PAGINATION}</td>
 		</tr>
 	</table>
+	<!-- IF S_GR_ADMIN -->
 	<input type="button" name="del" value="{L_gr_delete_selected_requests}" class="mainoption bi_delete"  onclick="delete_warning();" />
 	<input type="hidden" name="del" value="1" disabled="disabled" id="mass_del_submit" />
+	<!-- ENDIF -->
+	<input type="submit" name="mark_all_read" value="{L_gr_mark_all_as_read}" class="bi_ok floatRight"/>
+	<div class="clear"></div>
 {CSRF_TOKEN}
 </form>

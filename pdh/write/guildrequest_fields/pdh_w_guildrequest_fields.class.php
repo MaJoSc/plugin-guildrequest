@@ -38,11 +38,12 @@ if (!class_exists('pdh_w_guildrequest_fields'))
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
-	public function add($intID, $strType, $strName, $arrOptions, $intSortID, $intRequired, $intInList = 0){
+	public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0){
 		$resQuery = $this->db->query("INSERT INTO __guildrequest_fields :params", array(
 			'id'		=> $intID,
 			'type'		=> $strType,
 			'name'		=> $strName,
+			'help'		=> $strHelp,
 			'options'	=> serialize($arrOptions),
 			'sortid' 	=> $intSortID,
 			'required' 	=> $intRequired,
@@ -54,10 +55,11 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 		return false;
 	}
 	
-	public function update($intID, $strType, $strName, $arrOptions, $intSortID, $intRequired, $intInList = 0){
+	public function update($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0){
 		$resQuery = $this->db->query("UPDATE __guildrequest_fields SET :params WHERE id=?", array(
 			'type'		=> $strType,
 			'name'		=> $strName,
+			'help'		=> $strHelp,
 			'options'	=> serialize($arrOptions),
 			'sortid' 	=> $intSortID,
 			'required' 	=> $intRequired,
