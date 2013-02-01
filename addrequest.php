@@ -201,7 +201,7 @@ class guildrequestAddrequest extends page_generic
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
-					'ID'	=> 'information',,
+					'ID'	=> 'information',
 				));
 				$blnGroupOpen = true;
 			}
@@ -230,7 +230,7 @@ class guildrequestAddrequest extends page_generic
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
-					'ID'	=> 'information',,
+					'ID'	=> 'information',
 				));
 				$blnGroupOpen = true;
 			}
@@ -260,7 +260,7 @@ class guildrequestAddrequest extends page_generic
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
-					'ID'	=> 'information',,
+					'ID'	=> 'information',
 				));
 				$blnGroupOpen = true;
 			}
@@ -318,7 +318,7 @@ class guildrequestAddrequest extends page_generic
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
-					'ID'	=> 'information',,
+					'ID'	=> 'information',
 				));
 				$blnGroupOpen = true;
 			}
@@ -357,7 +357,7 @@ class guildrequestAddrequest extends page_generic
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
-					'ID'	=> 'information',,
+					'ID'	=> 'information',
 				));
 				$blnGroupOpen = true;
 			}
