@@ -116,7 +116,7 @@ if (!class_exists("gr_comments")){
 		// ---------------------------------------------------------
 		public function Show(){
 			$this->JScode();
-			$html	= '<div id="htmlCommentTable">';
+			$html	= '<div id="htmlCommentTableGR">';
 			$html	.= $this->Content($this->attach_id, $this->page);
 			$html	.= '</div>';
 
@@ -193,12 +193,12 @@ if (!class_exists("gr_comments")){
 			$html = '<div class="contentBox">';
 			$html .= '<div class="boxHeader"><h1>'.$this->user->lang('comments_write').'</h1></div>';
 			$html .= '<div class="boxContent"><br/>';
-			$html .= '<form id="comment_data" name="comment_data" action="'.$this->root_path.'plugins/guildrequest/comment.php'.$this->SID.'&amp;out=comments&amp;key='.$this->in->get('key').'" method="post">
+			$html .= '<form id="comment_data_gr" name="comment_data_gr" action="'.$this->root_path.'plugins/guildrequest/comment.php'.$this->SID.'&amp;out=comments&amp;key='.$this->in->get('key').'" method="post">
 						<input type="hidden" name="attach_id" value="'.$attachid.'"/>
 						<input type="hidden" name="page" value="'.$page.'"/>
 						<input type="hidden" name="rpath" value="'.$this->root_path.'"/>
 						<textarea name="comment" rows="10" cols="80" class="mceEditor_bbcode" style="width:100%;"></textarea><br/><br/>
-						<span id="comment_button"><input type="submit" value="'.$this->user->lang('comments_send_bttn').'" class="input"/></span>
+						<span id="comment_button_gr"><input type="submit" value="'.$this->user->lang('comments_send_bttn').'" class="input"/></span>
 					</form>';
 			$html .= '</div></div>';
 			return $html;
@@ -217,25 +217,25 @@ if (!class_exists("gr_comments")){
 							var myrootpath		= $('.comments_myrootpath',	this).text();
 
 							$('#comment_delete').ajaxSubmit({
-								target: '#htmlCommentTable',
+								target: '#htmlCommentTableGR',
 								url:		myrootpath+'plugins/guildrequest/comment.php".$this->SID."&out=comments&key=".$this->in->get('key')."&deleteid='+deleteid+'&page='+page+'&attach_id='+attachid+'&rpath='+myrootpath,
 								success: function() {
-									$('#htmlCommentTable').fadeIn('slow');
+									$('#htmlCommentTableGR').fadeIn('slow');
 								}
 							});
 						});
 
 						// submit Comment
-						$('#comment_data').ajaxForm({
-							target: '#htmlCommentTable',
+						$('#comment_data_gr').ajaxForm({
+							target: '#htmlCommentTableGR',
 							beforeSubmit:  function(){
-								document.getElementById('comment_button').innerHTML='<img src=\"".$this->root_path."images/global/loading.gif\" alt=\"Save\"/> ".$this->user->lang('comments_savewait')."';
+								document.getElementById('comment_button_gr').innerHTML='<img src=\"".$this->root_path."images/global/loading.gif\" alt=\"Save\"/> ".$this->user->lang('comments_savewait')."';
 							},
 							success: function() {
-								$('#htmlCommentTable').fadeIn('slow');
+								$('#htmlCommentTableGR').fadeIn('slow');
 								// clear the input field:
 								$(\".mceEditor_bbcode\").tinymce().setContent('');
-								document.getElementById('comment_button').innerHTML='<input type=\"submit\" value=\"".$this->user->lang('comments_send_bttn')."\" class=\"input\"/>';
+								document.getElementById('comment_button_gr').innerHTML='<input type=\"submit\" value=\"".$this->user->lang('comments_send_bttn')."\" class=\"input\"/>';
 							}
 						});";
 			$this->tpl->add_js($jscode, 'docready');
