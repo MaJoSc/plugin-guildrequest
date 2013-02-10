@@ -65,13 +65,13 @@ class guildrequestAddrequest extends page_generic
 		}
 		$arrInput[$row['name']] = array(
 			'id'		=> $row['id'],
-			'input' 	=> $this->in->get(str_replace(" ", "_", $row['name'])),
+			'input' 	=> $this->in->get('gr_field_'.$row['id']),
 			'required'	=> ($row['required']),
 		);
 		if ($row['type'] == 5){
 			$arrInput[$row['name']] = array(
 				'id'		=> $row['id'],
-				'input' 	=> serialize($this->in->getArray(str_replace(" ", "_", $row['name']), 'int')),
+				'input' 	=> serialize($this->in->getArray('gr_field_'.$row['id'], 'int')),
 				'required'	=> ($row['required']),
 			);
 		}
@@ -182,6 +182,9 @@ class guildrequestAddrequest extends page_generic
 	$this->tpl->assign_block_vars('tabs', array(
 	));
 	
+	$this->add_personal_group();
+	
+	
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		$row['options'] = unserialize($row['options']);
@@ -194,10 +197,6 @@ class guildrequestAddrequest extends page_generic
 		
 		//Input
 		if ($row['type'] == 0){
-			if (!$blnPersonalGroup){
-				$this->add_personal_group();
-				$blnPersonalGroup = true;
-			}
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
@@ -208,7 +207,7 @@ class guildrequestAddrequest extends page_generic
 			
 			$options = array(
 				'fieldtype' => 'text',
-				'name'		=> $row['name'],
+				'name'		=> 'gr_field_'.$row['id'],
 				'javascript'=> 'style="width:95%"',
 				'value'		=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
 			);
@@ -223,10 +222,6 @@ class guildrequestAddrequest extends page_generic
 		
 		//Textarea
 		if ($row['type'] == 1){
-			if (!$blnPersonalGroup){
-				$this->add_personal_group();
-				$blnPersonalGroup = true;
-			}
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
@@ -238,7 +233,7 @@ class guildrequestAddrequest extends page_generic
 			
 			$options = array(
 				'fieldtype' => 'textarea',
-				'name'		=> $row['name'],
+				'name'		=> 'gr_field_'.$row['id'],
 				'javascript'=> 'style="width:95%"',
 				'rows'		=> 10,
 				'value'		=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
@@ -253,10 +248,6 @@ class guildrequestAddrequest extends page_generic
 		
 		//Select
 		if ($row['type'] == 2){
-			if (!$blnPersonalGroup){
-				$this->add_personal_group();
-				$blnPersonalGroup = true;
-			}
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
@@ -273,7 +264,7 @@ class guildrequestAddrequest extends page_generic
 			
 			$options = array(
 				'fieldtype' => 'dropdown',
-				'name'		=> $row['name'],
+				'name'		=> 'gr_field_'.$row['id'],
 				'options'	=> $arrOptions,
 				'no_lang'	=> true,
 				'selected'	=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
@@ -288,10 +279,6 @@ class guildrequestAddrequest extends page_generic
 		
 		//Group Label
 		if ($row['type'] == 3){
-			if (!$blnPersonalGroup){
-				$this->add_personal_group();
-				$blnPersonalGroup = true;
-			}
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $row['name'],
@@ -311,10 +298,6 @@ class guildrequestAddrequest extends page_generic
 		
 		//Checkboxes
 		if ($row['type'] == 5){
-			if (!$blnPersonalGroup){
-				$this->add_personal_group();
-				$blnPersonalGroup = true;
-			}
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
@@ -330,7 +313,7 @@ class guildrequestAddrequest extends page_generic
 			foreach($row['options'] as $val){
 				$options = array(
 					'fieldtype' => 'checkbox',
-					'name'		=> $row['name'].'['.trim($val).']',
+					'name'		=> 'gr_field_'.$row['id'].'['.trim($val).']',
 					'options'	=> trim($val),
 					'no_lang'	=> true,
 					'selected'	=> isset($selected[trim($val)]) ? $selected[trim($val)] : '',
@@ -350,10 +333,6 @@ class guildrequestAddrequest extends page_generic
 		
 		//Radioboxes
 		if ($row['type'] == 6){
-			if (!$blnPersonalGroup){
-				$this->add_personal_group();
-				$blnPersonalGroup = true;
-			}
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
@@ -369,7 +348,7 @@ class guildrequestAddrequest extends page_generic
 			
 			$options = array(
 				'fieldtype' => 'radio',
-				'name'		=> $row['name'],
+				'name'		=> 'gr_field_'.$row['id'],
 				'options'	=> $arrOptions,
 				'no_lang'	=> true,
 				'selected'	=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',

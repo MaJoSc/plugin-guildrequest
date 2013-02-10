@@ -113,7 +113,6 @@ class guildrequestForm extends page_generic
 	$this->confirm_delete($this->user->lang('gr_confirm_delete_field'));
 	$this->jquery->selectall_checkbox('selall_fields', 'field_ids[]');
 	
-	$key = 0;
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
@@ -130,12 +129,10 @@ class guildrequestForm extends page_generic
 			'REQUIRED'			=> ($row['required']) ? 'checked="checked"' : '',
 			'IN_LIST'			=> ($row['in_list']) ? 'checked="checked"' : '',
 		));
-		$key =  $row['id'];
 	}
 		
-		
 	$this->tpl->assign_vars(array(
-		'KEY'		=> $key+1,
+		'KEY'		=> max($arrFields)+1,
 		'TYP_DD'	=> $this->html->DropDown('field[KEY][type]', $this->user->lang('gr_types'), '', '', 'onchange="type_change_listener(this)"'),
 	));
 		

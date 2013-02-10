@@ -38,7 +38,7 @@ class guildrequest extends plugin_generic
     return array_merge(parent::$shortcuts, $shortcuts);
   }
 
-  public $version    = '0.1.4';
+  public $version    = '0.1.5';
   public $build      = '';
   public $copyright  = 'GodMod';
   public $vstatus    = 'Alpha';

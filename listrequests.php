@@ -170,7 +170,7 @@ class guildrequestListrequests extends page_generic
 	$this->tpl->assign_vars(array (
 		'PAGE_OUT'			=> $hptt->get_html_table($sort, $pagination_suffix.$date_suffix, $start, $this->user->data['user_rlimit'], $footer_text),
 		'GR_PAGINATION'		=> generate_pagination('listraids.php'.$this->SID.$sort_suffix.$date_suffix, $raid_count, $this->user->data['user_rlimit'], $start),
-		'S_GR_ADMIN'		=> $this->user->check_auth('a_guildrequest_manage'),
+		'S_GR_ADMIN'		=> $this->user->check_auth('a_guildrequest_manage', false),
 	));
 	
 	$this->confirm_delete($this->user->lang('gr_confirm_delete_requests'));
