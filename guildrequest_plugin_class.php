@@ -142,12 +142,14 @@ class guildrequest extends plugin_generic
     */
   public function pre_uninstall()
   {
-    // include SQL data for uninstallation
+   	 // include SQL data for uninstallation
     include($this->root_path.'plugins/guildrequest/includes/sql.php');
 
     for ($i = 1; $i <= count($guildrequestSQL['uninstall']); $i++)
       $this->add_sql(SQL_UNINSTALL, $guildrequestSQL['uninstall'][$i]);
   }
+  
+  
 
   /**
     * post_uninstall
@@ -159,6 +161,9 @@ class guildrequest extends plugin_generic
 	$special_users = unserialize(stripslashes($this->config->get('special_user')));
 	unset($special_users[$user_id]);
 	$this->config->set('special_user', serialize($special_users));
+	
+	$this->pdh->put('comment', 'delete_page', array('guildrequest'));
+	$this->pdh->put('comment', 'delete_page', array('guildrequest_int'));
   }
 
   /**

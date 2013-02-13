@@ -137,7 +137,7 @@ if (!class_exists("gr_comments")){
 			$this->bbcode->SetSmiliePath($myrootpath.'images/smilies');
 
 			// The delete form
-			$html	= '<form id="comment_delete" name="comment_delete" action="'.$this->root_path.'plugins/guildrequest/comment.php'.$this->SID.'&amp;out=comments&amp;key='.$this->in->get('key').'" method="post">';
+			$html	= '<form id="comment_delete_GR" name="comment_delete_GR" action="'.$this->root_path.'plugins/guildrequest/comment.php'.$this->SID.'&amp;out=comments&amp;key='.$this->in->get('key').'" method="post">';
 			$html	.= '</form>';
 
 			// the content Box
@@ -159,9 +159,9 @@ if (!class_exists("gr_comments")){
 								<div class="floatLeft" style="overflow: hidden; width: 85%;">
 									<span class="small bold">'.htmlspecialchars($row['username']).' am '.$this->time->user_date($row['date'], true).'</span>';
 					if($this->isAdmin){
-						$out[] .= '<div class="comments_delete small bold floatRight hand" ><img src="'.$myrootpath.'images/global/delete.png" alt="" />';
+						$out[] .= '<div class="comments_delete_gr small bold floatRight hand" ><img src="'.$myrootpath.'images/global/delete.png" alt="" />';
 						$out[] .= '<div style="display:none" class="comments_page">'.$page.'</div>';
-						$out[] .= '<div style="display:none" class="comments_deleteid">'.$row['id'].'</div>';
+						$out[] .= '<div style="display:none" class="comments_delete_grid">'.$row['id'].'</div>';
 						$out[] .= '<div style="display:none" class="comments_attachid">'.$attachid.'</div>';
 						$out[] .= '<div style="display:none" class="comments_myrootpath">'.$myrootpath.'</div>';
 						$out[] .= '</div>';
@@ -210,13 +210,13 @@ if (!class_exists("gr_comments")){
 		private function JScode(){
 			$jscode = "
 						// Delete Function
-						$(document).on('click', '.comments_delete', function(){
+						$(document).on('click', '.comments_delete_gr', function(){
 							var page			= $('.comments_page',		this).text();
-							var deleteid		= $('.comments_deleteid',	this).text();
+							var deleteid		= $('.comments_delete_grid',	this).text();
 							var attachid		= $('.comments_attachid',	this).text();
 							var myrootpath		= $('.comments_myrootpath',	this).text();
 
-							$('#comment_delete').ajaxSubmit({
+							$('#comment_delete_GR').ajaxSubmit({
 								target: '#htmlCommentTableGR',
 								url:		myrootpath+'plugins/guildrequest/comment.php".$this->SID."&out=comments&key=".$this->in->get('key')."&deleteid='+deleteid+'&page='+page+'&attach_id='+attachid+'&rpath='+myrootpath,
 								success: function() {
