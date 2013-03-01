@@ -156,7 +156,7 @@ class guildrequestAddrequest extends page_generic
 	//Send Email to User with auth key
 	$server_url = $this->env->link.'plugins/guildrequest/viewrequest.php';
 	$bodyvars = array(
-		'USERNAME'		=> $strName,
+		'USERNAME'		=> sanitize($strName),
 		'U_ACTIVATE' 	=> $server_url . '?id='.$blnResult.'&key=' . $strAuthKey,
 		'GUILDTAG'		=> $this->config->get('guildtag'),
 	);
@@ -166,6 +166,26 @@ class guildrequestAddrequest extends page_generic
 		$this->display();
 		return;
 	} else {
+		//Send Notification Mail to everyone who wants it
+		$bodyvars = array(
+			'U_VIEW' 		=> $server_url . '?id='.$blnResult,
+			'REQUEST_USER'	=> sanitize($strName),
+			'GUILDTAG'		=> $this->config->get('guildtag'),
+		);
+		
+		$arrUserIDs = $this->pdh->get('user', 'id_list', array());
+		foreach($arrUserIDs as $userid){
+			$arrGuildrequestSettings = $this->pdh->get('user', 'plugin_settings', array($userid, 'guildrequest'));
+			if (isset($arrGuildrequestSettings['gr_send_notification_mails']) && $arrGuildrequestSettings['gr_send_notification_mails']){
+				$strEmail = $this->pdh->get('user', 'email', array($userid, true));
+				if ($strEmail != ''){
+					$bodyvars['USERNAME'] = $this->pdh->get('user', 'name', array($userid));
+					$this->email->SendMailFromAdmin($strEmail, $this->user->lang('gr_notification_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_notification.html', $bodyvars);
+				}
+			}
+		}
+	
+	
 		//Redirect to viewrequest page
 		redirect('plugins/guildrequest/viewrequest.php?id='.$blnResult.'&key=' . $strAuthKey.'&msg=success');
 	}
@@ -368,7 +388,7 @@ class guildrequestAddrequest extends page_generic
 		'CAPTCHA'				=> $captcha->recaptcha_get_html($this->config->get('lib_recaptcha_okey')),
 		'S_DISPLAY_CATPCHA'		=> true,
 	));
-			
+	
     // -- EQDKP ---------------------------------------------------------------
     $this->core->set_vars(array (
       'page_title'    => $this->user->lang('gr_add'),
@@ -376,6 +396,8 @@ class guildrequestAddrequest extends page_generic
       'template_file' => 'addrequest.html',
       'display'       => true
     ));
+	
+	
   }
   
   private function add_personal_group(){

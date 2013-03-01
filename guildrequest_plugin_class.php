@@ -38,7 +38,7 @@ class guildrequest extends plugin_generic
     return array_merge(parent::$shortcuts, $shortcuts);
   }
 
-  public $version    = '0.1.5';
+  public $version    = '0.1.6';
   public $build      = '';
   public $copyright  = 'GodMod';
   public $vstatus    = 'Alpha';
@@ -100,6 +100,8 @@ class guildrequest extends plugin_generic
     $this->add_menu('admin_menu', $this->gen_admin_menu());
 	
 	$this->add_menu('main_menu1', $this->gen_main_menu());
+	$this->add_menu('settings', $this->usersettings());
+	
   }
 
   /**
@@ -142,14 +144,12 @@ class guildrequest extends plugin_generic
     */
   public function pre_uninstall()
   {
-   	 // include SQL data for uninstallation
+    // include SQL data for uninstallation
     include($this->root_path.'plugins/guildrequest/includes/sql.php');
 
     for ($i = 1; $i <= count($guildrequestSQL['uninstall']); $i++)
       $this->add_sql(SQL_UNINSTALL, $guildrequestSQL['uninstall'][$i]);
   }
-  
-  
 
   /**
     * post_uninstall
@@ -161,9 +161,6 @@ class guildrequest extends plugin_generic
 	$special_users = unserialize(stripslashes($this->config->get('special_user')));
 	unset($special_users[$user_id]);
 	$this->config->set('special_user', serialize($special_users));
-	
-	$this->pdh->put('comment', 'delete_page', array('guildrequest'));
-	$this->pdh->put('comment', 'delete_page', array('guildrequest_int'));
   }
 
   /**
@@ -216,6 +213,21 @@ class guildrequest extends plugin_generic
 	if ($this->user->check_auth('u_guildrequest_add', false) && $this->user->check_group(2, false)) unset($main_menu[1]);
 
     return $main_menu;
+  }
+  
+  private function usersettings(){
+	$settings = array(
+		'guildrequest' => array(
+			'icon' => $this->root_path.'plugins/guildrequest/images/adminmenu/guildrequest.png',
+		
+		'gr_send_notification_mails'	=> array(
+			'fieldtype'	=> 'checkbox',
+			'default'	=> 0,
+			'name'		=> 'gr_send_notification_mails',
+			'language'	=> 'gr_send_notification_mails',
+		)),
+	);
+	return $settings;
   }
 
 }

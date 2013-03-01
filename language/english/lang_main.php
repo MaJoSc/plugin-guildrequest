@@ -72,6 +72,9 @@ $lang = array(
   'gr_notification'					=> '%s Notifications',
   'gr_notification_open'			=> '%s open',
   'gr_mark_all_as_read'				=> 'Mark all Applications as read',
+  'gr_send_notification_mails'		=> 'Send Notification Email on new application',
+  'gr_closed'						=> 'This application is closed.',
+  'gr_notification_subject'			=> 'New application',
 );
 
 ?>
