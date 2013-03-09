@@ -57,7 +57,8 @@ if (!class_exists('pdh_r_guildrequest_requests'))
      * Hook array
      */
     public $hooks = array(
-      'guildrequest_requests_update'
+      'guildrequest_requests_update',
+	  'guildrequest_visits_update'
     );
 
     /**
