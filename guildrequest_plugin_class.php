@@ -203,6 +203,7 @@ class guildrequest extends plugin_generic
           'link'  => 'plugins/guildrequest/addrequest.php'.$this->SID,
           'text'  => $this->user->lang('gr_add'),
           'check' => 'u_guildrequest_add',
+		  'signedin' => 0,
         ),
 		2 => array (
           'link'  => 'plugins/guildrequest/listrequests.php'.$this->SID,
@@ -210,7 +211,6 @@ class guildrequest extends plugin_generic
           'check' => 'u_guildrequest_view',
         ),
     );
-	if ($this->user->check_auth('u_guildrequest_add', false) && $this->user->check_group(2, false)) unset($main_menu[1]);
 
     return $main_menu;
   }

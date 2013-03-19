@@ -30,7 +30,7 @@ if (!class_exists('guildrequest_portal_hook'))
   class guildrequest_portal_hook extends gen_class
   {
     /* List of dependencies */
-    public static $shortcuts = array('user', 'pdh', 'tpl');
+    public static $shortcuts = array('user', 'pdh', 'tpl', 'ntfy');
 
 	/**
     * hook_portal
@@ -52,6 +52,15 @@ if (!class_exists('guildrequest_portal_hook'))
 					$intOpen++;
 				}
 			}
+			
+			if ($intNew){
+				$this->ntfy->add('yellow', $this->user->lang('guildrequest'), sprintf($this->user->lang('gr_notification'), $intNew), $this->root_path.'plugins/guildrequest/listrequests.php'.$this->SID, $intNew);
+			}
+
+			if ($intOpen && $this->user->check_auth('a_guildrequest_manage', false)){
+				$this->ntfy->add('green', $this->user->lang('guildrequest'), sprintf($this->user->lang('gr_notification_open'), $intOpen), $this->root_path.'plugins/guildrequest/listrequests.php'.$this->SID, $intOpen);
+			}
+			
 			$text = sprintf($this->user->lang('gr_notification'), $intNew);
 			if($intOpen && $this->user->check_auth('a_guildrequest_manage', false)) $text .= ', '.sprintf($this->user->lang('gr_notification_open'), $intOpen);
 			
