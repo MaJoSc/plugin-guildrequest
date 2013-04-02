@@ -64,9 +64,6 @@ if (!class_exists('guildrequest_portal_hook'))
 			$text = sprintf($this->user->lang('gr_notification'), $intNew);
 			if($intOpen && $this->user->check_auth('a_guildrequest_manage', false)) $text .= ', '.sprintf($this->user->lang('gr_notification_open'), $intOpen);
 			
-			$this->tpl->assign_block_vars('personal_area_addition', array(
-				'TEXT' => '<img src="'.$this->root_path.'plugins/guildrequest/images/adminmenu/guildrequest.png" alt="GuildRequest" /><a href="'.$this->root_path.'plugins/guildrequest/listrequests.php'.$this->SID.'"> '. $text.'</a>',
-			));
 		}
 	}
   }
