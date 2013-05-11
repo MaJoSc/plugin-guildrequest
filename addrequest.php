@@ -210,7 +210,7 @@ class guildrequestAddrequest extends page_generic
 		$row['options'] = unserialize($row['options']);
 		
 		//Close previous group
-		if ($row['type'] == 3 || $row['type'] == 4){
+		if ($row['type'] == 3){
 			$blnGroupOpen = false;
 			$intGroup++;
 		}
@@ -310,9 +310,17 @@ class guildrequestAddrequest extends page_generic
 		
 		//Plain text
 		if ($row['type'] == 4){
-			$this->tpl->assign_block_vars('tabs.fieldset', array(
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+					'ID'	=> 'information',
+				));
+				$blnGroupOpen = true;
+			}
+			
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 					'NAME'			=> $row['name'],
-					'S_NO_FIELDSET' => true,
+					'S_NO_DIVIDER' => true,
 			));
 		}
 		

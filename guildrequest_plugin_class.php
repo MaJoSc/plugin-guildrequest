@@ -38,7 +38,7 @@ class guildrequest extends plugin_generic
     return array_merge(parent::$shortcuts, $shortcuts);
   }
 
-  public $version    = '0.1.8';
+  public $version    = '0.1.9';
   public $build      = '';
   public $copyright  = 'GodMod';
   public $vstatus    = 'Alpha';
@@ -225,6 +225,13 @@ class guildrequest extends plugin_generic
 			'default'	=> 0,
 			'name'		=> 'gr_send_notification_mails',
 			'language'	=> 'gr_send_notification_mails',
+		),
+		
+		'gr_jgrowl_notifications'	=> array(
+			'fieldtype'	=> 'checkbox',
+			'default'	=> 0,
+			'name'		=> 'gr_jgrowl_notifications',
+			'language'	=> 'gr_jgrowl_notifications',
 		)),
 	);
 	return $settings;

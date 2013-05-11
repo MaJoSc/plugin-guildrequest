@@ -70,11 +70,12 @@ $lang = array(
   'gr_delete_selected_requests'		=> 'Ausgewählte Bewerbungen löschen',
   'gr_delete_success'				=> 'Die ausgewählten Bewerbungen wurden erfolgreich gelöscht.',
   'gr_notification'					=> '%s Benachrichtigungen',
-  'gr_notification_open'			=> '%s offene Bewerbungen',
+  'gr_notification_open'			=> '%s offen',
   'gr_mark_all_as_read'				=> 'Alle Bewerbungen als gelesen markieren',
   'gr_send_notification_mails'		=> 'Benachrichtigungs-Email bei neuer Bewerbung senden',
   'gr_closed'						=> 'Die Bewerbung wurde geschlossen.',
   'gr_notification_subject'			=> 'Neue Bewerbung',
+  'gr_jgrowl_notifications'			=> 'PopUp-Benachrichtigungen anzeigen',
 );
 
 ?>
