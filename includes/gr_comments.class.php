@@ -229,7 +229,7 @@ if (!class_exists("gr_comments")){
 						$('#comment_data_gr').ajaxForm({
 							target: '#htmlCommentTableGR',
 							beforeSubmit:  function(){
-								document.getElementById('comment_button_gr').innerHTML='<img src=\"".$this->root_path."images/global/loading.gif\" alt=\"Save\"/> ".$this->user->lang('comments_savewait')."';
+								document.getElementById('comment_button_gr').innerHTML='<i class=\"icon-refresh icon-spin icon-large\"></i> ".$this->user->lang('comments_savewait')."';
 							},
 							success: function() {
 								$('#htmlCommentTableGR').fadeIn('slow');
