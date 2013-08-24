@@ -179,7 +179,7 @@ class addrequest_pageobject extends pageobject
 			$arrGuildrequestSettings = $this->pdh->get('user', 'plugin_settings', array($userid, 'guildrequest'));
 			if (isset($arrGuildrequestSettings['gr_send_notification_mails']) && $arrGuildrequestSettings['gr_send_notification_mails']){
 				$strEmail = $this->pdh->get('user', 'email', array($userid, true));
-				if ($strEmail != ''){
+				if ($strEmail != '' && $this->user->check_auth('u_guildrequest_view', false, $userid)){
 					$bodyvars['USERNAME'] = $this->pdh->get('user', 'name', array($userid));
 					$this->email->SendMailFromAdmin($strEmail, $this->user->lang('gr_notification_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_notification.html', $bodyvars);
 				}
