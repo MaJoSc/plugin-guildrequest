@@ -34,7 +34,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'time', 'user');
+      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'time', 'user', 'routing');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 	
@@ -180,9 +180,9 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 	public function get_html_username($intID){
 		$strUsername = $this->get_username($intID);
 		if ($this->get_is_new($intID)){
-			return '<a href="viewrequest.php'.$this->SID.'&amp;id='.$intID.'"><b>'.$strUsername.'</b></a>';
+			return '<a href="'.$this->routing->build('ViewApplication', $strUsername, $intID).'"><span style="font-weight:bold;">'.$strUsername.'</span></a>';
 		}
-		return '<a href="viewrequest.php'.$this->SID.'&amp;id='.$intID.'">'.$strUsername.'</a>';
+		return '<a href="'.$this->routing->build('ViewApplication', $strUsername, $intID).'">'.$strUsername.'</a>';
 	}
 	
 	public function get_email($intID){
@@ -250,7 +250,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 	
 	public function get_html_closed($intID){
 		if (isset($this->data[$intID])){
-			if ($this->data[$intID]['closed']) return '<img src="'.$this->root_path.'images/calendar/closed_s.png" alt="closed"/>';
+			if ($this->data[$intID]['closed']) return '<i class="icon-lock"></i>';
 		}
 		return '';
 	}
@@ -330,8 +330,8 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 	public function get_html_voting_flag($intID){
 		$intFlag = $this->get_voting_flag($intID);
 		switch($intFlag){
-			case 1: return '<img src="'.$this->root_path.'images/calendar/status/status0.png" alt="Yes" />';
-			case 0: return '<img src="'.$this->root_path.'images/calendar/status/status2.png" alt="Yes" />'; 
+			case 1: return '<img src="'.$this->server_path.'images/calendar/status/status0.png" alt="Yes" />';
+			case 0: return '<img src="'.$this->server_path.'images/calendar/status/status2.png" alt="Yes" />'; 
 		}
 		
 		return '';
@@ -377,7 +377,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
             $searchResults[] = array(
               'id'   => $this->time->user_date($data['tstamp'], true),
               'name' => $data['username'].'; '.$this->user->lang('status').': '.$arrStatus[$data['status']],
-              'link' => $this->root_path.'plugins/guildrequest/viewrequest.php'.$this->SID.'&amp;id='.$id,
+              'link' => $this->routing->build('ViewApplication', $data['username'], $id),
             );
           }
         }
@@ -389,5 +389,4 @@ if (!class_exists('pdh_r_guildrequest_requests'))
   } //end class
 } //end if class not exists
 
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_pdh_r_guildrequest_requests', pdh_r_guildrequest_requests::__shortcuts());
 ?>

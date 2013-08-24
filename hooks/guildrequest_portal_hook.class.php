@@ -53,22 +53,32 @@ if (!class_exists('guildrequest_portal_hook'))
 				}
 			}
 			
-			$text = sprintf($this->user->lang('gr_notification'), $intNew);
-			if($intOpen && $this->user->check_auth('a_guildrequest_manage', false)) $text .= ', '.sprintf($this->user->lang('gr_notification_open'), $intOpen);
+			if ($intNew){
+				register('ntfy')->add('yellow',
+					$this->user->lang('guildrequest'),
+					sprintf($this->user->lang('gr_notification'), $intNew),
+					register('routing')->build('ListApplications'),
+					$intNew
+				);
+			}
 			
-			$this->tpl->assign_block_vars('personal_area_addition', array(
-				'TEXT' => '<img src="'.$this->root_path.'plugins/guildrequest/images/adminmenu/guildrequest.png" alt="GuildRequest" /><a href="'.$this->root_path.'plugins/guildrequest/listrequests.php'.$this->SID.'"> '. $text.'</a>',
-			));
+			$text = sprintf($this->user->lang('gr_notification'), $intNew);
+			if($intOpen && $this->user->check_auth('a_guildrequest_manage', false)) {
+				register('ntfy')->add('green',
+					$this->user->lang('guildrequest'),
+					sprintf($this->user->lang('gr_notification_open'), $intOpen),
+					register('routing')->build('ListApplications'),
+					$intOpen
+				);
+				
+			}
 			
 			$arrGuildrequestSettings = $this->pdh->get('user', 'plugin_settings', array($this->user->id, 'guildrequest'));
 			if (isset($arrGuildrequestSettings['gr_jgrowl_notifications']) && $arrGuildrequestSettings['gr_jgrowl_notifications'] && $intNew){
-				$this->core->message('<a href="'.$this->root_path.'plugins/guildrequest/listrequests.php'.$this->SID.'">'.$text.'</a>', $this->user->lang('guildrequest'));
+				$this->core->message('<a href="'.register('routing')->build('ListApplications').'">'.sprintf($this->user->lang('gr_notification'), $intNew).'</a>', $this->user->lang('guildrequest'));
 			}
 		}
 	}
   }
-}
-if(version_compare(PHP_VERSION, '5.3.0', '<')) {
-	registry::add_const('short_guildrequest_portal_hook', guildrequest_portal_hook::$shortcuts);
 }
 ?>

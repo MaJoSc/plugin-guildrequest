@@ -82,8 +82,10 @@ class guildrequestForm extends page_generic
 			$intSortID = $id;
 			$intRequired = (isset($val['required']) && (int)$val['required']) ? 1 : 0;
 			$intInList = (isset($val['in_list']) && (int)$val['in_list']) ? 1 : 0;
+			$strDepField = $val['dep_field'];
+			$strDepValue = $val['dep_value'];
 			
-			$this->pdh->put('guildrequest_fields', 'add', array($val['id'], $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList));
+			$this->pdh->put('guildrequest_fields', 'add', array($val['id'], $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList, $strDepField, $strDepValue));
 			$id++;
 		}
 	}
@@ -114,6 +116,12 @@ class guildrequestForm extends page_generic
 	$this->jquery->selectall_checkbox('selall_fields', 'field_ids[]');
 	
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
+	$arrDeps[0] = "";
+	foreach($arrFields as $id){
+		$type =  $this->pdh->get('guildrequest_fields', 'type', array($id));
+		if ($type == 2 || $type == 5 || $type==6) $arrDeps[$id] = $this->pdh->get('guildrequest_fields', 'name', array($id));
+	}
+	
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		$row['options'] = unserialize($row['options']);
@@ -121,19 +129,21 @@ class guildrequestForm extends page_generic
 			'KEY'				=> $row['id'],
 			'NAME'				=> $row['name'],
 			'HELP'				=> $row['help'],
-			'TYP_DD'			=> $this->html->DropDown('field['.$row['id'].'][type]', $this->user->lang('gr_types'), $row['type'], '', 'onchange="type_change_listener(this)"'),
+			'TYP_DD'			=> $this->html->DropDown('field['.$row['id'].'][type]', $this->user->lang('gr_types'), $row['type'], '', 'onchange="type_change_listener(this)"', 'input gr_type'),
 			'OPTIONS_DISABLED'	=> ($row['type'] != 2 && $row['type'] != 5 && $row['type'] != 6) ? 'disabled="disabled"' : '',
 			'HELP_DISABLED'		=> ($row['type'] == 3 || $row['type'] == 4) ? 'disabled="disabled"' : '',
 			'OPTIONS_HEIGHT'	=> ($row['type'] != 2 && $row['type'] != 5 && $row['type'] != 6) ? '20' : '60',
 			'OPTIONS'			=> (count($row['options'])) ? implode("\n", $row['options']) : '',
 			'REQUIRED'			=> ($row['required']) ? 'checked="checked"' : '',
 			'IN_LIST'			=> ($row['in_list']) ? 'checked="checked"' : '',
+			'DEP_VALUE'			=> $row['dep_value'],
+			'DEP_DD'			=> $this->html->DropDown('field['.$row['id'].'][dep_field]', $arrDeps, $row['dep_field'], '', '', 'input gr_dep_field'),
 		));
 	}
 		
 	$this->tpl->assign_vars(array(
 		'KEY'		=> max($arrFields)+1,
-		'TYP_DD'	=> $this->html->DropDown('field[KEY][type]', $this->user->lang('gr_types'), '', '', 'onchange="type_change_listener(this)"'),
+		'TYP_DD'	=> $this->html->DropDown('field[KEY][type]', $this->user->lang('gr_types'), '', '', 'onchange="type_change_listener(this)"', 'input gr_type'),
 	));
 		
     // -- EQDKP ---------------------------------------------------------------
@@ -146,7 +156,6 @@ class guildrequestForm extends page_generic
   }
 }
 
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_guildrequestForm', guildrequestForm::__shortcuts());
 registry::register('guildrequestForm');
 
 ?>

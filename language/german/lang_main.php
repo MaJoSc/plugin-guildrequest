@@ -65,17 +65,19 @@ $lang = array(
   'gr_closed_subject'				=> 'Deine Bewerbung wurde geschlossen',
   'gr_status_subject'				=> 'Deine Bewerbung: Statusänderung',
   'gr_footer'						=> '%1$s Bewerbungen gefunden / %2$s pro Seite',
-  'gr_in_list'						=> 'In Bewerbungsliste anzeigen',
+  'gr_in_list'						=> 'In Liste anzeigen',
   'gr_confirm_delete_requests'		=> 'Bist du sicher, dass Du die Bewerbungen von %s löschen willst?',
   'gr_delete_selected_requests'		=> 'Ausgewählte Bewerbungen löschen',
   'gr_delete_success'				=> 'Die ausgewählten Bewerbungen wurden erfolgreich gelöscht.',
-  'gr_notification'					=> '%s Benachrichtigungen',
-  'gr_notification_open'			=> '%s offen',
+  'gr_notification'					=> '%s neue Bewerbungen/Aktualisierungen',
+  'gr_notification_open'			=> '%s offene Bewerbungen',
   'gr_mark_all_as_read'				=> 'Alle Bewerbungen als gelesen markieren',
   'gr_send_notification_mails'		=> 'Benachrichtigungs-Email bei neuer Bewerbung senden',
   'gr_closed'						=> 'Die Bewerbung wurde geschlossen.',
   'gr_notification_subject'			=> 'Neue Bewerbung',
   'gr_jgrowl_notifications'			=> 'PopUp-Benachrichtigungen anzeigen',
+'gr_viewrequest'					=> 'Bewerbung ansehen',
+'gr_dependency'						=> 'Abhängigkeit Feld - Option',
 );
 
 ?>

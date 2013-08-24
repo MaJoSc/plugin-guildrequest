@@ -39,6 +39,8 @@ $guildrequestSQL = array(
 	`sortid` INT(10) UNSIGNED NULL DEFAULT '0',
 	`required` TINYINT(3) UNSIGNED NULL DEFAULT '0',
 	`in_list` TINYINT(3) UNSIGNED NULL DEFAULT '0',
+  	`dep_value` TEXT COLLATE utf8_bin NULL,
+  	`dep_field` INT(10) UNSIGNED NULL DEFAULT '0',
 	PRIMARY KEY (`id`)
 )
 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

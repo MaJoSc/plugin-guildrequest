@@ -54,7 +54,4 @@ if (!class_exists('guildrequest_search_hook'))
 	}
   }
 }
-if(version_compare(PHP_VERSION, '5.3.0', '<')) {
-	registry::add_const('short_guildrequest_search_hook', guildrequest_search_hook::$shortcuts);
-}
 ?>

@@ -99,6 +99,8 @@ if (!class_exists('pdh_r_guildrequest_fields'))
 			'sortid'		=> (int)$row['sortid'],
 			'required'		=> (int)$row['required'],
 			'in_list'		=> (int)$row['in_list'],
+          	'dep_field'		=> (int)$row['dep_field'],
+          	'dep_value'		=> $row['dep_value'],
           );
         }
         $this->db->free_result($result);
@@ -180,9 +182,22 @@ if (!class_exists('pdh_r_guildrequest_fields'))
 		}
 		return false;
 	}
+	
+	public function get_dep_field($intID){
+		if (isset($this->data[$intID])){
+			return $this->data[$intID]['dep_field'];
+		}
+		return false;
+	}
+	
+	public function get_dep_value($intID){
+		if (isset($this->data[$intID])){
+			return $this->data[$intID]['dep_value'];
+		}
+		return false;
+	}
 
   } //end class
 } //end if class not exists
 
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_pdh_r_guildrequest_fields', pdh_r_guildrequest_fields::__shortcuts());
 ?>

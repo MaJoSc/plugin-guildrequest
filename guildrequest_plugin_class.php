@@ -34,11 +34,11 @@ class guildrequest extends plugin_generic
    */
   public static function __shortcuts()
   {
-    $shortcuts = array('user', 'config', 'pdc', 'pfh', 'pdh');
+    $shortcuts = array('user', 'config', 'pdc', 'pfh', 'pdh', 'routing');
     return array_merge(parent::$shortcuts, $shortcuts);
   }
 
-  public $version    = '0.1.10';
+  public $version    = '0.2.0';
   public $build      = '';
   public $copyright  = 'GodMod';
   public $vstatus    = 'Beta';
@@ -56,7 +56,7 @@ class guildrequest extends plugin_generic
       'code'              => 'guildrequest',
       'path'              => 'guildrequest',
       'template_path'     => 'plugins/guildrequest/templates/',
-      'icon'              => $this->root_path.'plugins/guildrequest/images/adminmenu/guildrequest.png',
+      'icon'              => $this->server_path.'plugins/guildrequest/images/adminmenu/guildrequest.png',
       'version'           => $this->version,
       'author'            => $this->copyright,
       'description'       => $this->user->lang('guildrequest_short_desc'),
@@ -95,13 +95,21 @@ class guildrequest extends plugin_generic
 	$this->add_pdh_write_module('guildrequest_visits');
     // -- Hooks -------------------------------------------
     $this->add_hook('search', 'guildrequest_search_hook', 'search');
-	$this->add_hook('portal', 'guildrequest_portal_hook', 'portal');
-	// -- Menu --------------------------------------------
-    $this->add_menu('admin_menu', $this->gen_admin_menu());
+    
+    //Routing
+	$this->routing->addRoute('WriteApplication', 'addrequest', 'plugins/guildrequest/page_objects');
+	$this->routing->addRoute('ListApplications', 'listrequests', 'plugins/guildrequest/page_objects');
+	$this->routing->addRoute('ViewApplication', 'viewrequest', 'plugins/guildrequest/page_objects');
 	
-	$this->add_menu('main_menu1', $this->gen_main_menu());
+	$this->add_hook('portal', 'guildrequest_portal_hook', 'portal');
+	$this->add_hook('comments_save', 'guildrequest_comments_save_hook', 'comments_save');
+	// -- Menu --------------------------------------------
+    $this->add_menu('admin', $this->gen_admin_menu());
+	
+	$this->add_menu('main', $this->gen_main_menu());
 	$this->add_menu('settings', $this->usersettings());
 	
+
   }
 
   /**
@@ -178,14 +186,6 @@ class guildrequest extends plugin_generic
           'check' => 'a_guildrequest_form',
           'icon'  => './../../plugins/guildrequest/images/adminmenu/form.png'
         ),
-		/*
-		2 => array (
-          'link'  => 'plugins/guildrequest/admin/settings.php'.$this->SID,
-          'text'  => $this->user->lang('settings'),
-          'check' => 'a_guildrequest_settings',
-          'icon'  => 'manage_settings.png'
-        ),
-		*/
     ));
 
     return $admin_menu;
@@ -197,16 +197,16 @@ class guildrequest extends plugin_generic
     */
   private function gen_main_menu()
   {
-	
+
 	$main_menu = array(
         1 => array (
-          'link'  => 'plugins/guildrequest/addrequest.php'.$this->SID,
+          'link'  => $this->routing->build('WriteApplication', false, false, true, true),
           'text'  => $this->user->lang('gr_add'),
           'check' => 'u_guildrequest_add',
 		  'signedin' => 0,
         ),
 		2 => array (
-          'link'  => 'plugins/guildrequest/listrequests.php'.$this->SID,
+          'link'  => $this->routing->build('ListApplications', false, false, true, true),
           'text'  => $this->user->lang('gr_view'),
           'check' => 'u_guildrequest_view',
         ),
@@ -218,7 +218,7 @@ class guildrequest extends plugin_generic
   private function usersettings(){
 	$settings = array(
 		'guildrequest' => array(
-			'icon' => $this->root_path.'plugins/guildrequest/images/adminmenu/guildrequest.png',
+			'icon' => $this->server_path.'plugins/guildrequest/images/adminmenu/guildrequest.png',
 		
 		'gr_send_notification_mails'	=> array(
 			'fieldtype'	=> 'checkbox',
@@ -238,7 +238,4 @@ class guildrequest extends plugin_generic
   }
 
 }
-
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_guildrequest', guildrequest::__shortcuts());
-
 ?>

@@ -4,6 +4,7 @@ var id = {KEY};
 
 function delete_row(obj){
 	$(obj).parent().parent().remove();
+	buildDepFieldDropdowns();
 }
 
 function add_row(){
@@ -11,6 +12,7 @@ function add_row(){
 	new_row = new_row.replace(/KEY/g, id);
 	id = id + 1;
 	$("#gr_form_table").find('tbody').append('<tr>'+new_row+'</tr>');
+	buildDepFieldDropdowns();
 }
 
 function type_change_listener(obj){
@@ -29,17 +31,61 @@ function type_change_listener(obj){
 	} else {
 		help.removeAttr('disabled');
 	}
+	buildDepFieldDropdowns();
 }
 
+function buildDepFieldDropdowns(){
+	var options = new Array();
+	var myids = new Array();
+	var i = 0;
+	$('.gr_type').each(function(){
+		var type = $(this).val();
+		if (type==2 || type==5 || type==6){
+			var name = $(this).parent().parent().find('.gr_name').val();
+			var myid = $(this).parent().parent().find('.gr_id').val();
+			options[i] = name;
+			myids[i] = myid;
+			i++;
+		}
+	})
 
+	$('.gr_dep_field').each(function(){
+		var selected = $(this).val();
+		var dd = $(this);
+		$(this).html('<option value="0"></option>');
+		$.each(options, function(k,v){
+			$('<option value="'+myids[k]+'">'+v+'</option>').appendTo(dd);
+		})
+		if ($.inArray(selected, myids) != -1){
+			dd.val(selected);
+		} else {
+			dd.parent().parent().find('.gr_dep_value').val('');
+		}
+	})
+}
+
+$(document).ready(function(){
+	buildDepFieldDropdowns();
+})
 </script>
 
+<!-- IF S_NORMAL_HEADER -->
+<div class="breadcrumb-container">
+	<ul class="breamcrumb">
+		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="icon-home"></i></a></li>
+		<li><a href="{EQDKP_ROOT_PATH}admin/{SID}">{L_menu_admin_panel}</a>
+		<li class="current"><a>{L_guildrequest}: {L_gr_manage_form}</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<!-- ENDIF -->
+	<div class="contentHeader">
+		<h1 class="contentTitle">{L_gr_manage_form}</h1>
+	</div>
+	
 <form name="gr_settings" action="{ACTION}" method="post">
 	<table width="100%" border="0" cellspacing="1" cellpadding="2" id="gr_form_table" class="colorswitch">
 		<thead>
-		<tr class="not-sortable">
-			<th align="center" colspan="8">{L_gr_manage_form}</th>
-		</tr>
 		<tr class="not-sortable">
 			<th width="10px"></th>
 			<th width="20px;"></th>
@@ -47,6 +93,7 @@ function type_change_listener(obj){
 			<th width="20px;">{L_type}</th>
 			<th>{L_description}</th>
 			<th>{L_gr_select_options}</th>
+			<th class="nowrap">{L_gr_dependency}</th>
 			<th width="20px;">{L_gr_required}</th>
 			<th width="20px;">{L_gr_in_list}</th>
 		</tr>
@@ -55,11 +102,12 @@ function type_change_listener(obj){
 		<!-- BEGIN field_row -->
 		<tr>
 			<td><span class="ui-icon ui-icon-arrowthick-2-n-s" title="{L_dragndrop}"></span></td>
-			<td align="center"><input type="hidden" name="field[{field_row.KEY}][id]" value="{field_row.KEY}" /><img src="{EQDKP_IMAGE_PATH}global/delete.png" alt="{L_gr_delete_field}" title="{L_gr_delete_field}" onclick="delete_row(this);"/></td>
-			<td><input type="text" name="field[{field_row.KEY}][name]" value="{field_row.NAME}" class="input" style="width: 90%" /></td>
+			<td align="center"><input type="hidden" name="field[{field_row.KEY}][id]" value="{field_row.KEY}" class="gr_id"/><img src="{EQDKP_IMAGE_PATH}global/delete.png" alt="{L_gr_delete_field}" title="{L_gr_delete_field}" onclick="delete_row(this);"/></td>
+			<td><input type="text" name="field[{field_row.KEY}][name]" value="{field_row.NAME}" class="input gr_name" style="width: 90%" /></td>
 			<td>{field_row.TYP_DD}</td>
 			<td><input type="text" name="field[{field_row.KEY}][help]" value="{field_row.HELP}" class="input gr_help" style="width: 90%" {field_row.HELP_DISABLED}/></td>
 			<td><textarea name="field[{field_row.KEY}][options]" rows="4" class="input" {field_row.OPTIONS_DISABLED} style="height:{field_row.OPTIONS_HEIGHT}px;width: 90%;">{field_row.OPTIONS}</textarea>
+			<td>{field_row.DEP_DD}<input type="text" name="field[{field_row.KEY}][dep_value]" value="{field_row.DEP_VALUE}" class="input gr_dep_value" /></td>
 			<td><input type="checkbox" name="field[{field_row.KEY}][required]" value="1" {field_row.REQUIRED}/></td>
 			<td><input type="checkbox" name="field[{field_row.KEY}][in_list]" value="1" {field_row.IN_LIST}/></td>
 		</tr>
@@ -67,9 +115,9 @@ function type_change_listener(obj){
 		</tbody>
 		<tfoot>
 		<tr>
-			<th colspan="8">
-				<input type="button" value="{L_gr_add_field}" class="mainoption bi_new" onclick="add_row();"/>
-				<input type="submit" name="save" value="{L_save}" class="mainoption bi_ok" />
+			<th colspan="9">
+				<button type="button" onclick="add_row();"><i class="icon-plus"></i>{L_gr_add_field}</button>
+				<button type="submit" name="save"><i class="icon-ok"></i>{L_save}</button>
 			</th>
 		</tr>
 		</tfoot>
@@ -82,11 +130,12 @@ function type_change_listener(obj){
 <table style="display:none;">
 	<tr id="reference_row">
 		<td><span class="ui-icon ui-icon-arrowthick-2-n-s" title="{L_dragndrop}"></span></td>
-		<td align="center"><input type="hidden" name="field[KEY][id]" value="KEY" /><img src="{EQDKP_IMAGE_PATH}global/delete.png" alt="{L_gr_delete_field}" title="{L_gr_delete_field}" onclick="delete_row(this);"/></td>
-		<td><input type="text" name="field[KEY][name]" value="" class="input" style="width: 90%" /></td>
+		<td align="center"><input type="hidden" name="field[KEY][id]" value="KEY" class="gr_id" /><img src="{EQDKP_IMAGE_PATH}global/delete.png" alt="{L_gr_delete_field}" title="{L_gr_delete_field}" onclick="delete_row(this);"/></td>
+		<td><input type="text" name="field[KEY][name]" value="" class="input gr_name" style="width: 90%" /></td>
 		<td>{TYP_DD}</td>
 		<td><input type="text" name="field[KEY][help]" value="" class="input gr_help" style="width: 90%" /></td>
 		<td><textarea name="field[KEY][options]" rows="4" class="input" disabled="disabled" style="height:20px;width: 90%;"></textarea>
+		<td><select name="field[KEY][dep_field]" class="gr_dep_field input"></select><input type="text" name="field[KEY][dep_value]" value="" class="input gr_dep_value" /></td>
 		<td><input type="checkbox" name="field[KEY][required]" value="1" /></td>
 		<td><input type="checkbox" name="field[KEY][in_list]" value="1" /></td>
 	</tr>

@@ -38,7 +38,7 @@ if (!class_exists('pdh_w_guildrequest_fields'))
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
-	public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0){
+	public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
 		$resQuery = $this->db->query("INSERT INTO __guildrequest_fields :params", array(
 			'id'		=> $intID,
 			'type'		=> $strType,
@@ -48,6 +48,8 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 			'sortid' 	=> $intSortID,
 			'required' 	=> $intRequired,
 			'in_list'	=> $intInList,
+			'dep_field' => $dep_field,
+			'dep_value' => $dep_value,
 		));
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
 		if ($resQuery) return $this->db->insert_id();
@@ -55,7 +57,7 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 		return false;
 	}
 	
-	public function update($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0){
+	public function update($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
 		$resQuery = $this->db->query("UPDATE __guildrequest_fields SET :params WHERE id=?", array(
 			'type'		=> $strType,
 			'name'		=> $strName,
@@ -64,6 +66,8 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 			'sortid' 	=> $intSortID,
 			'required' 	=> $intRequired,
 			'in_list'	=> $intInList,
+			'dep_field' => $dep_field,
+			'dep_value' => $dep_value,
 		), $intID);
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
 		if ($resQuery) return $intID;
@@ -88,5 +92,4 @@ if (!class_exists('pdh_w_guildrequest_fields'))
   } //end class
 } //end if class not exists
 
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_pdh_w_guildrequest_fields', pdh_w_guildrequest_fields::__shortcuts());
 ?>

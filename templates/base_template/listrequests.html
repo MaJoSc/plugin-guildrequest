@@ -1,22 +1,26 @@
+<div class="breadcrumb-container">
+	<ul class="breamcrumb">
+		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="icon-home"></i></a></li>
+		<li class="current"><a>{L_gr_view}</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<div class="contentHeader">
+	<h1 class="contentTitle">{L_gr_view}</h1>
+</div>
 <form method="post" action="{ACTION}" name="post">
-	<table width="100%" border="0" cellspacing="1" cellpadding="2" class="borderless">
-		<tr>
-			<td align="center" class="menu">{GR_PAGINATION}</td>
-		</tr>
-	</table>
 	<table width="100%" border="0" cellspacing="1" cellpadding="2" class="colorswitch">
 		{PAGE_OUT}
 	</table>
-	<table width="100%" border="0" cellspacing="1" cellpadding="2" class="borderless">
-		<tr>
-			<td align="center" class="menu">{GR_PAGINATION}</td>
-		</tr>
-	</table>
+	<div class="center pagination_wrapper">
+		{GR_PAGINATION}
+	</div>
+	
 	<!-- IF S_GR_ADMIN -->
-	<input type="button" name="del" value="{L_gr_delete_selected_requests}" class="mainoption bi_delete"  onclick="delete_warning();" />
+	<button class="mainoption bi_delete"  onclick="delete_warning();" type="button" name="del"><i class="icon-remove"></i>{L_gr_delete_selected_requests}</button>
 	<input type="hidden" name="del" value="1" disabled="disabled" id="mass_del_submit" />
 	<!-- ENDIF -->
-	<input type="submit" name="mark_all_read" value="{L_gr_mark_all_as_read}" class="bi_ok floatRight"/>
+	<button type="submit" name="mark_all_read" class="floatRight"><i class="icon-check"></i>{L_gr_mark_all_as_read}</button>
 	<div class="clear"></div>
 {CSRF_TOKEN}
 </form>
