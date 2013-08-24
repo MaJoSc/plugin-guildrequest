@@ -17,13 +17,7 @@
  */
 
 // EQdkp required files/vars
-define('EQDKP_INC', true);
-define('PLUGIN', 'guildrequest');
-
-$eqdkp_root_path = './../../';
-include_once($eqdkp_root_path.'common.php');
-
-class guildrequestAddrequest extends page_generic
+class addrequest_pageobject extends pageobject
 {
   /**
    * __dependencies
@@ -31,9 +25,9 @@ class guildrequestAddrequest extends page_generic
    */
   public static function __shortcuts()
   {
-    $shortcuts = array('pm', 'user', 'core', 'in', 'pdh', 'time', 'tpl', 'html', 'email' => 'MyMailer');
-    return array_merge(parent::$shortcuts, $shortcuts);
-  }
+    $shortcuts = array('pm', 'user', 'core', 'in', 'pdh', 'time', 'tpl', 'html', 'email' => 'MyMailer', 'routing');
+   	return array_merge(parent::__shortcuts(), $shortcuts);
+  }  
   
   private $data = array();
 
@@ -57,7 +51,7 @@ class guildrequestAddrequest extends page_generic
   public function save(){
 	//Build Field-Array
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
-	$arrInput = array();
+	$arrInput = $arrValues = array();
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		if ($row['type'] == 3 || $row['type'] == 4){
@@ -67,15 +61,25 @@ class guildrequestAddrequest extends page_generic
 			'id'		=> $row['id'],
 			'input' 	=> $this->in->get('gr_field_'.$row['id']),
 			'required'	=> ($row['required']),
+			'dep_field' => $row['dep_field'],
+			'dep_value' => $row['dep_value'],
 		);
+		
+		$arrValues[$row['id']] = $this->in->get('gr_field_'.$row['id']);
+		
+		//Checkboxes
 		if ($row['type'] == 5){
 			$arrInput[$row['name']] = array(
 				'id'		=> $row['id'],
 				'input' 	=> serialize($this->in->getArray('gr_field_'.$row['id'], 'int')),
 				'required'	=> ($row['required']),
+				'dep_field' => $row['dep_field'],
+				'dep_value' => $row['dep_value'],
 			);
+			$arrValues[$row['id']] = $this->in->getArray('gr_field_'.$row['id'], 'int');
 		}
 	}
+	
 	$arrInput[$this->user->lang('email')] = array(
 		'input' 	=> $this->in->get('gr_email'),
 		'required'	=> true,
@@ -108,6 +112,18 @@ class guildrequestAddrequest extends page_generic
 	$arrRequired = array();
 	foreach ($arrInput as $key => $val){
 		if (!$val['required']) continue;
+		
+		if (isset($val['dep_field']) && $val['dep_field']){
+			$intDepField = $val['dep_field'];
+			if (!isset($arrValues[$intDepField])) continue;
+			
+			if (is_array($arrValues[$intDepField])){
+				if (!isset($arrValues[$intDepField][$val['dep_value']])) continue;
+			} else {		
+				if ($arrValues[$intDepField] != $val["dep_value"]) continue;
+			}
+		}
+		
 		if ($val['input'] == '' || $val['input'] == 'a:0:{}') $arrRequired[] = $key;
 	}
 	if (count($arrRequired) > 0) {
@@ -138,26 +154,11 @@ class guildrequestAddrequest extends page_generic
 		return;
 	}
 	
-	//Send Email to User with activation Key
-	/*
-	$server_url = $this->env->link.'plugins/guildrequest/activate.php';
-	$bodyvars = array(
-		'USERNAME'		=> $strName,
-		'U_ACTIVATE' 	=> $server_url . '?key=' . $strActivationKey,
-		'GUILDTAG'		=> $this->config->get('guildtag'),
-	);
-	
-	if(!$this->email->SendMailFromAdmin($strEmail, $this->user->lang('gr_activationmail_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_activation.html', $bodyvars)){
-		$this->core->message($this->user->lang('email_subject_send_error'), $this->user->lang('error'), 'red');
-		$this->display();
-		return;
-	}*/
-	
 	//Send Email to User with auth key
-	$server_url = $this->env->link.'plugins/guildrequest/viewrequest.php';
+	$server_url = $this->env->link.$this->routing->build('ViewApplication', $strName, $blnResult, false, true);
 	$bodyvars = array(
 		'USERNAME'		=> sanitize($strName),
-		'U_ACTIVATE' 	=> $server_url . '?id='.$blnResult.'&key=' . $strAuthKey,
+		'U_ACTIVATE' 	=> $server_url .'?key=' . $strAuthKey,
 		'GUILDTAG'		=> $this->config->get('guildtag'),
 	);
 	
@@ -168,7 +169,7 @@ class guildrequestAddrequest extends page_generic
 	} else {
 		//Send Notification Mail to everyone who wants it
 		$bodyvars = array(
-			'U_VIEW' 		=> $server_url . '?id='.$blnResult,
+			'U_VIEW' 		=> $server_url,
 			'REQUEST_USER'	=> sanitize($strName),
 			'GUILDTAG'		=> $this->config->get('guildtag'),
 		);
@@ -187,7 +188,7 @@ class guildrequestAddrequest extends page_generic
 	
 	
 		//Redirect to viewrequest page
-		redirect('plugins/guildrequest/viewrequest.php?id='.$blnResult.'&key=' . $strAuthKey.'&msg=success');
+		redirect($this->routing->build('ViewApplication', $strName, $blnResult, false, true).'?key=' . $strAuthKey.'&msg=success');
 	}
   }
   
@@ -197,17 +198,18 @@ class guildrequestAddrequest extends page_generic
 	
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 	$intGroup = 0;
-	$blnGroupOpen = false;
-	$blnPersonalGroup = false;
+	$blnGroupOpen = true;
 	$this->tpl->assign_block_vars('tabs', array(
 	));
 	
 	$this->add_personal_group();
-	
-	
+		
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		$row['options'] = unserialize($row['options']);
+		
+		//Dependency
+		if ($row['dep_field'] && strlen($row['dep_value']) && in_array($row['dep_field'], $arrFields)) $this->gen_dependency($row);
 		
 		//Close previous group
 		if ($row['type'] == 3){
@@ -236,6 +238,7 @@ class guildrequestAddrequest extends page_generic
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
+				'ID'		=> 'dl_'.$row['id'],
 			));
 			
 		}
@@ -263,6 +266,7 @@ class guildrequestAddrequest extends page_generic
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
+				'ID'		=> 'dl_'.$row['id'],
 			));
 		}
 		
@@ -279,6 +283,7 @@ class guildrequestAddrequest extends page_generic
 			$arrOptions = array();
 			$arrOptions[''] = $this->user->lang('cl_ms_noneselected');
 			foreach($row['options'] as $val){
+				$val = trim(str_replace(array("\n", "\r"), "", $val));
 				$arrOptions[$val] = $val;
 			}
 			
@@ -294,6 +299,7 @@ class guildrequestAddrequest extends page_generic
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
+				'ID'		=> 'dl_'.$row['id'],
 			));
 		}
 		
@@ -303,6 +309,7 @@ class guildrequestAddrequest extends page_generic
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $row['name'],
 					'ID'	=> utf8_strtolower(str_replace(' ', '', $row['name'])),
+					'FID'	=> 'dl_'.$row['id'],
 				));
 				$blnGroupOpen = true;
 			}
@@ -321,6 +328,7 @@ class guildrequestAddrequest extends page_generic
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 					'NAME'			=> $row['name'],
 					'S_NO_DIVIDER' => true,
+					'ID'		=> 'dl_'.$row['id'],
 			));
 		}
 		
@@ -356,6 +364,7 @@ class guildrequestAddrequest extends page_generic
 				'FIELD'		=> $field,
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
+				'ID'		=> 'dl_'.$row['id'],
 			));
 		}
 		
@@ -386,6 +395,7 @@ class guildrequestAddrequest extends page_generic
 				'FIELD'		=> $this->html->widget($options),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
+				'ID'		=> 'dl_'.$row['id'],
 			));
 		}
 	}
@@ -406,6 +416,39 @@ class guildrequestAddrequest extends page_generic
     ));
 	
 	
+  }
+  
+  private function gen_dependency($row){
+  	$arrTypes = $this->pdh->aget('guildrequest_fields', 'type', 0, array( $this->pdh->get('guildrequest_fields', 'id_list', array())));
+  	$intType = $arrTypes[$row['dep_field']];
+
+  	if ($intType == 2){
+  		//Select
+  		$this->tpl->add_js('
+			$(document).on("change", "#gr_field_'.$row['dep_field'].'", function () {
+				gr_dep_check_value("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+			});
+			gr_dep_check_value("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+		', 'docready');
+  	}elseif($intType == 5){
+  		//Checkbox
+  		$this->tpl->add_js('
+  			$(document).on("change", "input[name^=\'gr_field_'.$row['dep_field'].'\']", function () {
+				gr_dep_check_cb("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+			});
+			gr_dep_check_cb("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+		', 'docready');
+  	}elseif($intType == 6){
+  		//Radio
+  		$this->tpl->add_js('
+		$(document).on("change", "input[name=\'gr_field_'.$row['dep_field'].'\']", function () {
+				gr_dep_check_radio("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+			});
+			gr_dep_check_radio("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+		', 'docready');
+  	}
+  	
+  	
   }
   
   private function add_personal_group(){
@@ -439,8 +482,4 @@ class guildrequestAddrequest extends page_generic
 	));
   }
 }
-
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_guildrequestAddrequest', guildrequestAddrequest::__shortcuts());
-register('guildrequestAddrequest');
-
 ?>

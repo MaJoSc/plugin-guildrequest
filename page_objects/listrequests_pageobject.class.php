@@ -23,7 +23,7 @@ define('PLUGIN', 'guildrequest');
 $eqdkp_root_path = './../../';
 include_once($eqdkp_root_path.'common.php');
 
-class guildrequestListrequests extends page_generic
+class listrequests_pageobject extends pageobject
 {
   /**
    * __dependencies
@@ -32,7 +32,7 @@ class guildrequestListrequests extends page_generic
   public static function __shortcuts()
   {
     $shortcuts = array('pm', 'user', 'core', 'in', 'pdh', 'time', 'tpl', 'html', 'email' => 'MyMailer', 'comments');
-    return array_merge(parent::$shortcuts, $shortcuts);
+    return array_merge(parent::__shortcuts(), $shortcuts);
   }
   
   /**
@@ -50,7 +50,7 @@ class guildrequestListrequests extends page_generic
 		//'vote' => array('process' => 'vote', 'csrf' => true, 'check' => 'u_guildrequest_vote'),
 		'mark_all_read' => array('process' => 'mark_all_read', 'csrf' => 'true'),
     );
-    parent::__construct(false, $handler,array('guildrequest_requests', 'username'), null, 'gr[]');
+    parent::__construct(false, $handler, array('guildrequest_requests', 'username'), null, 'gr[]');
 
     $this->process();
   }
@@ -111,15 +111,20 @@ class guildrequestListrequests extends page_generic
       'th_add' => 'width="50%"',
       'td_add' => 'nowrap="nowrap"',
     ),
-    3 => 
-    array (
-      'name' => 'gr_email',
-      'sort' => true,
-      'th_add' => '',
-      'td_add' => '',
-    ),
   ),
 );
+	
+	if ($this->user->check_auth('a_guildrequest_manage', false)){
+		$hptt_page_settings['table_presets'][] = array(
+				'name' => 'gr_email',
+      			'sort' => true,
+     			'th_add' => '',
+      			'td_add' => '',
+		);
+	}
+	
+	
+	
 	//Add colums
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 	foreach ($arrFields as $id){
@@ -185,8 +190,4 @@ class guildrequestListrequests extends page_generic
   
 
 }
-
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_guildrequestListrequests', guildrequestListrequests::__shortcuts());
-register('guildrequestListrequests');
-
 ?>

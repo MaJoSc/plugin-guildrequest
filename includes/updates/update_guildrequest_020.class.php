@@ -13,7 +13,7 @@
  * @package     GuildRequest
  * @version     $Rev: 11425 $
  *
- * $Id: update_guildrequest_019.class.php 11425 2011-11-05 16:50:34Z hoofy $
+ * $Id: update_guildrequest_020.class.php 11425 2011-11-05 16:50:34Z hoofy $
  */
 
 if (!defined('EQDKP_INC'))
@@ -24,9 +24,9 @@ if (!defined('EQDKP_INC'))
 
 include_once(registry::get_const('root_path').'maintenance/includes/sql_update_task.class.php');
 
-if (!class_exists('update_guildrequest_019'))
+if (!class_exists('update_guildrequest_020'))
 {
-  class update_guildrequest_019 extends sql_update_task
+  class update_guildrequest_020 extends sql_update_task
   {
     /**
 	 * __dependencies
@@ -39,8 +39,8 @@ if (!class_exists('update_guildrequest_019'))
 	}
 
     public $author      = 'GodMod';
-    public $version     = '0.1.9';    // new version
-    public $name        = 'Guildrequest 0.1.9 Update';
+    public $version     = '0.2.0';    // new version
+    public $name        = 'Guildrequest 0.2.0 Update';
     public $type        = 'plugin_update';
     public $plugin_path = 'guildrequest'; // important!
 
@@ -54,25 +54,26 @@ if (!class_exists('update_guildrequest_019'))
       // init language
       $this->langs = array(
         'english' => array(
-          'update_guildrequest_019' => 'GuildRequest 0.1.9 Update Package',
-		  1 => 'Change guildrequest_visits table',
+          'update_guildrequest_020' => 'GuildRequest 0.2.0 Update Package',
+		  1 => 'Alter guildrequest_fields table',
+		  2 => 'Alter guildrequest_fields table',
         ),
         'german' => array(
-          'update_guildrequest_019' => 'GuildRequest 0.1.9 Update Paket',
-		  1 => 'Ändere guildrequest_visits Tabelle',
+          'update_guildrequest_020' => 'GuildRequest 0.2.0 Update Paket',
+		  1 => 'Ändere guildrequest_fields Tabelle',
+		  2 => 'Ändere guildrequest_fields Tabelle',
         ),
       );
 
       // init SQL querys
       $this->sqls = array(
-		  1 => "ALTER TABLE `__guildrequest_visits`
-	DROP PRIMARY KEY,
-	ADD PRIMARY KEY (`request_id`, `user_id`);",
+		  1 => "ALTER TABLE `__guildrequest_fields` ADD COLUMN `dep_value` TEXT COLLATE utf8_bin NULL;",
+		  2 => "ALTER TABLE `__guildrequest_fields` ADD COLUMN `dep_field` INT(10) UNSIGNED NULL DEFAULT '0';",
       );
     }
 
   }
 }
 
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_update_guildrequest_019', update_guildrequest_019::__shortcuts());
+if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_update_guildrequest_020', update_guildrequest_020::__shortcuts());
 ?>

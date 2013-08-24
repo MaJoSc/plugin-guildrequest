@@ -69,13 +69,15 @@ $lang = array(
   'gr_confirm_delete_requests'		=> 'Are you sure you want to delete the applications of %s ?',
   'gr_delete_selected_requests'		=> 'Delete selected applications',
   'gr_delete_success'				=> 'The selected applications have been deleted successfully.',
-  'gr_notification'					=> '%s Notifications',
-  'gr_notification_open'			=> '%s open',
+  'gr_notification'					=> '%s new Applications/Comments',
+  'gr_notification_open'			=> '%s open Applications',
   'gr_mark_all_as_read'				=> 'Mark all Applications as read',
   'gr_send_notification_mails'		=> 'Send Notification Email on new application',
   'gr_closed'						=> 'This application is closed.',
   'gr_notification_subject'			=> 'New application',
   'gr_jgrowl_notifications'			=> 'Show PopUp Notifications',
+  'gr_viewrequest'					=> 'View Application',
+'gr_dependency'						=> 'Dependency (Field - Option)',
 );
 
 ?>

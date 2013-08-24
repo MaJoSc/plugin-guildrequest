@@ -92,7 +92,7 @@ class guildrequestForm extends page_generic
 	$this->pdh->process_hook_queue();
 	
     // Success message
-	$this->core->message($this->user->lang('sb_config_saved'), $this->user->lang('success'), 'green');
+	$this->core->message($this->user->lang('pk_succ_saved'), $this->user->lang('success'), 'green');
     $this->display($messages);
   }
 

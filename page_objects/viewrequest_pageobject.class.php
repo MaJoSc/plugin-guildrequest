@@ -16,14 +16,7 @@
  * $Id: archive.php 12273 2012-10-13 20:48:23Z godmod $
  */
 
-// EQdkp required files/vars
-define('EQDKP_INC', true);
-define('PLUGIN', 'guildrequest');
-
-$eqdkp_root_path = './../../';
-include_once($eqdkp_root_path.'common.php');
-
-class guildrequestViewrequest extends page_generic
+class viewrequest_pageobject extends pageobject
 {
   /**
    * __dependencies
@@ -32,7 +25,7 @@ class guildrequestViewrequest extends page_generic
   public static function __shortcuts()
   {
     $shortcuts = array('pm', 'user', 'core', 'in', 'pdh', 'time', 'tpl', 'html', 'email' => 'MyMailer', 'comments');
-    return array_merge(parent::$shortcuts, $shortcuts);
+    return array_merge(parent::__shortcuts(), $shortcuts);
   }
   
   /**
@@ -57,7 +50,7 @@ class guildrequestViewrequest extends page_generic
   
   public function close(){
 	$this->user->check_auth('a_guildrequest_manage');
-	$row = $this->pdh->get('guildrequest_requests', 'id', array($this->in->get('id',0)));
+	$row = $this->pdh->get('guildrequest_requests', 'id', array($this->url_id));
 	if ($row){
 		//Close
 		$this->pdh->put('guildrequest_requests', 'close', array($row['id']));
@@ -79,7 +72,7 @@ class guildrequestViewrequest extends page_generic
   
   public function open(){
 	$this->user->check_auth('a_guildrequest_manage');
-	$row = $this->pdh->get('guildrequest_requests', 'id', array($this->in->get('id',0)));
+	$row = $this->pdh->get('guildrequest_requests', 'id', array($this->url_id));
 	if ($row){
 		//Close
 		$this->pdh->put('guildrequest_requests', 'open', array($row['id']));
@@ -89,7 +82,7 @@ class guildrequestViewrequest extends page_generic
   
   public function status_change(){
 	$this->user->check_auth('a_guildrequest_manage');
-	$row = $this->pdh->get('guildrequest_requests', 'id', array($this->in->get('id',0)));
+	$row = $this->pdh->get('guildrequest_requests', 'id', array($this->url_id));
 	if ($row){
 		$this->pdh->put('guildrequest_requests', 'update_status', array($row['id'], $this->in->get('gr_status', 0)));
 		$this->pdh->process_hook_queue();
@@ -110,10 +103,10 @@ class guildrequestViewrequest extends page_generic
   
   public function vote(){
 	$this->user->check_auth('u_guildrequest_vote');
-	$intID = $this->in->get('id', 0);
+	$intID = $this->url_id;
 	
 	if ($intID && $this->user->is_signedin()){
-		$rrow = $this->pdh->get('guildrequest_requests', 'id', array($this->in->get('id', 0)));
+		$rrow = $this->pdh->get('guildrequest_requests', 'id', array($this->url_id));
 		$arrVotedUser = ($rrow['voted_user'] != '') ? unserialize($rrow['voted_user']) : array();
 		if (!isset($arrVotedUser[$this->user->id])) {
 			$intYes = $rrow['voting_yes'];
@@ -135,16 +128,17 @@ class guildrequestViewrequest extends page_generic
   
   public function display()
   {
+
 	if ($this->in->get('msg') == 'success'){
 		$this->core->message($this->user->lang('gr_request_success'), $this->user->lang('success'), 'green');
 	}
 	//prüfe ID und Key
-	$intID = $this->in->get('id', 0);
+	$intID = intval($this->url_id);
 	$strKey = $this->in->get('key');
 	$rrow = false;
 	
 	if ($intID){
-		$rrow = $this->pdh->get('guildrequest_requests', 'id', array($this->in->get('id', 0)));
+		$rrow = $this->pdh->get('guildrequest_requests', 'id', array($intID));
 		
 		if (strlen($strKey)){
 			if($rrow['auth_key'] != $this->in->get('key')) message_die($this->user->lang('noauth'));
@@ -168,8 +162,7 @@ class guildrequestViewrequest extends page_generic
 	//Bewerbung anzeigen
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 	$intGroup = 0;
-	$blnGroupOpen = false;
-	$blnPersonalGroup = false;
+	$blnGroupOpen = true;
 	$this->tpl->assign_block_vars('tabs', array(
 	));
 	$arrContent = unserialize($rrow['content']);
@@ -195,9 +188,32 @@ class guildrequestViewrequest extends page_generic
 		'FIELD'		=> $this->time->user_date($rrow['tstamp'], true),
 	));
 	
+	$arrValues = array();
+	foreach($arrFields as $id){
+		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
+		if (isset($arrContent[$row['id']])) $arrValues[$id] = $arrContent[$row['id']];
+		if ($row['type'] == 5){			
+			$content = isset($arrContent[$row['id']]) ? unserialize($arrContent[$row['id']]) : array();
+			$arrValues[$id] = array_keys($content);
+		} 
+	}
+	
+	
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		$row['options'] = unserialize($row['options']);
+		
+		//Only show neccessary fields
+		if (isset($row['dep_field']) && $row['dep_field']){
+			$intDepField = $row['dep_field'];
+			if (!isset($arrValues[$intDepField])) continue;
+				
+			if (is_array($arrValues[$intDepField])){
+				if (!isset($arrValues[$intDepField][$row['dep_value']])) continue;
+			} else {
+				if ($arrValues[$intDepField] != $row["dep_value"]) continue;
+			}
+		}
 		
 		//Close previous group
 		if ($row['type'] == 3){
@@ -249,9 +265,8 @@ class guildrequestViewrequest extends page_generic
 	}
 	
 	//Kommentare
-	include_once($this->root_path.'plugins/guildrequest/includes/gr_comments.class.php');
-	$comments = register('gr_comments');
-	$commentOptions = array('attach_id' => $intID, 'page'=>'guildrequest', 'userauth' => 'u_guildrequest_comment');
+	$comments = register('comments', array('ext'));
+	$commentOptions = array('attach_id' => $intID, 'page'=>'guildrequest', 'userauth' => 'u_guildrequest_comment', 'formforguests' => true);
 	if ($rrow['closed']) $commentOptions['userauth'] = 'a_guildrequest_manage';
 	$comments->SetVars($commentOptions);
 	
@@ -261,11 +276,14 @@ class guildrequestViewrequest extends page_generic
 	));
 	
 	//Kommentare intern
-	$this->comments->SetVars(array('attach_id' => $intID, 'page'=>'guildrequest_int'));
+	$int_comments = register('comments', array('int'));
+	$commentOptions = array('attach_id' => $intID, 'page'=>'guildrequest_int', 'userauth' => 'u_guildrequest_comment_int');	
 	if ($rrow['closed']) $commentOptions['userauth'] = 'a_guildrequest_manage';
+	$int_comments->SetVars($commentOptions);
+	
 	$this->tpl->assign_vars(array(
-		'INTERNAL_COMMENT_COUNTER'	=> $this->comments->Count(),
-		'INTERNAL_COMMENTS'			=> $this->comments->Show(),
+		'INTERNAL_COMMENT_COUNTER'	=> $int_comments->Count(),
+		'INTERNAL_COMMENTS'			=> $int_comments->Show(),
 	));
 	
 	//Vote
@@ -274,8 +292,8 @@ class guildrequestViewrequest extends page_generic
 	$optionNoProcent = ($voting_sum) ? round(($rrow['voting_no'] / $voting_sum)*100) : 0;
 	
 	$this->tpl->assign_vars(array(
-		'VOTE_YES' => $this->jquery->progressbar('gr_vote_yes', $optionYesProcent, $this->user->lang('yes').': '.$rrow['voting_yes']." (".$optionYesProcent." %)", 'left'),
-		'VOTE_NO' => $this->jquery->progressbar('gr_vote_no', $optionNoProcent, $this->user->lang('no').': '.$rrow['voting_no']." (".$optionNoProcent." %)", 'left'),
+		'VOTE_YES' => $this->jquery->progressbar('gr_vote_yes', $optionYesProcent, array('text' => $this->user->lang('yes').': '.$rrow['voting_yes']." (".$optionYesProcent." %)", 'txtalign' => 'left')),
+		'VOTE_NO' => $this->jquery->progressbar('gr_vote_no', $optionNoProcent, array('text' => $this->user->lang('no').': '.$rrow['voting_no']." (".$optionNoProcent." %)", 'txtalign' => 'left')),
 	));
 	
 	$arrVotedUser = ($rrow['voted_user'] != '') ? unserialize($rrow['voted_user']) : array();
@@ -299,11 +317,15 @@ class guildrequestViewrequest extends page_generic
 		'S_CLOSED'				=> ($rrow['closed']),
 		'S_HAS_VOTED'			=> (!$this->user->is_signedin() || $blnHasVoted || $rrow['closed']),
 		'S_IS_GR_ADMIN'			=> $this->user->check_auth('a_guildrequest_manage', false),
+		'S_EXTERNAL_USER'		=> (strlen($strKey)),
+		'EXTERNAL_KEY'			=> $strKey,
 		'STATUS_DD'				=> $this->html->DropDown('gr_status', $arrStatus, $rrow['status']),
+		'GR_USERNAME'			=> sanitize($rrow['username']),
+		'GR_DATE'				=> $this->time->user_date($rrow['tstamp'], true),
 	));
 	
 	$this->core->set_vars(array (
-      'page_title'    => $this->user->lang('gr_viewrequest'),
+      'page_title'    => $this->user->lang('gr_viewrequest').' - '.sanitize($rrow['username']),
       'template_path' => $this->pm->get_data('guildrequest', 'template_path'),
       'template_file' => 'viewrequest.html',
       'display'       => true
@@ -327,8 +349,4 @@ class guildrequestViewrequest extends page_generic
 	return $str;
 	}
 }
-
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_guildrequestViewrequest', guildrequestViewrequest::__shortcuts());
-register('guildrequestViewrequest');
-
 ?>
