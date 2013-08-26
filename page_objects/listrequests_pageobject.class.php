@@ -16,13 +16,6 @@
  * $Id: archive.php 12273 2012-10-13 20:48:23Z godmod $
  */
 
-// EQdkp required files/vars
-define('EQDKP_INC', true);
-define('PLUGIN', 'guildrequest');
-
-$eqdkp_root_path = './../../';
-include_once($eqdkp_root_path.'common.php');
-
 class listrequests_pageobject extends pageobject
 {
   /**
@@ -188,6 +181,5 @@ class listrequests_pageobject extends pageobject
     ));
   }
   
-
 }
 ?>
