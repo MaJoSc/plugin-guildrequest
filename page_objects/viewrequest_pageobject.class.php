@@ -204,7 +204,7 @@ class viewrequest_pageobject extends pageobject
 		$row['options'] = unserialize($row['options']);
 		
 		//Only show neccessary fields
-		if (isset($row['dep_field']) && $row['dep_field']){
+		if (isset($row['dep_field']) && $row['dep_field'] && $row['dep_field'] != 999999999){
 			$intDepField = $row['dep_field'];
 			if (!isset($arrValues[$intDepField])) continue;
 				

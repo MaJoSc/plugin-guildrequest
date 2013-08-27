@@ -78,6 +78,7 @@ $lang = array(
   'gr_jgrowl_notifications'			=> 'PopUp-Benachrichtigungen anzeigen',
 'gr_viewrequest'					=> 'Bewerbung ansehen',
 'gr_dependency'						=> 'Abhängigkeit Feld - Option',
+'gr_customcheck_info'				=> 'Du kannst eigene Abhängigkeitsoptionen festlegen, in dem Du als Dropdown-Option "_Custom" auswählst und im nebenstehenden Feld deinen Code eingibst.<br />Beispiel: ((FIELD1 == "MyValueOne" && FIELD2 == "MyValueTwo") || FIELD3 == "MyValueThree")<br />Beachte, dass bei eigenen Abhängigkeiten die Verpflichtend-Überprüfung nicht zuverlässig funktioniert.',
 );
 
 ?>

@@ -118,7 +118,28 @@ class listrequests_pageobject extends pageobject
 	
 	
 	
+	$arrCombinedFields = $this->pdh->get('guildrequest_fields', 'combined_fields', array());
+
+	foreach($arrCombinedFields  as $key => $val){
+		if (count($val) == 1){
+			$hptt_page_settings['table_presets'][] = array(
+				'name' 	=> 'gr_field_'.$val[0],
+				'sort' 	=> true,
+				'th_add'	=> '',
+				'td_add'	=> '',
+			);
+		} else {
+			$hptt_page_settings['table_presets'][] = array(
+				'name' 	=> 'gr_combined_field_'.$key,
+				'sort' 	=> true,
+				'th_add'	=> '',
+				'td_add'	=> '',
+			);
+		}
+	}
+	
 	//Add colums
+	/*
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 	foreach ($arrFields as $id){
 		if ($this->pdh->get('guildrequest_fields', 'in_list', array($id)) && $this->pdh->get('guildrequest_fields', 'type', array($id)) < 3){
@@ -130,9 +151,10 @@ class listrequests_pageobject extends pageobject
 			);
 		}
 	}
+	*/
 	
 	$hptt_page_settings['table_presets'][] = array(
-		 'name' => 'gr_status',
+	'name' => 'gr_status',
       'sort' => true,
       'th_add' => '',
       'td_add' => '',
@@ -166,8 +188,8 @@ class listrequests_pageobject extends pageobject
 	$footer_text		= sprintf($this->user->lang('gr_footer'), $raid_count ,$this->user->data['user_rlimit']);
 
 	$this->tpl->assign_vars(array (
-		'PAGE_OUT'			=> $hptt->get_html_table($sort, $pagination_suffix.$date_suffix, $start, $this->user->data['user_rlimit'], $footer_text),
-		'GR_PAGINATION'		=> generate_pagination('listraids.php'.$this->SID.$sort_suffix.$date_suffix, $raid_count, $this->user->data['user_rlimit'], $start),
+		'PAGE_OUT'			=> $hptt->get_html_table($sort, $pagination_suffix, $start, $this->user->data['user_rlimit'], $footer_text),
+		'GR_PAGINATION'		=> generate_pagination('listraids.php'.$this->SID.$sort_suffix, $raid_count, $this->user->data['user_rlimit'], $start),
 		'S_GR_ADMIN'		=> $this->user->check_auth('a_guildrequest_manage', false),
 	));
 	

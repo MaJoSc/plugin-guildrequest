@@ -118,7 +118,7 @@ class addrequest_pageobject extends pageobject
 	foreach ($arrInput as $val){
 		if (!$val['required']) continue;
 		
-		if (isset($val['dep_field']) && $val['dep_field']){
+		if (isset($val['dep_field']) && $val['dep_field'] && $val['dep_field'] != 999999999){
 			$intDepField = $val['dep_field'];
 			if (!isset($arrValues[$intDepField])) continue;
 			
@@ -217,7 +217,7 @@ class addrequest_pageobject extends pageobject
 		$row['options'] = unserialize($row['options']);
 		
 		//Dependency
-		if ($row['dep_field'] && strlen($row['dep_value']) && in_array($row['dep_field'], $arrFields)) $this->gen_dependency($row);
+		if ($row['dep_field'] && ((strlen($row['dep_value']) && in_array($row['dep_field'], $arrFields)) || $row['dep_field'] == 999999999)) $this->gen_dependency($row);
 		
 		//Close previous group
 		if ($row['type'] == 3){
@@ -428,34 +428,48 @@ class addrequest_pageobject extends pageobject
   
   private function gen_dependency($row){
   	$arrTypes = $this->pdh->aget('guildrequest_fields', 'type', 0, array( $this->pdh->get('guildrequest_fields', 'id_list', array())));
-  	$intType = $arrTypes[$row['dep_field']];
 
-  	if ($intType == 2){
-  		//Select
-  		$this->tpl->add_js('
-			$(document).on("change", "#gr_field_'.$row['dep_field'].'", function () {
-				gr_dep_check_value("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
-			});
-			gr_dep_check_value("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
-		', 'docready');
-  	}elseif($intType == 5){
-  		//Checkbox
-  		$this->tpl->add_js('
-  			$(document).on("change", "input[name^=\'gr_field_'.$row['dep_field'].'\']", function () {
-				gr_dep_check_cb("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
-			});
-			gr_dep_check_cb("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
-		', 'docready');
-  	}elseif($intType == 6){
-  		//Radio
-  		$this->tpl->add_js('
-		$(document).on("change", "input[name=\'gr_field_'.$row['dep_field'].'\']", function () {
-				gr_dep_check_radio("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
-			});
-			gr_dep_check_radio("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
-		', 'docready');
-  	}
+  	if ($row['dep_field'] == 999999999){
+		$expr = html_entity_decode($row['dep_value']);
+		
+		$expr = preg_replace("/[^a-zA-Z0-9=&|?\"'() ]/", "", $expr);
+		$expr = preg_replace("#FIELD([0-9]*)#", "field_data[\"gr_field_$1\"]", $expr);
+  		
+  		$this->tpl->assign_block_vars("gr_listener_row", array(
+  				'TARGET' => "dl_".$row['id'],
+  				'EXPR'	 => $expr,
+  		));
+  		
+  	} else {
   	
+	  	$intType = $arrTypes[$row['dep_field']];
+	
+	  	if ($intType == 2){
+	  		//Select
+	  		$this->tpl->add_js('
+				$(document).on("change", "#gr_field_'.$row['dep_field'].'", function () {
+					gr_dep_check_value("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+				});
+				gr_dep_check_value("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+			', 'docready');
+	  	}elseif($intType == 5){
+	  		//Checkbox
+	  		$this->tpl->add_js('
+	  			$(document).on("change", "input[name^=\'gr_field_'.$row['dep_field'].'\']", function () {
+					gr_dep_check_cb("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+				});
+				gr_dep_check_cb("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+			', 'docready');
+	  	}elseif($intType == 6){
+	  		//Radio
+	  		$this->tpl->add_js('
+			$(document).on("change", "input[name=\'gr_field_'.$row['dep_field'].'\']", function () {
+					gr_dep_check_radio("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+				});
+				gr_dep_check_radio("gr_field_'.$row['dep_field'].'", "'.$row['dep_value'].'", "dl_'.$row['id'].'");
+			', 'docready');
+	  	}
+  	}
   	
   }
   

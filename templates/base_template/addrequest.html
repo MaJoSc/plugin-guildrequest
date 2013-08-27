@@ -32,6 +32,53 @@ function gr_hide_target(target){
 	$("#"+target+" select").val("");
 	$("#"+target+" select").trigger("change");
 }
+
+var field_data = new Array();
+$(document).ready(function(){
+	$("input[name^='gr_field'], select[name^='gr_field'], textarea[name^='gr_field']").on("change", function(){
+		gr_listener();
+	});
+	gr_listener();
+})
+
+function gr_listener(){
+	$("input[name^='gr_field']").each(function(e){
+		var name = $(this).attr("name");
+		var type = $(this).attr("type");
+		
+		if (type == "radio") field_data[name] = $("input[name="+name+"]:checked").val();
+		if (type == "text") field_data[name] = $("input[name="+name+"]").val();
+		if (type == "checkbox"){
+			
+			if ($(this).is(":checked")) {
+				field_data[name] = 1;
+			} else {
+				field_data[name] = 0;
+			}
+		}
+	})
+	$("select[name^='gr_field']").each(function(e){
+		var name = $(this).attr("name");
+		var type = $(this).attr("type");
+
+		field_data[name] = $("select[name="+name+"]").val();
+	})
+	$("textarea[name^='gr_field']").each(function(e){
+		var name = $(this).attr("name");
+		var type = $(this).attr("type");
+
+		field_data[name] = $("textarea[name="+name+"]").val();
+	})
+
+	<!-- BEGIN gr_listener_row -->
+	if ({gr_listener_row.EXPR}){
+		$("#{gr_listener_row.TARGET}").show();
+	} else {
+		gr_hide_target("{gr_listener_row.TARGET}");
+	}
+	<!-- END gr_listener_row -->	
+}
+
 </script>
 
 <div class="breadcrumb-container">

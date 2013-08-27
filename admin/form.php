@@ -117,6 +117,7 @@ class guildrequestForm extends page_generic
 	
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 	$arrDeps[0] = "";
+	$arrDeps[999999999] = "__Custom";
 	foreach($arrFields as $id){
 		$type =  $this->pdh->get('guildrequest_fields', 'type', array($id));
 		if ($type == 2 || $type == 5 || $type==6) $arrDeps[$id] = $this->pdh->get('guildrequest_fields', 'name', array($id));
@@ -125,6 +126,7 @@ class guildrequestForm extends page_generic
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		$row['options'] = unserialize($row['options']);
+
 		$this->tpl->assign_block_vars('field_row', array(
 			'KEY'				=> $row['id'],
 			'NAME'				=> $row['name'],

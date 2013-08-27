@@ -41,7 +41,7 @@ if (!class_exists('pdh_r_guildrequest_fields'))
     /**
      * Data array loaded by initialize
      */
-    private $data;
+    private $data, $combined;
 
     /**
      * Hook array
@@ -56,8 +56,9 @@ if (!class_exists('pdh_r_guildrequest_fields'))
      */
     public function reset()
     {
-      $this->pdc->del('pdh_guildrequest_fields_table');
-      unset($this->data);
+		$this->pdc->del('pdh_guildrequest_fields_table');
+		$this->data = NULL;
+		$this->combined = NULL;
     }
 
     /**
@@ -70,6 +71,8 @@ if (!class_exists('pdh_r_guildrequest_fields'))
     {
       // try to get from cache first
       $this->data = $this->pdc->get('pdh_guildrequest_fields_table');
+      $this->combined = $this->pdc->get('pdh_guildrequest_fields_combined');
+      
       if($this->data !== NULL)
       {
         return true;
@@ -77,6 +80,7 @@ if (!class_exists('pdh_r_guildrequest_fields'))
 
       // empty array as default
       $this->data = array();
+      $this->combined = array();
 
       // read all guildrequest_fields entries from db
       $sql = 'SELECT
@@ -102,12 +106,21 @@ if (!class_exists('pdh_r_guildrequest_fields'))
           	'dep_field'		=> (int)$row['dep_field'],
           	'dep_value'		=> $row['dep_value'],
           );
+          
+          $hash = md5($row['name'].intval($row['dep_field']));
+          if (!isset($this->combined[$hash])){
+          	$this->combined[$hash] = array();
+          	$this->combined[$hash][] = (int)$row['id'];
+          } else $this->combined[$hash][] = (int)$row['id'];
+          
         }
+
         $this->db->free_result($result);
       }
 
       // add data to cache
       $this->pdc->put('pdh_guildrequest_fields_table', $this->data, null);
+      $this->pdc->put('pdh_guildrequest_fields_combined', $this->combined, null);
 
       return true;
     }
@@ -195,6 +208,23 @@ if (!class_exists('pdh_r_guildrequest_fields'))
 			return $this->data[$intID]['dep_value'];
 		}
 		return false;
+	}
+	
+	public function get_combined_fields(){
+		$arrCombined = array();
+		foreach($this->combined as $key => $val){
+			foreach($val as $val2){
+				if (!$this->get_in_list($val2)) continue;
+				$arrCombined[$key][] = $val2;
+			}	
+		}
+		return $arrCombined;
+	}
+	
+	public function get_combined_field($strKey){
+		if (isset($this->combined[$strKey])){
+			return $this->combined[$strKey];
+		}
 	}
 
   } //end class

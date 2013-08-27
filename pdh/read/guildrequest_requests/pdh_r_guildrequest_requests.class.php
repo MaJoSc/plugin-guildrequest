@@ -81,11 +81,17 @@ if (!class_exists('pdh_r_guildrequest_requests'))
     {
 		$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 		foreach ($arrFields as $id){
-			if ($this->pdh->get('guildrequest_fields', 'in_list', array($id)) && $this->pdh->get('guildrequest_fields', 'type', array($id)) < 3){
+			if ($this->pdh->get('guildrequest_fields', 'in_list', array($id)) && ($this->pdh->get('guildrequest_fields', 'type', array($id)) < 3 || $this->pdh->get('guildrequest_fields', 'type', array($id)) == 6)){
 				$this->presets['gr_field_'.$id] = array('field', array('%request_id%', $id), array($id));
 			}
-		}	
-	
+		}
+		$arrCombinedFields = $this->pdh->get('guildrequest_fields', 'combined_fields', array());
+		foreach($arrCombinedFields as $key => $val){
+			if ($this->pdh->get('guildrequest_fields', 'type', array($id)) < 3 || $this->pdh->get('guildrequest_fields', 'type', array($id))  == 6){
+				$this->presets['gr_combined_field_'.$key] = array('combined_field', array($key, '%request_id%'), array($key));
+			}
+		}
+			
       // try to get from cache first
       $this->data = $this->pdc->get('pdh_guildrequest_requests_table');
       if($this->data !== NULL)
@@ -345,6 +351,21 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 	
 	public function get_html_caption_field($params){
 		return $this->pdh->get('guildrequest_fields', 'name', array($params));
+	}
+	
+	public function get_combined_field($strKey, $intID){
+		$arrFields = $this->pdh->get('guildrequest_fields', 'combined_field',array($strKey));
+		foreach($arrFields as $intFieldID){
+			$arrContent = unserialize($this->get_content($intID));
+			if (isset($arrContent[$intFieldID]) && $arrContent[$intFieldID] != "") return $arrContent[$intFieldID];
+		}
+		return '';
+	}
+	
+	public function get_html_caption_combined_field($strKey){
+		$arrFields = $this->pdh->get('guildrequest_fields', 'combined_field',array($strKey));
+		$id = $arrFields[0];
+		return $this->pdh->get('guildrequest_fields', 'name', array($id));
 	}
 	
 	/**
