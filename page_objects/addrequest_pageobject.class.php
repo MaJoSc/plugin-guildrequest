@@ -57,8 +57,9 @@ class addrequest_pageobject extends pageobject
 		if ($row['type'] == 3 || $row['type'] == 4){
 			continue;
 		}
-		$arrInput[$row['name']] = array(
+		$arrInput[$row['id']] = array(
 			'id'		=> $row['id'],
+			'name'		=> $row['name'],
 			'input' 	=> $this->in->get('gr_field_'.$row['id']),
 			'required'	=> ($row['required']),
 			'dep_field' => $row['dep_field'],
@@ -69,8 +70,9 @@ class addrequest_pageobject extends pageobject
 		
 		//Checkboxes
 		if ($row['type'] == 5){
-			$arrInput[$row['name']] = array(
+			$arrInput[$row['id']] = array(
 				'id'		=> $row['id'],
+				'name'		=> $row['name'],
 				'input' 	=> serialize($this->in->getArray('gr_field_'.$row['id'], 'int')),
 				'required'	=> ($row['required']),
 				'dep_field' => $row['dep_field'],
@@ -80,18 +82,20 @@ class addrequest_pageobject extends pageobject
 		}
 	}
 	
-	$arrInput[$this->user->lang('email')] = array(
+	$arrInput['email'] = array(
 		'input' 	=> $this->in->get('gr_email'),
+		'name'		=> $this->user->lang('email'),
 		'required'	=> true,
 	);
-	$arrInput[$this->user->lang('name')] = array(
+	$arrInput['name'] = array(
 		'input' 	=> $this->in->get('gr_name'),
+		'name'		=> $this->user->lang('name'),
 		'required'	=> true,
 	);
 
 	$this->data = $arrInput;
 
-	//Check Captcha	
+	//Check Captcha
 	require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
 	$captcha = new recaptcha;
 	$response = $captcha->recaptcha_check_answer ($this->config->get('lib_recaptcha_pkey'), $this->env->ip, $this->in->get('recaptcha_challenge_field'), $this->in->get('recaptcha_response_field'));
@@ -100,6 +104,7 @@ class addrequest_pageobject extends pageobject
 		$this->display;
 		return;
 	}
+	
 	
 	//Check email
 	if (!preg_match("/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)+/",$this->in->get('gr_email'))){
@@ -110,7 +115,7 @@ class addrequest_pageobject extends pageobject
 	
 	//Check Required
 	$arrRequired = array();
-	foreach ($arrInput as $key => $val){
+	foreach ($arrInput as $val){
 		if (!$val['required']) continue;
 		
 		if (isset($val['dep_field']) && $val['dep_field']){
@@ -124,24 +129,27 @@ class addrequest_pageobject extends pageobject
 			}
 		}
 		
-		if ($val['input'] == '' || $val['input'] == 'a:0:{}') $arrRequired[] = $key;
+		if ($val['input'] == '' || $val['input'] == 'a:0:{}') $arrRequired[] = $val['name'];
 	}
+
 	if (count($arrRequired) > 0) {
 		$this->core->message(implode(', ', $arrRequired), $this->user->lang('missing_values'), 'red');
 		$this->display();
 		return;
 	}
+	
+	
 
 	//Insert into DB
 	
-	$strName = $arrInput[$this->user->lang('name')]['input'];
-	$strEmail = $arrInput[$this->user->lang('email')]['input'];
+	$strName = $arrInput['name']['input'];
+	$strEmail = $arrInput['email']['input'];
 	$strAuthKey = random_string(false, 40);
 	$strActivationKey = random_string(false, 32);
-	$arrInput[$this->user->lang('email')]['input'] = register('encrypt')->encrypt($arrInput[$this->user->lang('email')]['input']);
+	$arrInput['email']['input'] = register('encrypt')->encrypt($arrInput['email']['input']);
 	$arrToSave = array();
 	foreach($arrInput as $val){
-		$arrToSave[$val['id']] = $val['input']; 
+		$arrToSave[$val['id']] = $val['input'];
 	}	
 	$strContent = serialize($arrToSave);
 	
@@ -231,7 +239,7 @@ class addrequest_pageobject extends pageobject
 				'fieldtype' => 'text',
 				'name'		=> 'gr_field_'.$row['id'],
 				'javascript'=> 'style="width:95%"',
-				'value'		=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -259,7 +267,7 @@ class addrequest_pageobject extends pageobject
 				'name'		=> 'gr_field_'.$row['id'],
 				'javascript'=> 'style="width:95%"',
 				'rows'		=> 10,
-				'value'		=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -292,7 +300,7 @@ class addrequest_pageobject extends pageobject
 				'name'		=> 'gr_field_'.$row['id'],
 				'options'	=> $arrOptions,
 				'no_lang'	=> true,
-				'selected'	=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'selected'	=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -344,7 +352,7 @@ class addrequest_pageobject extends pageobject
 			
 			$field = '';
 			
-			$selected = isset($this->data[$row['name']]) ? unserialize($this->data[$row['name']]['input']) : array();
+			$selected = isset($this->data[$row['id']]) ? unserialize($this->data[$row['id']]['input']) : array();
 			
 			foreach($row['options'] as $val){
 				$options = array(
@@ -388,7 +396,7 @@ class addrequest_pageobject extends pageobject
 				'name'		=> 'gr_field_'.$row['id'],
 				'options'	=> $arrOptions,
 				'no_lang'	=> true,
-				'selected'	=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'selected'	=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -460,7 +468,7 @@ class addrequest_pageobject extends pageobject
 		'fieldtype' => 'text',
 		'name'		=> 'gr_name',
 		'javascript'=> 'style="width:95%"',
-		'value'		=> isset($this->data[$this->user->lang('name')]) ? $this->data[$this->user->lang('name')]['input'] : '',
+		'value'		=> isset($this->data['name']) ? $this->data['name']['input'] : '',
 	);
 	$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 		'NAME'		=> $this->user->lang('name'),
@@ -472,7 +480,7 @@ class addrequest_pageobject extends pageobject
 		'fieldtype' => 'text',
 		'name'		=> 'gr_email',
 		'javascript'=> 'style="width:95%"',
-		'value'		=> isset($this->data[$this->user->lang('email')]) ? $this->data[$this->user->lang('email')]['input'] : '',
+		'value'		=> isset($this->data['email']) ? $this->data['email']['input'] : '',
 	);
 	$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 		'NAME'		=> $this->user->lang('email'),
