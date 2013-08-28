@@ -77,8 +77,8 @@ $lang = array(
   'gr_notification_subject'			=> 'New application',
   'gr_jgrowl_notifications'			=> 'Show PopUp Notifications',
   'gr_viewrequest'					=> 'View Application',
-'gr_dependency'						=> 'Dependency (Field - Option)',
-		'gr_customcheck_info'		=> 'You can add your own dependecy checks, if you select "_Custom" and enter your expression the field on the right.<br />Example: ((FIELD1 == "MyValueOne" && FIELD2 == "MyValueTwo") || FIELD3 == "MyValueThree")<br />Please not that the requirement-check will not work correctly for custom dependecies.',
+  'gr_dependency'					=> 'Dependency (Field - Option)',
+  'gr_customcheck_info'				=> 'You can add your own dependecy checks, if you select "_Custom" and enter your expression the field on the right.<br />Example: ((FIELD1 == "MyValueOne" && FIELD2 == "MyValueTwo") || FIELD3 == "MyValueThree")<br />Please not that the required-check will not work correctly for custom dependencies.',
 );
 
 ?>
