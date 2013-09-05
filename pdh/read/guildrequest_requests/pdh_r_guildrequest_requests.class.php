@@ -34,7 +34,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'time', 'user', 'routing');
+      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'time', 'user', 'routing', 'bbcode' => 'bbcode');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 	
@@ -80,14 +80,16 @@ if (!class_exists('pdh_r_guildrequest_requests'))
     public function init()
     {
 		$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
+		
+		$arrAllowed = array(0, 1, 2, 6, 7);
 		foreach ($arrFields as $id){
-			if ($this->pdh->get('guildrequest_fields', 'in_list', array($id)) && ($this->pdh->get('guildrequest_fields', 'type', array($id)) < 3 || $this->pdh->get('guildrequest_fields', 'type', array($id)) == 6)){
+			if ($this->pdh->get('guildrequest_fields', 'in_list', array($id)) && (in_array($this->pdh->get('guildrequest_fields', 'type', array($id)), $arrAllowed))){
 				$this->presets['gr_field_'.$id] = array('field', array('%request_id%', $id), array($id));
 			}
 		}
 		$arrCombinedFields = $this->pdh->get('guildrequest_fields', 'combined_fields', array());
 		foreach($arrCombinedFields as $key => $val){
-			if ($this->pdh->get('guildrequest_fields', 'type', array($id)) < 3 || $this->pdh->get('guildrequest_fields', 'type', array($id))  == 6){
+			if ((in_array($this->pdh->get('guildrequest_fields', 'type', array($id)), $arrAllowed))){
 				$this->presets['gr_combined_field_'.$key] = array('combined_field', array($key, '%request_id%'), array($key));
 			}
 		}
@@ -347,6 +349,13 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 		$arrContent = unserialize($this->get_content($intID));
 		if (isset($arrContent[$intFieldID])) return $arrContent[$intFieldID];
 		return '';
+	}
+	
+	public function get_html_field($intID, $intFieldID){
+		$strContent = $this->get_field($intID, $intFieldID);
+		$intType = $this->pdh->get('guildrequest_fields', 'type', array($intFieldID));
+		if ($intType == 7) $strContent = strip_tags($this->bbcode->toHTML($strContent));
+		return $strContent;
 	}
 	
 	public function get_html_caption_field($params){

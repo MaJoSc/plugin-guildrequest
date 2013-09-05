@@ -24,7 +24,7 @@ class viewrequest_pageobject extends pageobject
    */
   public static function __shortcuts()
   {
-    $shortcuts = array('pm', 'user', 'core', 'in', 'pdh', 'time', 'tpl', 'html', 'email' => 'MyMailer', 'comments');
+    $shortcuts = array('pm', 'user', 'core', 'in', 'pdh', 'time', 'tpl', 'html', 'email' => 'MyMailer', 'comments', 'bbcode'	=> 'bbcode');
     return array_merge(parent::__shortcuts(), $shortcuts);
   }
   
@@ -131,6 +131,7 @@ class viewrequest_pageobject extends pageobject
 
 	if ($this->in->get('msg') == 'success'){
 		$this->core->message($this->user->lang('gr_request_success'), $this->user->lang('success'), 'green');
+		$this->tpl->assign_var('S_SUCCESS_MSG', true);
 	}
 	//prüfe ID und Key
 	$intID = intval($this->url_id);
@@ -198,7 +199,7 @@ class viewrequest_pageobject extends pageobject
 		} 
 	}
 	
-	
+	$this->bbcode->SetSmiliePath($this->server_path.'images/smilies');
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		$row['options'] = unserialize($row['options']);
@@ -249,6 +250,23 @@ class viewrequest_pageobject extends pageobject
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 					'NAME'			=> $row['name'],
 					'FIELD'			=> implode('; ', array_keys($content)),
+			));
+		}
+		//BBcode Editor
+		if ($row['type'] == 7){
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+						'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+						'ID'	=> 'information',
+				));
+				$blnGroupOpen = true;
+			}
+				
+			$content = $this->bbcode->MyEmoticons($this->bbcode->toHTML($arrContent[$row['id']]));
+		
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
+					'NAME'			=> $row['name'],
+					'FIELD'			=> $content,
 			));
 		}
 
@@ -322,6 +340,7 @@ class viewrequest_pageobject extends pageobject
 		'STATUS_DD'				=> $this->html->DropDown('gr_status', $arrStatus, $rrow['status']),
 		'GR_USERNAME'			=> sanitize($rrow['username']),
 		'GR_DATE'				=> $this->time->user_date($rrow['tstamp'], true),
+		'EXTERNAL_URL'			=> $this->env->link.$this->routing->build('ViewApplication', $rrow['username'], $intID, false, true).'?key=' . $strKey,
 	));
 	
 	$this->core->set_vars(array (

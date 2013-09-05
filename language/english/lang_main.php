@@ -40,7 +40,7 @@ $lang = array(
   'gr_required'						=> 'Mandatory',
   'gr_delete_selected_fields'		=> 'Delete selected fields',
   'gr_types'						=> array(
-	'Textfield', 'Textarea', 'Dropdown', 'Grouplabel', 'free text', 'Checkboxes', 'Radio-Buttons',
+	'Textfield', 'Textarea', 'Dropdown', 'Grouplabel', 'free text', 'Checkboxes', 'Radio-Buttons', 'Editor',
   ),
   'gr_add_field'					=> 'Add new field',
   'gr_delete_field'					=> 'Delete field',
@@ -51,6 +51,7 @@ $lang = array(
   'gr_activationmail_subject'		=> 'Activate your application',
   'gr_viewlink_subject'				=> 'Your application',
   'gr_request_success'				=> 'Your application has been saved successfully. An email with the link to this page was sent to your email-address.',
+  'gr_request_success_msg'			=> 'Your application has been saved successfully. You can view your application at any time using the following link: ',
   'gr_vote'							=> 'Voting',
   'gr_internal_comments'			=> 'Internal comments',
   'gr_newcomment_subject'			=> 'New comment in your application',

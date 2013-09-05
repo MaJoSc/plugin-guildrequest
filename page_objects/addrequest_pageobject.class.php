@@ -406,6 +406,32 @@ class addrequest_pageobject extends pageobject
 				'ID'		=> 'dl_'.$row['id'],
 			));
 		}
+		
+		//BBCode Editor
+		if ($row['type'] == 7){
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+					'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+					'ID'	=> 'information',
+				));
+				$blnGroupOpen = true;
+			}
+
+			
+			$options = array(
+				'fieldtype' => 'bbcodeeditor',
+				'name'		=> 'gr_field_'.$row['id'],
+				'rows'		=> 6,
+				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
+			);
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
+				'NAME'		=> $row['name'],
+				'FIELD'		=> $this->html->widget($options),
+				'REQUIRED'	=> ($row['required']),
+				'HELP'		=> $row['help'],
+				'ID'		=> 'dl_'.$row['id'],
+			));
+		}
 	}
 	
 	require($this->root_path.'libraries/recaptcha/recaptcha.class.php');

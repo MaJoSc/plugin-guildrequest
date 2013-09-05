@@ -40,7 +40,7 @@ $lang = array(
   'gr_required'						=> 'Verpflichtend',
   'gr_delete_selected_fields'		=> 'Ausgewählte Felder löschen',
   'gr_types'						=> array(
-	'Textfeld', 'Textbereich', 'Auswahlfeld', 'Gruppenüberschrift', 'Freitext', 'Checkboxen', 'Radio-Buttons',
+	'Textfeld', 'Textbereich', 'Auswahlfeld', 'Gruppenüberschrift', 'Freitext', 'Checkboxen', 'Radio-Buttons', 'Editor',
   ),
   'gr_add_field'					=> 'Neues Feld hinzufügen',
   'gr_delete_field'					=> 'Feld löschen',
@@ -51,6 +51,7 @@ $lang = array(
   'gr_activationmail_subject'		=> 'Aktiviere deine Bewerbung',
   'gr_viewlink_subject'				=> 'Deine Bewerbung',
   'gr_request_success'				=> 'Deine Bewerbung wurde erfolgreich gespeichert. Eine Email mit dem Link auf diese Seite wurde an Deine Email-Adresse versendet.',
+  'gr_request_success_msg'			=> 'Deine Bewerbung wurde erfolgreich gespeichert. Du kannst sie jederzeit über folgenden Link aufrufen: ',
   'gr_vote'							=> 'Abstimmung',
   'gr_internal_comments'			=> 'Interne Kommentare',
   'gr_newcomment_subject'			=> 'Neuer Kommentar zu Deiner Bewerbung',
