@@ -36,7 +36,7 @@ class guildrequestForm extends page_generic
    */
   public static function __shortcuts()
   {
-    $shortcuts = array('pm', 'user', 'config', 'core', 'in', 'jquery', 'html', 'tpl');
+    $shortcuts = array('pm', 'user', 'config', 'core', 'in', 'jquery', 'html', 'tpl', 'pdc');
     return array_merge(parent::$shortcuts, $shortcuts);
   }
 
