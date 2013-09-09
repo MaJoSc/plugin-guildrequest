@@ -87,7 +87,7 @@ if (!class_exists('pdh_r_guildrequest_visits'))
       {
 
         // add row by row to local copy
-        while (($row =  $result->fetchAssoc())
+        while ($row =  $result->fetchAssoc())
         {
           $this->data[(int)$row['user_id']][(int)$row['request_id']] = array(
             'request_id' 	=> (int)$row['request_id'],
