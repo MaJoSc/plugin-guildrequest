@@ -34,7 +34,7 @@ if (!class_exists('pdh_r_guildrequest_visits'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'bbcode', 'time');
+      $shortcuts = array('pdc', 'db2', 'pdh', 'config', 'bbcode', 'time');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
@@ -82,12 +82,12 @@ if (!class_exists('pdh_r_guildrequest_visits'))
       $sql = 'SELECT
                *
               FROM `__guildrequest_visits`';
-      $result = $this->db->query($sql);
+      $result = $this->db2->query($sql);
       if ($result)
       {
 
         // add row by row to local copy
-        while (($row = $this->db->fetch_record($result)))
+        while (($row =  $result->fetchAssoc())
         {
           $this->data[(int)$row['user_id']][(int)$row['request_id']] = array(
             'request_id' 	=> (int)$row['request_id'],
@@ -95,7 +95,6 @@ if (!class_exists('pdh_r_guildrequest_visits'))
             'lastvisit'     => (int)$row['lastvisit'],
           );
         }
-        $this->db->free_result($result);
       }
 
       // add data to cache

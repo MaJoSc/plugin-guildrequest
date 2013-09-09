@@ -34,7 +34,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'time', 'user', 'routing', 'bbcode' => 'bbcode');
+      $shortcuts = array('pdc', 'db2', 'pdh', 'config', 'time', 'user', 'routing', 'bbcode' => 'bbcode');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 	
@@ -109,12 +109,12 @@ if (!class_exists('pdh_r_guildrequest_requests'))
                *
               FROM `__guildrequest_requests`
               ORDER BY tstamp DESC;';
-      $result = $this->db->query($sql);
+      $result = $this->db2->query($sql);
       if ($result)
       {
 
         // add row by row to local copy
-        while (($row = $this->db->fetch_record($result)))
+        while ($row = $result->fetchAssoc())
         {
           $this->data[(int)$row['id']] = array(
             'id' 			=> (int)$row['id'],
@@ -133,7 +133,6 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 			'voted_user'	=> $row['voted_user'],
           );
         }
-        $this->db->free_result($result);
       }
 
       // add data to cache

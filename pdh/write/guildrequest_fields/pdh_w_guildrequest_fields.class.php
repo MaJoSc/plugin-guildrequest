@@ -34,12 +34,12 @@ if (!class_exists('pdh_w_guildrequest_fields'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('db', 'pdh', 'time');
+      $shortcuts = array('db2', 'pdh', 'time');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
 	public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
-		$resQuery = $this->db->query("INSERT INTO __guildrequest_fields :params", array(
+		$objQuery = $this->db2->prepare("INSERT INTO __guildrequest_fields :p")->set(array(
 			'id'		=> $intID,
 			'type'		=> $strType,
 			'name'		=> $strName,
@@ -50,15 +50,16 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 			'in_list'	=> $intInList,
 			'dep_field' => $dep_field,
 			'dep_value' => $dep_value,
-		));
+		))->execute();
+		
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
-		if ($resQuery) return $this->db->insert_id();
+		if ($objQuery) return $objQuery->insertId;
 		
 		return false;
 	}
 	
 	public function update($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
-		$resQuery = $this->db->query("UPDATE __guildrequest_fields SET :params WHERE id=?", array(
+		$objQuery = $this->db2->prepare("UPDATE __guildrequest_fields :p WHERE id=?")->set(array(
 			'type'		=> $strType,
 			'name'		=> $strName,
 			'help'		=> $strHelp,
@@ -68,26 +69,25 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 			'in_list'	=> $intInList,
 			'dep_field' => $dep_field,
 			'dep_value' => $dep_value,
-		), $intID);
+		))->execute($intID);
+		
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
-		if ($resQuery) return $intID;
+		if ($objQuery) return $intID;
 		
 		return false;
 	}
 	
 	public function delete($intID){
-		$this->db->query("DELETE FROM __guildrequest_fields WHERE id=?", false, $intID);
+		$this->db2->prepare("DELETE FROM __guildrequest_fields WHERE id=?")->execute($intID);
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
 		return true;
 	}
 	
 	public function truncate(){
-		$this->db->query("TRUNCATE __guildrequest_fields");
+		$this->db2->query("TRUNCATE __guildrequest_fields");
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
 		return true;
 	}
-   
-    
 
   } //end class
 } //end if class not exists

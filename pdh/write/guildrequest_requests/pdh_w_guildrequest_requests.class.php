@@ -34,13 +34,13 @@ if (!class_exists('pdh_w_guildrequest_requests'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('db', 'pdh', 'time');
+      $shortcuts = array('db2', 'pdh', 'time');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
 	public function add($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent, $intActivated=1){
 		
-		$resQuery = $this->db->query("INSERT INTO __guildrequest_requests :params", array(
+		$objQuery = $this->db2->prepare("INSERT INTO __guildrequest_requests :p")->set(array(
             'tstamp'        => $this->time->time,
 			'username'		=> $strName,
 			'email'			=> register('encrypt')->encrypt($strEmail),
@@ -54,81 +54,85 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 			'voting_yes'	=> 0,
 			'voting_no'		=> 0,
 			'voted_user'	=> '',
-		));
+		))->execute();
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
-		if ($resQuery) return $this->db->insert_id();
+		if ($objQuery) return $objQuery->insertId;
 		
 		return false;
 	}
 	
 	public function delete($intID){
-		$this->db->query("DELETE FROM __guildrequest_requests WHERE id=?", false, $intID);
+		$objQuery = $this->db2->prepare("DELETE FROM __guildrequest_requests WHERE id=?")->execute($intID);
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		return true;
 	}
 	
 	public function set_lastvisit($intID){
-		$resQuery = $this->db->query("UPDATE __guildrequest_requests SET :params WHERE id=?", array(
+		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'lastvisit'		=> $this->time->time,
-		), $intID);
+		))->execute($intID);
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
-		if ($resQuery) return $intID;
+		if ($objQuery) return $intID;
 		
 		return false;
 	}
 	
 	public function truncate(){
-		$this->db->query("TRUNCATE __guildrequest_requests");
+		$this->db2->query("TRUNCATE __guildrequest_requests");
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		return true;
 	}
 	
 	public function update_voting($intID, $intYes, $intNo, $arrVotedUser){
-		$resQuery = $this->db->query("UPDATE __guildrequest_requests SET :params WHERE id=?", array(
+		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'voting_yes'	=> $intYes,
 			'voting_no'		=> $intNo,
 			'voted_user'	=> serialize($arrVotedUser),
-		), $intID);
+		))->execute($intID);
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
-		if ($resQuery) return $intID;
+		if ($objQuery) return $intID;
 		
 		return false;
 	}
 	
 	public function close($intID){
-		$resQuery = $this->db->query("UPDATE __guildrequest_requests SET :params WHERE id=?", array(
+		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'closed'	=> 1,
-		), $intID);
+		))->execute($intID);
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
-		if ($resQuery) return $intID;
+		if ($objQuery) return $intID;
 		
 		return false;
 	}
 	
 	public function open($intID){
-		$resQuery = $this->db->query("UPDATE __guildrequest_requests SET :params WHERE id=?", array(
+		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'closed'	=> 0,
-		), $intID);
+		))->execute($intID);
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
-		if ($resQuery) return $intID;
+		if ($objQuery) return $intID;
 		
 		return false;
 	}
 	
 	public function update_status($intID, $intStatus){
-		$resQuery = $this->db->query("UPDATE __guildrequest_requests SET :params WHERE id=?", array(
+		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'status'	=> $intStatus,
-		), $intID);
+		))->execute($intID);
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
-		if ($resQuery) return $intID;
+		if ($objQuery) return $intID;
 		
 		return false;
 	}
-   
-    
 
   } //end class
 } //end if class not exists
 
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_pdh_w_guildrequest_requests', pdh_w_guildrequest_requests::__shortcuts());
 ?>
