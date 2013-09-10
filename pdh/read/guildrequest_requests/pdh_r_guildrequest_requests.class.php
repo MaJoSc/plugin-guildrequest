@@ -34,7 +34,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('pdc', 'db2', 'pdh', 'config', 'time', 'user', 'routing', 'bbcode' => 'bbcode');
+      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'time', 'user', 'routing', 'bbcode' => 'bbcode');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 	
@@ -109,7 +109,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
                *
               FROM `__guildrequest_requests`
               ORDER BY tstamp DESC;';
-      $result = $this->db2->query($sql);
+      $result = $this->db->query($sql);
       if ($result)
       {
 

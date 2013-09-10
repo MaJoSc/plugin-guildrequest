@@ -34,12 +34,12 @@ if (!class_exists('pdh_w_guildrequest_visits'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('db2', 'pdh', 'time', 'user');
+      $shortcuts = array('db', 'pdh', 'time', 'user');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 	
 	public function add($intID){
-		$objQuery = $this->db2->prepare("REPLACE INTO __guildrequest_visits :p")->set(array(
+		$objQuery = $this->db->prepare("REPLACE INTO __guildrequest_visits :p")->set(array(
 			'request_id'		=> $intID,
 			'user_id'			=> $this->user->id,
 			'lastvisit'			=> $this->time->time,
@@ -52,7 +52,7 @@ if (!class_exists('pdh_w_guildrequest_visits'))
 	}
 	
 	public function truncate(){
-		$this->db2->query("TRUNCATE __guildrequest_visits");
+		$this->db->query("TRUNCATE __guildrequest_visits");
 		$this->pdh->enqueue_hook('guildrequest_visits_update');
 		return true;
 	}

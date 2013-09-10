@@ -34,7 +34,7 @@ if (!class_exists('pdh_r_guildrequest_fields'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('pdc', 'db2', 'pdh', 'config', 'bbcode', 'time');
+      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'bbcode', 'time');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
@@ -87,7 +87,7 @@ if (!class_exists('pdh_r_guildrequest_fields'))
                *
               FROM `__guildrequest_fields`
               ORDER BY sortid ASC;';
-      $result = $this->db2->query($sql);
+      $result = $this->db->query($sql);
       if ($result)
       {
 

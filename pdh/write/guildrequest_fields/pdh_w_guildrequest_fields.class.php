@@ -34,12 +34,12 @@ if (!class_exists('pdh_w_guildrequest_fields'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('db2', 'pdh', 'time');
+      $shortcuts = array('db', 'pdh', 'time');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
 	public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
-		$objQuery = $this->db2->prepare("INSERT INTO __guildrequest_fields :p")->set(array(
+		$objQuery = $this->db->prepare("INSERT INTO __guildrequest_fields :p")->set(array(
 			'id'		=> $intID,
 			'type'		=> $strType,
 			'name'		=> $strName,
@@ -59,7 +59,7 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 	}
 	
 	public function update($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
-		$objQuery = $this->db2->prepare("UPDATE __guildrequest_fields :p WHERE id=?")->set(array(
+		$objQuery = $this->db->prepare("UPDATE __guildrequest_fields :p WHERE id=?")->set(array(
 			'type'		=> $strType,
 			'name'		=> $strName,
 			'help'		=> $strHelp,
@@ -78,13 +78,13 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 	}
 	
 	public function delete($intID){
-		$this->db2->prepare("DELETE FROM __guildrequest_fields WHERE id=?")->execute($intID);
+		$this->db->prepare("DELETE FROM __guildrequest_fields WHERE id=?")->execute($intID);
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
 		return true;
 	}
 	
 	public function truncate(){
-		$this->db2->query("TRUNCATE __guildrequest_fields");
+		$this->db->query("TRUNCATE __guildrequest_fields");
 		$this->pdh->enqueue_hook('guildrequest_fields_update');
 		return true;
 	}

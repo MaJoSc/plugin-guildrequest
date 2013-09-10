@@ -34,13 +34,13 @@ if (!class_exists('pdh_w_guildrequest_requests'))
      */
     public static function __shortcuts()
     {
-      $shortcuts = array('db2', 'pdh', 'time');
+      $shortcuts = array('db', 'pdh', 'time');
       return array_merge(parent::$shortcuts, $shortcuts);
     }
 
 	public function add($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent, $intActivated=1){
 		
-		$objQuery = $this->db2->prepare("INSERT INTO __guildrequest_requests :p")->set(array(
+		$objQuery = $this->db->prepare("INSERT INTO __guildrequest_requests :p")->set(array(
             'tstamp'        => $this->time->time,
 			'username'		=> $strName,
 			'email'			=> register('encrypt')->encrypt($strEmail),
@@ -63,14 +63,14 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 	}
 	
 	public function delete($intID){
-		$objQuery = $this->db2->prepare("DELETE FROM __guildrequest_requests WHERE id=?")->execute($intID);
+		$objQuery = $this->db->prepare("DELETE FROM __guildrequest_requests WHERE id=?")->execute($intID);
 		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		return true;
 	}
 	
 	public function set_lastvisit($intID){
-		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
+		$objQuery = $this->db->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'lastvisit'		=> $this->time->time,
 		))->execute($intID);
 		
@@ -81,13 +81,13 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 	}
 	
 	public function truncate(){
-		$this->db2->query("TRUNCATE __guildrequest_requests");
+		$this->db->query("TRUNCATE __guildrequest_requests");
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		return true;
 	}
 	
 	public function update_voting($intID, $intYes, $intNo, $arrVotedUser){
-		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
+		$objQuery = $this->db->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'voting_yes'	=> $intYes,
 			'voting_no'		=> $intNo,
 			'voted_user'	=> serialize($arrVotedUser),
@@ -100,7 +100,7 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 	}
 	
 	public function close($intID){
-		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
+		$objQuery = $this->db->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'closed'	=> 1,
 		))->execute($intID);
 		
@@ -111,7 +111,7 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 	}
 	
 	public function open($intID){
-		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
+		$objQuery = $this->db->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'closed'	=> 0,
 		))->execute($intID);
 		
@@ -122,7 +122,7 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 	}
 	
 	public function update_status($intID, $intStatus){
-		$objQuery = $this->db2->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
+		$objQuery = $this->db->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'status'	=> $intStatus,
 		))->execute($intID);
 		
