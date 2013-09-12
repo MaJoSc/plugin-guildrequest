@@ -218,7 +218,7 @@ class guildrequest extends plugin_generic
   private function usersettings(){
 	$settings = array(
 		'guildrequest' => array(
-			'icon' => $this->server_path.'plugins/guildrequest/images/adminmenu/guildrequest.png',
+			'icon' => 'icon-suitcase',
 		
 		'gr_send_notification_mails'	=> array(
 			'fieldtype'	=> 'checkbox',
