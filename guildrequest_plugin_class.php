@@ -56,7 +56,7 @@ class guildrequest extends plugin_generic
       'code'              => 'guildrequest',
       'path'              => 'guildrequest',
       'template_path'     => 'plugins/guildrequest/templates/',
-      'icon'              => 'icon-suitcase',
+      'icon'              => 'icon-edit',
       'version'           => $this->version,
       'author'            => $this->copyright,
       'description'       => $this->user->lang('guildrequest_short_desc'),
@@ -179,12 +179,12 @@ class guildrequest extends plugin_generic
   {
     $admin_menu = array (array(
         'name' => $this->user->lang('guildrequest'),
-        'icon' => 'icon-suitcase',
+        'icon' => 'icon-edit',
         1 => array (
           'link'  => 'plugins/guildrequest/admin/form.php'.$this->SID,
           'text'  => $this->user->lang('gr_manage_form'),
           'check' => 'a_guildrequest_form',
-          'icon'  => 'icon-reorder'
+          'icon'  => 'icon-list-alt'
         ),
     ));
 
