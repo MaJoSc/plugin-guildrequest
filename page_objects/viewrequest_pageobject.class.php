@@ -320,10 +320,10 @@ class viewrequest_pageobject extends pageobject
 
 	$this->jquery->Tab_header('gr_view', true);
 	switch($rrow['status']){
-		case 0: $icon = 'icon_info'; break;
-		case 1: $icon = 'icon_info'; break;
-		case 2: $icon = 'icon_ok'; break;
-		case 3: $icon = 'icon_false'; break;
+		case 0: $icon = 'icon-info-sign'; break;
+		case 1: $icon = 'icon-info-sign'; break;
+		case 2: $icon = 'icon-ok'; break;
+		case 3: $icon = 'icon-warning-sign'; break;
 	}
 	$arrStatus = $this->user->lang('gr_status');
 	

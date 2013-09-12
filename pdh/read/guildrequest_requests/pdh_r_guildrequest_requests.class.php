@@ -337,10 +337,9 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 	public function get_html_voting_flag($intID){
 		$intFlag = $this->get_voting_flag($intID);
 		switch($intFlag){
-			case 1: return '<img src="'.$this->server_path.'images/calendar/status/status0.png" alt="Yes" />';
-			case 0: return '<img src="'.$this->server_path.'images/calendar/status/status2.png" alt="Yes" />'; 
+			case 1: return '<i class="icon-flag icon-color-green icon-large"></i>';
+			case 0: return '<i class="icon-flag icon-color-red icon-large"></i>'; 
 		}
-		
 		return '';
 	}
 	

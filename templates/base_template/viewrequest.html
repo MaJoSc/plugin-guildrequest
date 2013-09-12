@@ -20,15 +20,15 @@
 </div>
 
 	<!-- IF S_CLOSED -->
-	<div class="errorbox roundbox">
-		<div class="closed">{L_gr_closed}</div>
+	<div class="infobox infobox-large infobox-red clearfix">
+		<i class="icon-lock icon-4x pull-left"></i> {L_gr_closed}
 	</div>
 	<br />
 	<!-- ENDIF -->
-	<div class="bluebox roundbox">
-		<div class="{STATUS_ICON}"><!-- IF S_SUCCESS_MSG -->{L_gr_request_success_msg}<a href="{EXTERNAL_URL}">{EXTERNAL_URL}</a><br /><br /><!-- ENDIF -->
+	<div class="infobox infobox-large infobox-blue clearfix">
+		<i class="icon-info-sign icon-4x pull-left"></i> <!-- IF S_SUCCESS_MSG -->{L_gr_request_success_msg}<a href="{EXTERNAL_URL}">{EXTERNAL_URL}</a><br /><br /><!-- ENDIF -->
 		
-		{STATUS_TEXT}</div>
+		{STATUS_TEXT}
 	</div>
 	<br />
 	
