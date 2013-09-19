@@ -57,6 +57,7 @@ if (!class_exists('pdh_r_guildrequest_fields'))
     public function reset()
     {
 		$this->pdc->del('pdh_guildrequest_fields_table');
+		$this->pdc->del('pdh_guildrequest_fields_combined');
 		$this->data = NULL;
 		$this->combined = NULL;
     }
