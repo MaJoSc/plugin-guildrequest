@@ -56,7 +56,7 @@ class guildrequest extends plugin_generic
       'code'              => 'guildrequest',
       'path'              => 'guildrequest',
       'template_path'     => 'plugins/guildrequest/templates/',
-      'icon'              => 'icon-edit',
+      'icon'              => 'fa fa-pencil-square-o',
       'version'           => $this->version,
       'author'            => $this->copyright,
       'description'       => $this->user->lang('guildrequest_short_desc'),
@@ -179,12 +179,12 @@ class guildrequest extends plugin_generic
   {
     $admin_menu = array (array(
         'name' => $this->user->lang('guildrequest'),
-        'icon' => 'icon-edit',
+        'icon' => 'fa fa-pencil-square-o',
         1 => array (
           'link'  => 'plugins/guildrequest/admin/form.php'.$this->SID,
           'text'  => $this->user->lang('gr_manage_form'),
           'check' => 'a_guildrequest_form',
-          'icon'  => 'icon-list-alt'
+          'icon'  => 'fa-list-alt'
         ),
     ));
 
@@ -218,7 +218,7 @@ class guildrequest extends plugin_generic
   private function usersettings(){
 	$settings = array(
 		'guildrequest' => array(
-			'icon' => 'icon-edit',
+			'icon' => 'fa fa-pencil-square-o',
 		
 		'gr_send_notification_mails'	=> array(
 			'fieldtype'	=> 'checkbox',

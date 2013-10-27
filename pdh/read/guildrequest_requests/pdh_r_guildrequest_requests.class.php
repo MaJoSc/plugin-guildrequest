@@ -257,7 +257,7 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 	
 	public function get_html_closed($intID){
 		if (isset($this->data[$intID])){
-			if ($this->data[$intID]['closed']) return '<i class="icon-lock"></i>';
+			if ($this->data[$intID]['closed']) return '<i class="fa fa-lock"></i>';
 		}
 		return '';
 	}
@@ -337,8 +337,8 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 	public function get_html_voting_flag($intID){
 		$intFlag = $this->get_voting_flag($intID);
 		switch($intFlag){
-			case 1: return '<i class="icon-flag icon-color-green icon-large"></i>';
-			case 0: return '<i class="icon-flag icon-color-red icon-large"></i>'; 
+			case 1: return '<i class="fa fa-flag icon-color-green fa-lg"></i>';
+			case 0: return '<i class="fa fa-flag icon-color-red fa-lg"></i>'; 
 		}
 		return '';
 	}

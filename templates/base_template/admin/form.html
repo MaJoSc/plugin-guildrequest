@@ -72,7 +72,7 @@ $(document).ready(function(){
 <!-- IF S_NORMAL_HEADER -->
 <div class="breadcrumb-container">
 	<ul class="breamcrumb">
-		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="icon-home"></i></a></li>
+		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="fa fa-home"></i></a></li>
 		<li><a href="{EQDKP_ROOT_PATH}admin/{SID}">{L_menu_admin_panel}</a>
 		<li class="current"><a>{L_guildrequest}: {L_gr_manage_form}</a></li>
 	</ul>
@@ -84,7 +84,7 @@ $(document).ready(function(){
 	</div>
 
 <div class="infobox infobox-large infobox-blue clearfix">
-	<i class="icon-info-sign icon-4x pull-left"></i> {L_gr_customcheck_info}
+	<i class="fa fa-info-circle fa-4x pull-left"></i> {L_gr_customcheck_info}
 </div>
 <br />
 <form name="gr_settings" action="{ACTION}" method="post">
@@ -108,7 +108,7 @@ $(document).ready(function(){
 		<tr>
 			<td><span class="ui-icon ui-icon-arrowthick-2-n-s" title="{L_dragndrop}"></span></td>
 			<td width="10px">#{field_row.KEY}</td>
-			<td align="center"><input type="hidden" name="field[{field_row.KEY}][id]" value="{field_row.KEY}" class="gr_id"/><i class="icon-trash icon-large" title="{L_gr_delete_field}"  onclick="delete_row(this);"></i></td>
+			<td align="center"><input type="hidden" name="field[{field_row.KEY}][id]" value="{field_row.KEY}" class="gr_id"/><i class="fa fa-trash-o fa-lg" title="{L_gr_delete_field}"  onclick="delete_row(this);"></i></td>
 			<td><input type="text" name="field[{field_row.KEY}][name]" value="{field_row.NAME}" class="input gr_name" style="width: 90%" /></td>
 			<td>{field_row.TYP_DD}</td>
 			<td><input type="text" name="field[{field_row.KEY}][help]" value="{field_row.HELP}" class="input gr_help" style="width: 90%" {field_row.HELP_DISABLED}/></td>
@@ -121,8 +121,8 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 	<div class="contentFooter">
-		<button type="button" onclick="add_row();"><i class="icon-plus"></i>{L_gr_add_field}</button>
-		<button type="submit" name="save"><i class="icon-ok"></i>{L_save}</button>
+		<button type="button" onclick="add_row();"><i class="fa fa-plus"></i>{L_gr_add_field}</button>
+		<button type="submit" name="save"><i class="fa fa-check"></i>{L_save}</button>
 	</div>
 	
 {CSRF_TOKEN}
@@ -133,7 +133,7 @@ $(document).ready(function(){
 	<tr id="reference_row">
 		<td><span class="ui-icon ui-icon-arrowthick-2-n-s" title="{L_dragndrop}"></span></td>
 		<td width="10px">#KEY</td>
-		<td align="center"><input type="hidden" name="field[KEY][id]" value="KEY" class="gr_id" /><i class="icon-trash icon-large" title="{L_delte}" onclick="delete_row(this);"></i></td>
+		<td align="center"><input type="hidden" name="field[KEY][id]" value="KEY" class="gr_id" /><i class="fa fa-trash-o fa-lg" title="{L_delte}" onclick="delete_row(this);"></i></td>
 		<td><input type="text" name="field[KEY][name]" value="" class="input gr_name" style="width: 90%" /></td>
 		<td>{TYP_DD}</td>
 		<td><input type="text" name="field[KEY][help]" value="" class="input gr_help" style="width: 90%" /></td>

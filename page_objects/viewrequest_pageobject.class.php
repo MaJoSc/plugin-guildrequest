@@ -320,17 +320,17 @@ class viewrequest_pageobject extends pageobject
 
 	$this->jquery->Tab_header('gr_view', true);
 	switch($rrow['status']){
-		case 0: $icon = 'icon-info-sign'; break;
-		case 1: $icon = 'icon-info-sign'; break;
-		case 2: $icon = 'icon-ok'; break;
-		case 3: $icon = 'icon-warning-sign'; break;
+		case 0: $icon = 'fa-info-circle'; break;
+		case 1: $icon = 'fa-info-circle'; break;
+		case 2: $icon = 'fa fa-check'; break;
+		case 3: $icon = 'fa fa-exclamation-triangle'; break;
 	}
 	$arrStatus = $this->user->lang('gr_status');
 	
 	$this->tpl->assign_vars(array(
 		'S_INTERNAL_COMMENTS'	=> $this->user->check_auth('u_guildrequest_comment_int', false),
 		'S_VOTE'				=> $this->user->check_auth('u_guildrequest_vote', false),
-		'STATUS_ICON'			=> $icon,
+		'STATUS_ICON'			=> 'fa ',$icon,
 		'STATUS_TEXT'			=> sprintf($this->user->lang('gr_status_text'),$arrStatus[$rrow['status']]),
 		'S_CLOSED'				=> ($rrow['closed']),
 		'S_HAS_VOTED'			=> (!$this->user->is_signedin() || $blnHasVoted || $rrow['closed']),

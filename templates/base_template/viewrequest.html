@@ -7,7 +7,7 @@
 <!-- ENDIF -->
 <div class="breadcrumb-container">
 	<ul class="breamcrumb">
-		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="icon-home"></i></a></li>
+		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="fa fa-home"></i></a></li>
 		<!-- IF not S_EXTERNAL_USER -->
 		<li><a href="{EQDKP_CONTROLLER_PATH}/Listapplications/{SID}">{L_gr_view}</a></li>
 		<!-- ENDIF -->
@@ -21,12 +21,12 @@
 
 	<!-- IF S_CLOSED -->
 	<div class="infobox infobox-large infobox-red clearfix">
-		<i class="icon-lock icon-4x pull-left"></i> {L_gr_closed}
+		<i class="fa fa-lock fa-4x pull-left"></i> {L_gr_closed}
 	</div>
 	<br />
 	<!-- ENDIF -->
 	<div class="infobox infobox-large infobox-blue clearfix">
-		<i class="icon-info-sign icon-4x pull-left"></i> <!-- IF S_SUCCESS_MSG -->{L_gr_request_success_msg}<a href="{EXTERNAL_URL}">{EXTERNAL_URL}</a><br /><br /><!-- ENDIF -->
+		<i class="fa fa-info-circle fa-4x pull-left"></i> <!-- IF S_SUCCESS_MSG -->{L_gr_request_success_msg}<a href="{EXTERNAL_URL}">{EXTERNAL_URL}</a><br /><br /><!-- ENDIF -->
 		
 		{STATUS_TEXT}
 	</div>
@@ -65,7 +65,7 @@
 				</dt>
 				<dd>{STATUS_DD}
 					<textarea name="gr_status_text" style="width:95%" rows="4"></textarea>
-					<br /><button type="submit" name="status_change"><i class="icon-ok"></i>{L_gr_change_status}</button>
+					<br /><button type="submit" name="status_change"><i class="fa fa-check"></i>{L_gr_change_status}</button>
 				</dd>
 				
 			</dl>
@@ -74,9 +74,9 @@
 				</dt>
 				<dd>
 					<!-- IF S_CLOSED -->
-						<button type="submit" name="open"><i class="icon-unlock"></i>{L_gr_open_request}</button>
+						<button type="submit" name="open"><i class="fa fa-unlock"></i>{L_gr_open_request}</button>
 					<!-- ELSE -->
-						<button type="submit" name="close"><i class="icon-lock"></i>{L_gr_close}</button>
+						<button type="submit" name="close"><i class="fa fa-lock"></i>{L_gr_close}</button>
 					<!-- ENDIF --></dd>
 			</dl>
 		</fieldset>
@@ -121,7 +121,7 @@
 		<div class="clear"></div>
 		<!-- IF not S_HAS_VOTED -->
 		{CSRF_TOKEN}
-		<button type="submit" name="vote"><i class="icon-check"></i>{L_gr_vote_button}</button>
+		<button type="submit" name="vote"><i class="fa fa-check-square-o"></i>{L_gr_vote_button}</button>
 		<!-- ENDIF -->
 		</form>
 	</div>
