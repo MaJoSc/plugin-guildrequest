@@ -337,7 +337,7 @@ class viewrequest_pageobject extends pageobject
 		'S_IS_GR_ADMIN'			=> $this->user->check_auth('a_guildrequest_manage', false),
 		'S_EXTERNAL_USER'		=> (strlen($strKey)),
 		'EXTERNAL_KEY'			=> $strKey,
-		'STATUS_DD'				=> $this->html->DropDown('gr_status', $arrStatus, $rrow['status']),
+		'STATUS_DD'				=> new hdropdown('gr_status', array('options' => $arrStatus, 'value' => $rrow['status'])),
 		'GR_USERNAME'			=> sanitize($rrow['username']),
 		'GR_DATE'				=> $this->time->user_date($rrow['tstamp'], true),
 		'EXTERNAL_URL'			=> $this->env->link.$this->routing->build('ViewApplication', $rrow['username'], $intID, false, true).'?key=' . $strKey,
