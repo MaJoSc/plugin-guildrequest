@@ -54,6 +54,7 @@ function buildDepFieldDropdowns(){
 		var dd = $(this);
 		$(this).html('<option value="0"></option><option value="999999999">__Custom</option>');
 		$.each(options, function(k,v){
+			if (myids[k] == 'KEY') return true;
 			$('<option value="'+myids[k]+'">'+v+'</option>').appendTo(dd);
 		})
 		if (($.inArray(selected, myids) != -1) || (selected == 999999999)){

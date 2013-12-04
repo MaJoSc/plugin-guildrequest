@@ -108,7 +108,7 @@ class guildrequestForm extends page_generic
 
 	$this->tpl->add_js("
 		$(\"#gr_form_table tbody\").sortable({
-			cancel: '.not-sortable, input, .input',
+			cancel: '.not-sortable, input, .input, select',
 			cursor: 'pointer',
 		});
 	", "docready");
@@ -140,7 +140,7 @@ class guildrequestForm extends page_generic
 			'REQUIRED'			=> ($row['required']) ? 'checked="checked"' : '',
 			'IN_LIST'			=> ($row['in_list']) ? 'checked="checked"' : '',
 			'DEP_VALUE'			=> $row['dep_value'],
-			'DEP_DD'			=> new hdropdown('field['.$row['id'].'][dep_field]', array('options' => $arrDeps, 'value' => $row['dep_field'], 'id' => 'gr_dep_field')),
+			'DEP_DD'			=> new hdropdown('field['.$row['id'].'][dep_field]', array('options' => $arrDeps, 'value' => $row['dep_field'], 'class' => 'gr_dep_field')),
 		));
 	}
 		
