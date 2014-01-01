@@ -235,15 +235,10 @@ class addrequest_pageobject extends pageobject
 				$blnGroupOpen = true;
 			}
 			
-			$options = array(
-				'fieldtype' => 'text',
-				'name'		=> 'gr_field_'.$row['id'],
-				'javascript'=> 'style="width:95%"',
-				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
-			);
+
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
-				'FIELD'		=> $this->html->widget($options),
+				'FIELD'		=> new htext('gr_field_'.$row['id'], array('js' => 'style="width:95%"', 'value' => (isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : ''))),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
 				'ID'		=> 'dl_'.$row['id'],
@@ -261,17 +256,9 @@ class addrequest_pageobject extends pageobject
 				$blnGroupOpen = true;
 			}
 
-			
-			$options = array(
-				'fieldtype' => 'textarea',
-				'name'		=> 'gr_field_'.$row['id'],
-				'javascript'=> 'style="width:95%"',
-				'rows'		=> 10,
-				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
-			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
-				'FIELD'		=> $this->html->widget($options),
+				'FIELD'		=> new htextarea('gr_field_'.$row['id'], array('js' => 'style="width:95%"', 'rows' => 10, 'value' => (isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : ''))),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
 				'ID'		=> 'dl_'.$row['id'],
@@ -295,16 +282,9 @@ class addrequest_pageobject extends pageobject
 				$arrOptions[$val] = $val;
 			}
 			
-			$options = array(
-				'fieldtype' => 'dropdown',
-				'name'		=> 'gr_field_'.$row['id'],
-				'options'	=> $arrOptions,
-				'no_lang'	=> true,
-				'selected'	=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
-			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
-				'FIELD'		=> $this->html->widget($options),
+				'FIELD'		=> new hdropdown('gr_field_'.$row['id'], array('options' => $arrOptions, 'value' => (isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : ''))),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
 				'ID'		=> 'dl_'.$row['id'],
@@ -355,15 +335,7 @@ class addrequest_pageobject extends pageobject
 			$selected = isset($this->data[$row['id']]) ? unserialize($this->data[$row['id']]['input']) : array();
 			
 			foreach($row['options'] as $val){
-				$options = array(
-					'fieldtype' => 'checkbox',
-					'name'		=> 'gr_field_'.$row['id'].'['.trim($val).']',
-					'options'	=> trim($val),
-					'no_lang'	=> true,
-					'selected'	=> isset($selected[trim($val)]) ? $selected[trim($val)] : '',
-					'text'		=> trim($val),
-				);
-				$field .= $this->html->widget($options).'&nbsp;&nbsp;&nbsp;';
+				$field .= new hcheckbox('gr_field_'.$row['id'].'['.trim($val).']', array('options' => trim($val), 'value' => (isset($selected[trim($val)]) ? $selected[trim($val)] : ''))).'&nbsp;&nbsp;&nbsp;';
 			}
 			
 
@@ -391,16 +363,9 @@ class addrequest_pageobject extends pageobject
 				$arrOptions[trim($val)] = trim($val);
 			}
 			
-			$options = array(
-				'fieldtype' => 'radio',
-				'name'		=> 'gr_field_'.$row['id'],
-				'options'	=> $arrOptions,
-				'no_lang'	=> true,
-				'selected'	=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
-			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
-				'FIELD'		=> $this->html->widget($options),
+				'FIELD'		=> new hradio('gr_field_'.$row['id'], array('value' => (isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : ''), 'options' => $arrOptions)),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
 				'ID'		=> 'dl_'.$row['id'],
@@ -417,16 +382,9 @@ class addrequest_pageobject extends pageobject
 				$blnGroupOpen = true;
 			}
 
-			
-			$options = array(
-				'fieldtype' => 'bbcodeeditor',
-				'name'		=> 'gr_field_'.$row['id'],
-				'rows'		=> 6,
-				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
-			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
-				'FIELD'		=> $this->html->widget($options),
+				'FIELD'		=> new hbbcodeeditor('gr_field_'.$row['id'], array('rows' => 6, 'value' => (isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : ''))),
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
 				'ID'		=> 'dl_'.$row['id'],
@@ -504,27 +462,17 @@ class addrequest_pageobject extends pageobject
 		'NAME'	=> $this->user->lang('gr_personal_information'),
 		'ID'	=> 'personal_information',
 	));
-	$options = array(
-		'fieldtype' => 'text',
-		'name'		=> 'gr_name',
-		'javascript'=> 'style="width:95%"',
-		'value'		=> isset($this->data['name']) ? $this->data['name']['input'] : '',
-	);
+
 	$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 		'NAME'		=> $this->user->lang('name'),
-		'FIELD'		=> $this->html->widget($options),
+		'FIELD'		=> new htext('gr_name', array('js' => 'style="width:95%"', 'value' => (isset($this->data['name']) ? $this->data['name']['input'] : ''))),
 		'REQUIRED'	=> true,
 	));
 	
-	$options = array(
-		'fieldtype' => 'text',
-		'name'		=> 'gr_email',
-		'javascript'=> 'style="width:95%"',
-		'value'		=> isset($this->data['email']) ? $this->data['email']['input'] : '',
-	);
+
 	$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 		'NAME'		=> $this->user->lang('email'),
-		'FIELD'		=> $this->html->widget($options),
+		'FIELD'		=> new htext('gr_email', array('js' =>'style="width:95%"', 'value' => (isset($this->data['email']) ? $this->data['email']['input'] : ''))),
 		'REQUIRED'	=> true,
 		'HELP'		=> $this->user->lang('gr_email_help'),
 	));
