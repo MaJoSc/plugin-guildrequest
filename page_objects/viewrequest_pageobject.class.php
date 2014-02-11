@@ -233,6 +233,7 @@ class viewrequest_pageobject extends pageobject
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 					'NAME'			=> $row['name'],
 					'FIELD'			=> isset($arrContent[$row['id']]) ? $this->autolink(nl2br($arrContent[$row['id']]),array("target"=>"_blank")) : '',
+					'HELP'		=> $row['help'],
 			));
 		}
 		
@@ -250,6 +251,7 @@ class viewrequest_pageobject extends pageobject
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 					'NAME'			=> $row['name'],
 					'FIELD'			=> implode('; ', array_keys($content)),
+					'HELP'			=> $row['help'],
 			));
 		}
 		//BBcode Editor
@@ -267,6 +269,7 @@ class viewrequest_pageobject extends pageobject
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 					'NAME'			=> $row['name'],
 					'FIELD'			=> $content,
+					'HELP'			=> $row['help'],
 			));
 		}
 
@@ -275,6 +278,7 @@ class viewrequest_pageobject extends pageobject
 			if (!$blnGroupOpen){
 				$this->tpl->assign_block_vars('tabs.fieldset', array(
 					'NAME'	=> $row['name'],
+					'HELP'	=> $row['help'],
 					'ID'	=> utf8_strtolower(str_replace(' ', '', $row['name'])),
 				));
 				$blnGroupOpen = true;
