@@ -216,6 +216,8 @@ class guildrequest extends plugin_generic
   }
   
   private function usersettings(){
+	if (!$this->user->check_auth('u_guildrequest_view', false)) return array();
+  
 	$settings = array(
 		'guildrequest' => array(
 			'icon' => 'fa fa-pencil-square-o',
