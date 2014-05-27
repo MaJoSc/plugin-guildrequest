@@ -30,15 +30,6 @@ include_once($eqdkp_root_path.'common.php');
   +--------------------------------------------------------------------------*/
 class guildrequestForm extends page_generic
 {
-  /**
-   * __dependencies
-   * Get module dependencies
-   */
-  public static function __shortcuts()
-  {
-    $shortcuts = array('pm', 'user', 'config', 'core', 'in', 'jquery', 'html', 'tpl', 'pdc');
-    return array_merge(parent::$shortcuts, $shortcuts);
-  }
 
   /**
    * Constructor

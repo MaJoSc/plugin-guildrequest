@@ -28,15 +28,6 @@ if (!class_exists('pdh_r_guildrequest_requests'))
 {
   class pdh_r_guildrequest_requests extends pdh_r_generic
   {
-    /**
-     * __dependencies
-     * Get module dependencies
-     */
-    public static function __shortcuts()
-    {
-      $shortcuts = array('pdc', 'db', 'pdh', 'config', 'time', 'user', 'routing', 'bbcode' => 'bbcode');
-      return array_merge(parent::$shortcuts, $shortcuts);
-    }
 	
 	public $presets = array(
 		'gr_checkbox'	=> array('checkbox', array('%request_id%'), array()),

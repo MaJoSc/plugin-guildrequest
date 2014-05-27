@@ -30,7 +30,7 @@ if (!class_exists('guildrequest_comments_save_hook'))
   class guildrequest_comments_save_hook extends gen_class
   {
     /* List of dependencies */
-    public static $shortcuts = array('user', 'pdh', 'tpl', 'core', 'routing', 'env', 'email' => 'MyMailer');
+    public static $shortcuts = array('email' => 'MyMailer');
 
 	/**
     * comments_save

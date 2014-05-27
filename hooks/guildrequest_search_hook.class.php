@@ -29,8 +29,6 @@ if (!class_exists('guildrequest_search_hook'))
 {
   class guildrequest_search_hook extends gen_class
   {
-    /* List of dependencies */
-    public static $shortcuts = array('user');
 
 	/**
     * hook_search

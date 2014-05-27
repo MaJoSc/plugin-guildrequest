@@ -25,7 +25,7 @@ class addrequest_pageobject extends pageobject
    */
   public static function __shortcuts()
   {
-    $shortcuts = array('pm', 'user', 'core', 'in', 'pdh', 'time', 'tpl', 'html', 'email' => 'MyMailer', 'routing');
+    $shortcuts = array('email' => 'MyMailer');
    	return array_merge(parent::__shortcuts(), $shortcuts);
   }  
   

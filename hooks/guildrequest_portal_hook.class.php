@@ -29,8 +29,6 @@ if (!class_exists('guildrequest_portal_hook'))
 {
   class guildrequest_portal_hook extends gen_class
   {
-    /* List of dependencies */
-    public static $shortcuts = array('user', 'pdh', 'tpl', 'core');
 
 	/**
     * hook_portal

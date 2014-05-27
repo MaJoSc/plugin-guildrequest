@@ -28,15 +28,6 @@ if (!class_exists('pdh_w_guildrequest_visits'))
 {
   class pdh_w_guildrequest_visits extends pdh_w_generic
   {
-    /**
-     * __dependencies
-     * Get module dependencies
-     */
-    public static function __shortcuts()
-    {
-      $shortcuts = array('db', 'pdh', 'time', 'user');
-      return array_merge(parent::$shortcuts, $shortcuts);
-    }
 	
 	public function add($intID){
 		$objQuery = $this->db->prepare("REPLACE INTO __guildrequest_visits :p")->set(array(
@@ -61,6 +52,4 @@ if (!class_exists('pdh_w_guildrequest_visits'))
 
   } //end class
 } //end if class not exists
-
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_pdh_w_guildrequest_visits', pdh_w_guildrequest_visits::__shortcuts());
 ?>

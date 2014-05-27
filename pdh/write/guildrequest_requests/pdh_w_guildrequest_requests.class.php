@@ -28,15 +28,6 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 {
   class pdh_w_guildrequest_requests extends pdh_w_generic
   {
-    /**
-     * __dependencies
-     * Get module dependencies
-     */
-    public static function __shortcuts()
-    {
-      $shortcuts = array('db', 'pdh', 'time');
-      return array_merge(parent::$shortcuts, $shortcuts);
-    }
 
 	public function add($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent, $intActivated=1){
 		

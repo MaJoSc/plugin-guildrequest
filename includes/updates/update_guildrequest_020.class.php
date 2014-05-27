@@ -28,15 +28,6 @@ if (!class_exists('update_guildrequest_020'))
 {
   class update_guildrequest_020 extends sql_update_task
   {
-    /**
-	 * __dependencies
-	 * Get module dependencies
-	 */
-	public static function __shortcuts()
-	{
-		$shortcuts = array('config');
-		return array_merge(parent::__shortcuts(), $shortcuts);
-	}
 
     public $author      = 'GodMod';
     public $version     = '0.2.0';    // new version
@@ -74,6 +65,4 @@ if (!class_exists('update_guildrequest_020'))
 
   }
 }
-
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_update_guildrequest_020', update_guildrequest_020::__shortcuts());
 ?>

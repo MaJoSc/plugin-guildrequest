@@ -28,15 +28,6 @@ if (!class_exists('pdh_w_guildrequest_fields'))
 {
   class pdh_w_guildrequest_fields extends pdh_w_generic
   {
-    /**
-     * __dependencies
-     * Get module dependencies
-     */
-    public static function __shortcuts()
-    {
-      $shortcuts = array('db', 'pdh', 'time');
-      return array_merge(parent::$shortcuts, $shortcuts);
-    }
 
 	public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
 		$objQuery = $this->db->prepare("INSERT INTO __guildrequest_fields :p")->set(array(
