@@ -210,22 +210,20 @@ class guildrequest extends plugin_generic
 	if (!$this->user->check_auth('u_guildrequest_view', false)) return array();
   
 	$settings = array(
-		'guildrequest' => array(
-			'icon' => 'fa fa-pencil-square-o',
+		'guildrequest' => array(			
+			'guildrequest' => array(
 		
-		'gr_send_notification_mails'	=> array(
-			'fieldtype'	=> 'checkbox',
-			'default'	=> 0,
-			'name'		=> 'gr_send_notification_mails',
-			'language'	=> 'gr_send_notification_mails',
-		),
+			'gr_send_notification_mails'	=> array(
+				'type'	=> 'radio',
+				'value'	=> 0,
+				'lang'	=> 'gr_send_notification_mails',
+			),
 		
-		'gr_jgrowl_notifications'	=> array(
-			'fieldtype'	=> 'checkbox',
-			'default'	=> 0,
-			'name'		=> 'gr_jgrowl_notifications',
-			'language'	=> 'gr_jgrowl_notifications',
-		)),
+			'gr_jgrowl_notifications'	=> array(
+				'type'		=> 'radio',
+				'value'		=> 0,
+				'lang'		=> 'gr_jgrowl_notifications',
+			))),
 	);
 	return $settings;
   }

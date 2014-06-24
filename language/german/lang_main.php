@@ -80,6 +80,8 @@ $lang = array(
 'gr_viewrequest'					=> 'Bewerbung ansehen',
 'gr_dependency'						=> 'Abhängigkeit Feld - Option',
 'gr_customcheck_info'				=> 'Du kannst eigene Abhängigkeitsoptionen festlegen, in dem Du als Dropdown-Option "_Custom" auswählst und im nebenstehenden Feld deinen Code eingibst.<br />Beispiel: ((FIELD1 == "MyValueOne" && FIELD2 == "MyValueTwo") || FIELD3 == "MyValueThree")<br />Beachte, dass bei eigenen Abhängigkeiten die Verpflichtend-Überprüfung nicht zuverlässig funktioniert.',
+'user_sett_fs_guildrequest'			=> 'GuildRequest',
+'user_sett_tab_guildrequest'		=> '<i class="fa fa-pencil-square-o"></i> GuildRequest',
 );
 
 ?>
