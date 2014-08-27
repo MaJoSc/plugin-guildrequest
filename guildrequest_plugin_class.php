@@ -33,6 +33,8 @@ class guildrequest extends plugin_generic
   public $build      = '';
   public $copyright  = 'GodMod';
   public $vstatus    = 'Beta';
+  
+  protected static $apiLevel = 20;
 
   /**
     * Constructor
