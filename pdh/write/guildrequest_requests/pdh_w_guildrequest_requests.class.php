@@ -29,9 +29,23 @@ if (!class_exists('pdh_w_guildrequest_requests'))
   class pdh_w_guildrequest_requests extends pdh_w_generic
   {
 
-	public function add($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent, $intActivated=1){
-		
-		$objQuery = $this->db->prepare("INSERT INTO __guildrequest_requests :p")->set(array(
+  	private $arrLogLang = array(
+  			'id'			=> "{L_ID}",
+  			'tstamp'        => "{L_DATE}",
+			'username'		=> "{L_USERNAME}",
+			'email'			=> "{L_EMAIL}",
+			'auth_key'		=> "Auth Key",
+			'lastvisit'		=> "Last visit",
+			'activation_key'=> "Activation Key",
+			'status'		=> "Status",
+			'activated'		=> "Activated",
+			'closed'		=> "Closed",
+			'content'		=> "Content",
+  	);
+  	
+  	
+  	public function add($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent, $intActivated=1){
+  		$arrQuery = array(
             'tstamp'        => $this->time->time,
 			'username'		=> $strName,
 			'email'			=> register('encrypt')->encrypt($strEmail),
@@ -45,16 +59,30 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 			'voting_yes'	=> 0,
 			'voting_no'		=> 0,
 			'voted_user'	=> '',
-		))->execute();
+		);
+		$objQuery = $this->db->prepare("INSERT INTO __guildrequest_requests :p")->set($arrQuery)->execute();
 		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
-		if ($objQuery) return $objQuery->insertId;
+		if ($objQuery) {
+			$id = $objQuery->insertId;
+			$log_action = $this->logs->diff(false, $arrQuery, $this->arrLogLang);
+			$this->log_insert("action_request_added", $log_action, $id, $arrQuery["username"], 0, 'guildrequest');
+			
+			return $id;
+		}
 		
 		return false;
 	}
 	
 	public function delete($intID){
+		$arrOld = $this->pdh->get('guildrequest_requests', 'id', array($intID));
 		$objQuery = $this->db->prepare("DELETE FROM __guildrequest_requests WHERE id=?")->execute($intID);
+		
+		$arrChanges = $this->logs->diff(false, $arrOld, $this->arrLang);
+			
+		if ($arrChanges){
+			$this->log_insert('action_request_deleted', $arrChanges, $intID, $arrOldData["username"], 1, 'guildrequest');
+		}
 		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		return true;
@@ -74,6 +102,8 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 	public function truncate(){
 		$this->db->query("TRUNCATE __guildrequest_requests");
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
+		
+		$this->log_insert('action_requests_truncated', array(), 0, 'all', 1, 'guildrequest');
 		return true;
 	}
 	
@@ -84,7 +114,6 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 			'voted_user'	=> serialize($arrVotedUser),
 		))->execute($intID);
 		
-		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		if ($objQuery) return $intID;
 		
 		return false;
@@ -94,6 +123,8 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 		$objQuery = $this->db->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'closed'	=> 1,
 		))->execute($intID);
+		
+		$this->log_insert('action_request_closed', array(), $intID, $this->pdh->get('guildrequest_requests', 'username', $intID), 1, 'guildrequest');
 		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		if ($objQuery) return $intID;
@@ -106,6 +137,9 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 			'closed'	=> 0,
 		))->execute($intID);
 		
+		$this->log_insert('action_request_opened', array(), $intID, $this->pdh->get('guildrequest_requests', 'username', $intID), 1, 'guildrequest');
+		
+		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		if ($objQuery) return $intID;
 		
@@ -116,6 +150,9 @@ if (!class_exists('pdh_w_guildrequest_requests'))
 		$objQuery = $this->db->prepare("UPDATE __guildrequest_requests :p WHERE id=?")->set(array(
 			'status'	=> $intStatus,
 		))->execute($intID);
+		
+		$this->log_insert('action_status_changed', array('status' => $intStatus), $intID, $this->pdh->get('guildrequest_requests', 'username', $intID), 1, 'guildrequest');
+		
 		
 		$this->pdh->enqueue_hook('guildrequest_requests_update');
 		if ($objQuery) return $intID;
