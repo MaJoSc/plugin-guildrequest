@@ -86,11 +86,13 @@ class addrequest_pageobject extends pageobject
 		'input' 	=> $this->in->get('gr_email'),
 		'name'		=> $this->user->lang('email'),
 		'required'	=> true,
+		'id'		=> 'email',
 	);
 	$arrInput['name'] = array(
 		'input' 	=> $this->in->get('gr_name'),
 		'name'		=> $this->user->lang('name'),
 		'required'	=> true,
+		'id'		=> 'name',
 	);
 
 	$this->data = $arrInput;

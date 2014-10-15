@@ -82,6 +82,10 @@ $lang = array(
   'gr_customcheck_info'				=> 'You can add your own dependecy checks, if you select "_Custom" and enter your expression the field on the right.<br />Example: ((FIELD1 == "MyValueOne" && FIELD2 == "MyValueTwo") || FIELD3 == "MyValueThree")<br />Please not that the required-check will not work correctly for custom dependencies.',
 'user_sett_fs_guildrequest'			=> 'GuildRequest',
 'user_sett_tab_guildrequest'		=> '<i class="fa fa-pencil-square-o"></i> GuildRequest',
+		
+		'gr_preview'		=> 'Preview',
+		'gr_preview_info'	=> 'This Preview is generated from the latest saved form. To get the current form, please save your modified form and click on the Preview-Button at the Form Page.'
+		
   );
 
 ?>

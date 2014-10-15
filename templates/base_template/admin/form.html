@@ -124,6 +124,7 @@ $(document).ready(function(){
 	<div class="contentFooter">
 		<button type="button" onclick="add_row();"><i class="fa fa-plus"></i>{L_gr_add_field}</button>
 		<button type="submit" name="save"><i class="fa fa-check"></i>{L_save}</button>
+		<button type="button" onclick="window.open('preview.php{SID}', 'gr_preview')"><i class="fa fa-eye"></i>{L_gr_preview}</button>
 	</div>
 	
 {CSRF_TOKEN}
