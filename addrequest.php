@@ -63,25 +63,29 @@ class guildrequestAddrequest extends page_generic
 		if ($row['type'] == 3 || $row['type'] == 4){
 			continue;
 		}
-		$arrInput[$row['name']] = array(
+		$arrInput[$row['id']] = array(
+			'name'		=> $row['name'],
 			'id'		=> $row['id'],
 			'input' 	=> $this->in->get('gr_field_'.$row['id']),
 			'required'	=> ($row['required']),
 		);
 		if ($row['type'] == 5){
-			$arrInput[$row['name']] = array(
+			$arrInput[$row['id']] = array(
+				'name'		=> $row['name'],
 				'id'		=> $row['id'],
 				'input' 	=> serialize($this->in->getArray('gr_field_'.$row['id'], 'int')),
 				'required'	=> ($row['required']),
 			);
 		}
 	}
-	$arrInput[$this->user->lang('email')] = array(
+	$arrInput['email'] = array(
 		'input' 	=> $this->in->get('gr_email'),
+		'name'		=> $this->user->lang('email'),
 		'required'	=> true,
 	);
-	$arrInput[$this->user->lang('name')] = array(
+	$arrInput['name'] = array(
 		'input' 	=> $this->in->get('gr_name'),
+		'name'		=> $this->user->lang('name'),
 		'required'	=> true,
 	);
 
@@ -108,7 +112,7 @@ class guildrequestAddrequest extends page_generic
 	$arrRequired = array();
 	foreach ($arrInput as $key => $val){
 		if (!$val['required']) continue;
-		if ($val['input'] == '' || $val['input'] == 'a:0:{}') $arrRequired[] = $key;
+		if ($val['input'] == '' || $val['input'] == 'a:0:{}') $arrRequired[] = $val['name'];
 	}
 	if (count($arrRequired) > 0) {
 		$this->core->message(implode(', ', $arrRequired), $this->user->lang('missing_values'), 'red');
@@ -118,11 +122,11 @@ class guildrequestAddrequest extends page_generic
 
 	//Insert into DB
 	
-	$strName = $arrInput[$this->user->lang('name')]['input'];
-	$strEmail = $arrInput[$this->user->lang('email')]['input'];
+	$strName = $arrInput['name']['input'];
+	$strEmail = $arrInput['email']['input'];
 	$strAuthKey = random_string(false, 40);
 	$strActivationKey = random_string(false, 32);
-	$arrInput[$this->user->lang('email')]['input'] = register('encrypt')->encrypt($arrInput[$this->user->lang('email')]['input']);
+	$arrInput['email']['input'] = register('encrypt')->encrypt($arrInput['email']['input']);
 	$arrToSave = array();
 	foreach($arrInput as $val){
 		$arrToSave[$val['id']] = $val['input']; 
@@ -229,7 +233,7 @@ class guildrequestAddrequest extends page_generic
 				'fieldtype' => 'text',
 				'name'		=> 'gr_field_'.$row['id'],
 				'javascript'=> 'style="width:95%"',
-				'value'		=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -256,7 +260,7 @@ class guildrequestAddrequest extends page_generic
 				'name'		=> 'gr_field_'.$row['id'],
 				'javascript'=> 'style="width:95%"',
 				'rows'		=> 10,
-				'value'		=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'value'		=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -287,7 +291,7 @@ class guildrequestAddrequest extends page_generic
 				'name'		=> 'gr_field_'.$row['id'],
 				'options'	=> $arrOptions,
 				'no_lang'	=> true,
-				'selected'	=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'selected'	=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -336,7 +340,7 @@ class guildrequestAddrequest extends page_generic
 			
 			$field = '';
 			
-			$selected = isset($this->data[$row['name']]) ? unserialize($this->data[$row['name']]['input']) : array();
+			$selected = isset($this->data[$row['id']]) ? unserialize($this->data[$row['id']]['input']) : array();
 			
 			foreach($row['options'] as $val){
 				$options = array(
@@ -379,7 +383,7 @@ class guildrequestAddrequest extends page_generic
 				'name'		=> 'gr_field_'.$row['id'],
 				'options'	=> $arrOptions,
 				'no_lang'	=> true,
-				'selected'	=> isset($this->data[$row['name']]) ? $this->data[$row['name']]['input'] : '',
+				'selected'	=> isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : '',
 			);
 			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 				'NAME'		=> $row['name'],
@@ -417,7 +421,7 @@ class guildrequestAddrequest extends page_generic
 		'fieldtype' => 'text',
 		'name'		=> 'gr_name',
 		'javascript'=> 'style="width:95%"',
-		'value'		=> isset($this->data[$this->user->lang('name')]) ? $this->data[$this->user->lang('name')]['input'] : '',
+		'value'		=> isset($this->data['name']) ? $this->data['name']['input'] : '',
 	);
 	$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 		'NAME'		=> $this->user->lang('name'),
@@ -429,7 +433,7 @@ class guildrequestAddrequest extends page_generic
 		'fieldtype' => 'text',
 		'name'		=> 'gr_email',
 		'javascript'=> 'style="width:95%"',
-		'value'		=> isset($this->data[$this->user->lang('email')]) ? $this->data[$this->user->lang('email')]['input'] : '',
+		'value'		=> isset($this->data['email']) ? $this->data['email']['input'] : '',
 	);
 	$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 		'NAME'		=> $this->user->lang('email'),

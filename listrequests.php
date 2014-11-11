@@ -111,15 +111,17 @@ class guildrequestListrequests extends page_generic
       'th_add' => 'width="50%"',
       'td_add' => 'nowrap="nowrap"',
     ),
-    3 => 
-    array (
-      'name' => 'gr_email',
-      'sort' => true,
-      'th_add' => '',
-      'td_add' => '',
-    ),
   ),
 );
+
+	if ($this->user->check_auth('a_guildrequest_manage', false)){
+		$hptt_page_settings['table_presets'][] = array(
+				'name' => 'gr_email',
+				'sort' => true,
+				'th_add' => '',
+				'td_add' => '',
+		);
+	}
 	//Add colums
 	$arrFields = $this->pdh->get('guildrequest_fields', 'id_list', array());
 	foreach ($arrFields as $id){
