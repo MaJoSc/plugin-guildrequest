@@ -132,9 +132,7 @@ class guildrequest extends plugin_generic
 		
 		$user_id = $this->pdh->put('user', 'insert_user_bridge', array($arrUserdata['name'], $strPwdHash.':'.$salt, $arrUserdata['email'], false, $strApiKey));
 		if ($user_id){
-			$special_users = unserialize(stripslashes($this->config->get('special_user')));
-			$special_users[$user_id] = $user_id;
-			$this->config->set('special_user', serialize($special_users));
+			$this->pdh->put('user', 'add_special_user', array($user_id));
 		}
 	}
   }
@@ -158,10 +156,7 @@ class guildrequest extends plugin_generic
     */
   public function post_uninstall()
   {
-	$user_id = $this->pdh->get('user', 'userid', array('GuildRequest'));
-	$special_users = unserialize(stripslashes($this->config->get('special_user')));
-	unset($special_users[$user_id]);
-	$this->config->set('special_user', serialize($special_users));
+	
   }
 
   /**
