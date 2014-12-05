@@ -52,23 +52,12 @@ if (!class_exists('guildrequest_portal_hook'))
 			}
 			
 			if ($intNew){
-				register('ntfy')->add('yellow',
-					$this->user->lang('guildrequest'),
-					sprintf($this->user->lang('gr_notification'), $intNew),
-					register('routing')->build('ListApplications'),
-					$intNew
-				);
+				$this->ntfy->add_persistent('guildrequest_new', sprintf($this->user->lang('gr_notification'), $intNew), $this->routing->build('ListApplications', false, false, true, true), 1, 'fa-pencil-square-o');
 			}
 			
 			$text = sprintf($this->user->lang('gr_notification'), $intNew);
 			if($intOpen && $this->user->check_auth('a_guildrequest_manage', false)) {
-				register('ntfy')->add('green',
-					$this->user->lang('guildrequest'),
-					sprintf($this->user->lang('gr_notification_open'), $intOpen),
-					register('routing')->build('ListApplications'),
-					$intOpen
-				);
-				
+				$this->ntfy->add_persistent('guildrequest_open', sprintf($this->user->lang('gr_notification_open'), $intOpen), $this->routing->build('ListApplications', false, false, true, true), 0, 'fa-pencil-square-o');		
 			}
 			
 			$arrGuildrequestSettings = $this->pdh->get('user', 'plugin_settings', array($this->user->id, 'guildrequest'));
