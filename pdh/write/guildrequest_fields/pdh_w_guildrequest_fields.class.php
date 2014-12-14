@@ -1,24 +1,26 @@
 <?php
-/*
- * Project:     EQdkp guildrequest_fields
- * License:     Creative Commons - Attribution-Noncommercial-Share Alike 3.0 Unported
- * Link:        http://creativecommons.org/licenses/by-nc-sa/3.0/
- * -----------------------------------------------------------------------
- * Began:       2008
- * Date:        $Date: 2011-11-01 13:38:39 +0100 (Di, 01. Nov 2011) $
- * -----------------------------------------------------------------------
- * @author      $Author: hoofy $
- * @copyright   2008-2011 Aderyn
- * @link        http://eqdkp-plus.com
- * @package     guildrequest_fields
- * @version     $Rev: 11419 $
+/*	Project:	EQdkp-Plus
+ *	Package:	GuildRequest Plugin
+ *	Link:		http://eqdkp-plus.eu
  *
- * $Id: pdh_w_guildrequest_fields.class.php 11419 2011-11-01 12:38:39Z hoofy $
+ *	Copyright (C) 2006-2015 EQdkp-Plus Developer Team
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU Affero General Public License as published
+ *	by the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU Affero General Public License for more details.
+ *
+ *	You should have received a copy of the GNU Affero General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (!defined('EQDKP_INC'))
-{
-  die('Do not access this file directly.');
+if (!defined('EQDKP_INC')){
+	die('Do not access this file directly.');
 }
 
 /*+----------------------------------------------------------------------------
@@ -26,61 +28,60 @@ if (!defined('EQDKP_INC'))
   +--------------------------------------------------------------------------*/
 if (!class_exists('pdh_w_guildrequest_fields'))
 {
-  class pdh_w_guildrequest_fields extends pdh_w_generic
-  {
+	class pdh_w_guildrequest_fields extends pdh_w_generic{
 
-	public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
-		$objQuery = $this->db->prepare("INSERT INTO __guildrequest_fields :p")->set(array(
-			'id'		=> $intID,
-			'type'		=> $strType,
-			'name'		=> $strName,
-			'help'		=> $strHelp,
-			'options'	=> serialize($arrOptions),
-			'sortid' 	=> $intSortID,
-			'required' 	=> $intRequired,
-			'in_list'	=> $intInList,
-			'dep_field' => $dep_field,
-			'dep_value' => $dep_value,
-		))->execute();
+		public function add($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
+			$objQuery = $this->db->prepare("INSERT INTO __guildrequest_fields :p")->set(array(
+				'id'		=> $intID,
+				'type'		=> $strType,
+				'name'		=> $strName,
+				'help'		=> $strHelp,
+				'options'	=> serialize($arrOptions),
+				'sortid' 	=> $intSortID,
+				'required' 	=> $intRequired,
+				'in_list'	=> $intInList,
+				'dep_field' => $dep_field,
+				'dep_value' => $dep_value,
+			))->execute();
 		
-		$this->pdh->enqueue_hook('guildrequest_fields_update');
-		if ($objQuery) return $objQuery->insertId;
+			$this->pdh->enqueue_hook('guildrequest_fields_update');
+			if ($objQuery) return $objQuery->insertId;
 		
-		return false;
-	}
+			return false;
+		}
 	
-	public function update($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
-		$objQuery = $this->db->prepare("UPDATE __guildrequest_fields :p WHERE id=?")->set(array(
-			'type'		=> $strType,
-			'name'		=> $strName,
-			'help'		=> $strHelp,
-			'options'	=> serialize($arrOptions),
-			'sortid' 	=> $intSortID,
-			'required' 	=> $intRequired,
-			'in_list'	=> $intInList,
-			'dep_field' => $dep_field,
-			'dep_value' => $dep_value,
-		))->execute($intID);
+		public function update($intID, $strType, $strName, $strHelp, $arrOptions, $intSortID, $intRequired, $intInList = 0, $dep_field='', $dep_value=''){
+			$objQuery = $this->db->prepare("UPDATE __guildrequest_fields :p WHERE id=?")->set(array(
+				'type'		=> $strType,
+				'name'		=> $strName,
+				'help'		=> $strHelp,
+				'options'	=> serialize($arrOptions),
+				'sortid' 	=> $intSortID,
+				'required' 	=> $intRequired,
+				'in_list'	=> $intInList,
+				'dep_field' => $dep_field,
+				'dep_value' => $dep_value,
+			))->execute($intID);
 		
-		$this->pdh->enqueue_hook('guildrequest_fields_update');
-		if ($objQuery) return $intID;
+			$this->pdh->enqueue_hook('guildrequest_fields_update');
+			if ($objQuery) return $intID;
 		
-		return false;
-	}
+			return false;
+		}
 	
-	public function delete($intID){
-		$this->db->prepare("DELETE FROM __guildrequest_fields WHERE id=?")->execute($intID);
-		$this->pdh->enqueue_hook('guildrequest_fields_update');
-		return true;
-	}
+		public function delete($intID){
+			$this->db->prepare("DELETE FROM __guildrequest_fields WHERE id=?")->execute($intID);
+			$this->pdh->enqueue_hook('guildrequest_fields_update');
+			return true;
+		}
 	
-	public function truncate(){
-		$this->db->query("TRUNCATE __guildrequest_fields");
-		$this->pdh->enqueue_hook('guildrequest_fields_update');
-		return true;
-	}
+		public function truncate(){
+			$this->db->query("TRUNCATE __guildrequest_fields");
+			$this->pdh->enqueue_hook('guildrequest_fields_update');
+			return true;
+		}
 
-  } //end class
+	} //end class
 } //end if class not exists
 
 ?>
