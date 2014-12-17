@@ -37,6 +37,9 @@ if (!class_exists('guildrequest_portal_hook')){
 		* @return array
 		*/
 		public function portal(){
+			if (!$this->pm->check('guildrequest', PLUGIN_INSTALLED)) return;
+			
+			
 			if ($this->user->check_auths(array('u_guildrequest_view', 'a_guildrequest_manage'), 'OR', false)){
 				$arrRequests = $this->pdh->get('guildrequest_requests', 'id_list', array());
 				$intNew = 0;

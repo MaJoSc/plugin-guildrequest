@@ -42,7 +42,7 @@ $guildrequestSQL = array(
 				`in_list` TINYINT(3) UNSIGNED NULL DEFAULT '0',
 				`dep_value` TEXT COLLATE utf8_bin NULL,
 				`dep_field` INT(10) UNSIGNED NULL DEFAULT '0',
-				(`id`)
+				PRIMARY KEY (`id`)
 			)CHARSET=utf8 COLLATE=utf8_bin;",
 		2	=> "CREATE TABLE `__guildrequest_requests` (
 				`id` INT(10) NOT NULL AUTO_INCREMENT,

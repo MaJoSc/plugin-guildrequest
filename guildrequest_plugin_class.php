@@ -130,23 +130,18 @@ class guildrequest extends plugin_generic {
 		}
 	}
 
-	/**
-	* pre_uninstall
-	* Define uninstallation
-	*/
-	public function pre_uninstall(){
-		// include SQL data for uninstallation
-		include($this->root_path.'plugins/guildrequest/includes/sql.php');
-
-		for ($i = 1; $i <= count($guildrequestSQL['uninstall']); $i++)
-			$this->add_sql(SQL_UNINSTALL, $guildrequestSQL['uninstall'][$i]);
-	}
 
 	/**
 	* post_uninstall
 	* Define Post Uninstall
 	*/
-	public function post_uninstall(){}
+	public function post_uninstall(){
+		// include SQL data for uninstallation
+		include($this->root_path.'plugins/guildrequest/includes/sql.php');
+		
+		for ($i = 1; $i <= count($guildrequestSQL['uninstall']); $i++)
+			$this->db->query($guildrequestSQL['uninstall'][$i]);
+	}
 
 	/**
 	* gen_admin_menu
