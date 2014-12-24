@@ -194,11 +194,13 @@ class guildrequest extends plugin_generic {
 						'value'	=> 0,
 						'lang'	=> 'gr_send_notification_mails',
 					),
+					/*
 					'gr_jgrowl_notifications'	=> array(
 						'type'		=> 'radio',
 						'value'		=> 0,
 						'lang'		=> 'gr_jgrowl_notifications',
 					)
+					*/
 				)
 			),
 		);
