@@ -121,9 +121,8 @@ class guildrequest extends plugin_generic {
 			$salt = $this->user->generate_salt();
 			$strPassword = random_string(false, 40);
 			$strPwdHash = $this->user->encrypt_password($strPassword, $salt);
-			$strApiKey = $this->user->generate_apikey($strPassword, $salt);
 
-			$user_id = $this->pdh->put('user', 'insert_user_bridge', array($arrUserdata['name'], $strPwdHash.':'.$salt, $arrUserdata['email'], false, $strApiKey));
+			$user_id = $this->pdh->put('user', 'insert_user_bridge', array($arrUserdata['name'], $strPwdHash.':'.$salt, $arrUserdata['email'], false));
 			if ($user_id){
 				$this->pdh->put('user', 'add_special_user', array($user_id));
 			}
