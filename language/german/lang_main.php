@@ -86,7 +86,7 @@ $lang = array(
 	'user_sett_tab_guildrequest'	=> '<i class="fa fa-pencil-square-o"></i> GuildRequest',
 		
 	'gr_preview'					=> 'Vorschau',
-'	gr_preview_info'				=> 'Diese Vorschau basiert auf dem zuletzt gespeicherten Zustand. Um den aktuellen Stand zu sehen, speichere das bearbeitete Formular ab und öffne dann die Vorschau.'
+	'gr_preview_info'				=> 'Diese Vorschau basiert auf dem zuletzt gespeicherten Zustand. Um den aktuellen Stand zu sehen, speichere das bearbeitete Formular ab und öffne dann die Vorschau.'
 );
 
 ?>

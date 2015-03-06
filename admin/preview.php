@@ -390,7 +390,7 @@ class guildrequestPreview extends page_generic{
 				$field = '';
 				$selected = isset($this->data[$row['id']]) ? unserialize($this->data[$row['id']]['input']) : array();
 				foreach($row['options'] as $val){
-					$field .= new hcheckbox('gr_field_'.$row['id'].'['.trim($val).']', array('options' => trim($val), 'value' => (isset($selected[trim($val)]) ? $selected[trim($val)] : ''))).'&nbsp;&nbsp;&nbsp;';
+					$field .= new hcheckbox('gr_field_'.$row['id'].'['.trim($val).']', array('options' => array(1 => trim($val)), 'value' => (isset($selected[trim($val)]) ? $selected[trim($val)] : ''))).'&nbsp;&nbsp;&nbsp;';
 				}
 
 				$this->tpl->assign_block_vars('tabs.fieldset.field', array(
