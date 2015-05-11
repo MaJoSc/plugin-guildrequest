@@ -157,6 +157,8 @@ class addrequest_pageobject extends pageobject {
 	
 	$blnResult = $this->pdh->put('guildrequest_requests', 'add', array($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent));
 	
+	$this->hooks->process('gr_addrequest', array('name' => $strName, 'email' => $strEmail, 'auth_key' => $strAuthKey, 'data' => $arrToSave));
+	
 	$this->pdh->process_hook_queue();
 	if (!$blnResult){
 		$this->core->message($this->user->lang('error'), $this->user->lang('error'), 'red');

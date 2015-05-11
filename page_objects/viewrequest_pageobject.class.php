@@ -61,6 +61,8 @@ class viewrequest_pageobject extends pageobject
 		
 		$arrStatus = $this->user->lang('gr_status');
 		
+		$this->hooks->process('gr_close_request', array($row));
+		
 		$bodyvars = array(
 			'USERNAME'		=> $row['username'],
 			'COMMENT'		=> $this->in->get('comment', '', 'htmlescape'),
@@ -80,6 +82,8 @@ class viewrequest_pageobject extends pageobject
 		//Close
 		$this->pdh->put('guildrequest_requests', 'open', array($row['id']));
 		$this->pdh->process_hook_queue();
+		
+		$this->hooks->process('gr_open_request', array($row));
 	}
   }
   
@@ -91,6 +95,8 @@ class viewrequest_pageobject extends pageobject
 		$this->pdh->process_hook_queue();
 		
 		$arrStatus = $this->user->lang('gr_status');
+		
+		$this->hooks->process('gr_change_status', array('status' => $this->in->get('gr_status', 0), 'data'=> $row));
 		
 		$bodyvars = array(
 			'USERNAME'		=> $row['username'],
