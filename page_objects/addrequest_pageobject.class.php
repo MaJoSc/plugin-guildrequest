@@ -188,7 +188,7 @@ class addrequest_pageobject extends pageobject {
 		
 		$arrUserIDs = $this->pdh->get('user', 'id_list', array());
 		foreach($arrUserIDs as $userid){
-			$arrGuildrequestSettings = $this->pdh->get('user', 'plugin_settings', array($userid, 'guildrequest'));
+			$arrGuildrequestSettings = $this->pdh->get('user', 'plugin_settings', array($userid));
 			if (isset($arrGuildrequestSettings['gr_send_notification_mails']) && $arrGuildrequestSettings['gr_send_notification_mails']){
 				$strEmail = $this->pdh->get('user', 'email', array($userid, true));
 				if ($strEmail != '' && $this->user->check_auth('u_guildrequest_view', false, $userid)){
