@@ -185,14 +185,15 @@ class listrequests_pageobject extends pageobject
 
 	$view_list = $this->pdh->get('guildrequest_requests', 'id_list', array());
 	$hptt				= $this->get_hptt($hptt_page_settings, $view_list, $view_list, array('%link_url%' => 'viewraid.php', '%link_url_suffix%' => ''), $this->user->id);
-
+	$hptt->setPageRef($this->strPath);
+	
 	//footer
 	$raid_count			= count($view_list);
 	$footer_text		= sprintf($this->user->lang('gr_footer'), $raid_count ,$this->user->data['user_rlimit']);
 
 	$this->tpl->assign_vars(array (
 		'PAGE_OUT'			=> $hptt->get_html_table($sort, $pagination_suffix, $start, $this->user->data['user_rlimit'], $footer_text),
-		'GR_PAGINATION'		=> generate_pagination('listraids.php'.$this->SID.$sort_suffix, $raid_count, $this->user->data['user_rlimit'], $start),
+		'GR_PAGINATION'		=> generate_pagination($this->strPath.$this->SID.$sort_suffix, $raid_count, $this->user->data['user_rlimit'], $start),
 		'S_GR_ADMIN'		=> $this->user->check_auth('a_guildrequest_manage', false),
 	));
 	
