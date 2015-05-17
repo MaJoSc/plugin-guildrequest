@@ -99,7 +99,14 @@ $lang = array(
 	"user_sett_tab_guildrequest" => '<i class="fa fa-pencil-square-o"></i> GuildRequest',
 	"gr_preview" => 'Preview',
 	"gr_preview_info" => 'This Preview is generated from the latest saved form. To get the current form, please save your modified form and click on the Preview-Button at the Form Page.',
-	
+		
+	'user_sett_f_ntfy_guildrequest_new_application' => 'GuildRequest: New application',
+	'user_sett_f_ntfy_guildrequest_new_update'	=> 'GuildRequest: New Comments',
+	'user_sett_f_ntfy_guildrequest_open_applications' => 'GuildRequest: Open applications',
+	'gr_notify_new_application'	=> "{PRIMARY} added a new application",
+	'gr_notify_new_application_grouped' => "{PRIMARY} added a new application",
+	'gr_notify_new_update'	=> "The application of {ADDITIONAL} has been commented",
+	'gr_notify_new_update_grouped' => "{COUNT} applications have been commented",
 );
 
 ?>

@@ -86,7 +86,16 @@ $lang = array(
 	'user_sett_tab_guildrequest'	=> '<i class="fa fa-pencil-square-o"></i> GuildRequest',
 		
 	'gr_preview'					=> 'Vorschau',
-	'gr_preview_info'				=> 'Diese Vorschau basiert auf dem zuletzt gespeicherten Zustand. Um den aktuellen Stand zu sehen, speichere das bearbeitete Formular ab und öffne dann die Vorschau.'
+	'gr_preview_info'				=> 'Diese Vorschau basiert auf dem zuletzt gespeicherten Zustand. Um den aktuellen Stand zu sehen, speichere das bearbeitete Formular ab und öffne dann die Vorschau.',
+
+		
+	'user_sett_f_ntfy_guildrequest_new_application' => 'GuildRequest: Neue Bewerbung',
+	'user_sett_f_ntfy_guildrequest_new_update'	=> 'GuildRequest: Neue Kommentare',
+	'user_sett_f_ntfy_guildrequest_open_applications' => 'GuildRequest: Offene Bewerbungen',
+	'gr_notify_new_application'	=> "{PRIMARY} hat eine neue Bewerbung verfasst",
+	'gr_notify_new_application_grouped' => "{PRIMARY} haben eine neue Bewerbung verfasst",	
+	'gr_notify_new_update'	=> "Die Bewerbung von {ADDITIONAL} wurde kommentiert",
+	'gr_notify_new_update_grouped' => "Es wurden {COUNT} Bewerbungen kommentiert",
 );
 
 ?>

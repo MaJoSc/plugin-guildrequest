@@ -308,7 +308,14 @@ class viewrequest_pageobject extends pageobject
 	
 	//Kommentare intern
 	$int_comments = register('comments', array('int'));
-	$commentOptions = array('attach_id' => $intID, 'page'=>'guildrequest_int', 'userauth' => 'u_guildrequest_comment_int');	
+	$commentOptions = array(
+			'attach_id' 	=> $intID, 
+			'page'			=>'guildrequest_int', 
+			'userauth' 		=> 'u_guildrequest_comment_int',
+			'ntfy_type' 	=> 'guildrequest_new_update',
+			'ntfy_title'	=> sanitize($rrow['username']),
+			'ntfy_link' 	=> $this->routing->build('ListApplications'),
+	);	
 	if ($rrow['closed']) $commentOptions['userauth'] = 'a_guildrequest_manage';
 	$int_comments->SetVars($commentOptions);
 	
@@ -355,6 +362,11 @@ class viewrequest_pageobject extends pageobject
 		'GR_DATE'				=> $this->time->user_date($rrow['tstamp'], true),
 		'EXTERNAL_URL'			=> $this->env->link.$this->routing->build('ViewApplication', $rrow['username'], $intID, false, true).'?key=' . $strKey,
 	));
+	
+	//Mark Notifications as Read
+	if($this->user->is_signedin()){
+		$this->db->prepare("UPDATE __notifications SET `read`=1 WHERE type='guildrequest_new_update' AND user_id=? AND additional_data=?")->execute($this->user->id, sanitize($rrow['username']));
+	}
 	
 	$this->core->set_vars(array (
       'page_title'    => $this->user->lang('gr_viewrequest').' - '.sanitize($rrow['username']),

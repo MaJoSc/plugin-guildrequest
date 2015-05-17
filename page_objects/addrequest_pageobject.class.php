@@ -179,25 +179,10 @@ class addrequest_pageobject extends pageobject {
 		$this->display();
 		return;
 	} else {
-		//Send Notification Mail to everyone who wants it
-		$bodyvars = array(
-			'U_VIEW' 		=> $server_url,
-			'REQUEST_USER'	=> sanitize($strName),
-			'GUILDTAG'		=> $this->config->get('guildtag'),
-		);
-		
-		$arrUserIDs = $this->pdh->get('user', 'id_list', array());
-		foreach($arrUserIDs as $userid){
-			$arrGuildrequestSettings = $this->pdh->get('user', 'plugin_settings', array($userid));
-			if (isset($arrGuildrequestSettings['gr_send_notification_mails']) && $arrGuildrequestSettings['gr_send_notification_mails']){
-				$strEmail = $this->pdh->get('user', 'email', array($userid, true));
-				if ($strEmail != '' && $this->user->check_auth('u_guildrequest_view', false, $userid)){
-					$bodyvars['USERNAME'] = $this->pdh->get('user', 'name', array($userid));
-					$this->email->SendMailFromAdmin($strEmail, $this->user->lang('gr_notification_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_notification.html', $bodyvars);
-				}
-			}
+		if($blnResult){
+			$arrUsers = $this->pdh->get('user', 'users_with_permission', array('u_guildrequest_view'));
+			$this->ntfy->add('guildrequest_new_application', $blnResult, sanitize($strName), $this->routing->build('ListApplications'), $arrUsers, sanitize($strName));
 		}
-	
 	
 		//Redirect to viewrequest page
 		redirect($this->routing->build('ViewApplication', $strName, $blnResult, false, true).'?key=' . $strAuthKey.'&msg=success');

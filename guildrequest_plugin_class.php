@@ -28,7 +28,7 @@ if (!defined('EQDKP_INC')){
   +--------------------------------------------------------------------------*/
 class guildrequest extends plugin_generic {
 
-	public $version				= '0.2.3';
+	public $version				= '1.0.0';
 	public $build				= '';
 	public $copyright			= 'GodMod';
 	public $vstatus				= 'Beta';
@@ -96,7 +96,6 @@ class guildrequest extends plugin_generic {
 		$this->add_menu('admin', $this->gen_admin_menu());
 
 		$this->add_menu('main', $this->gen_main_menu());
-		$this->add_menu('settings', $this->usersettings());
 	}
 
 	/**
@@ -127,6 +126,10 @@ class guildrequest extends plugin_generic {
 				$this->pdh->put('user', 'add_special_user', array($user_id));
 			}
 		}
+		
+		$this->ntfy->addNotificationType('guildrequest_new_application', 'gr_notify_new_application', 'guildrequest', 1, 1, 1, 'gr_notify_new_application_grouped', 2, 'fa-pencil-square-o');
+		$this->ntfy->addNotificationType('guildrequest_new_update', 'gr_notify_new_update', 'guildrequest', 1, 1, 1, 'gr_notify_new_update_grouped', 2, 'fa-pencil-square-o');
+		$this->ntfy->addNotificationType('guildrequest_open_applications', 'gr_notify_open', 'guildrequest', 0, 1, false, '', 0, 'fa-pencil-square-o');
 	}
 
 
@@ -140,6 +143,10 @@ class guildrequest extends plugin_generic {
 		
 		for ($i = 1; $i <= count($guildrequestSQL['uninstall']); $i++)
 			$this->db->query($guildrequestSQL['uninstall'][$i]);
+		
+		$this->ntfy->deleteNotificationType('guildrequest_new_application');
+		$this->ntfy->deleteNotificationType('guildrequest_new_update');
+		$this->ntfy->deleteNotificationType('guildrequest_open_applications');
 	}
 
 	/**
@@ -180,30 +187,6 @@ class guildrequest extends plugin_generic {
 			),
 		);
 		return $main_menu;
-	}
-
-	private function usersettings(){
-		if (!$this->user->check_auth('u_guildrequest_view', false)) return array();
-
-		$settings = array(
-			'guildrequest' => array(
-				'guildrequest' => array(
-					'gr_send_notification_mails'	=> array(
-						'type'	=> 'radio',
-						'value'	=> 0,
-						'lang'	=> 'gr_send_notification_mails',
-					),
-					/*
-					'gr_jgrowl_notifications'	=> array(
-						'type'		=> 'radio',
-						'value'		=> 0,
-						'lang'		=> 'gr_jgrowl_notifications',
-					)
-					*/
-				)
-			),
-		);
-		return $settings;
 	}
 }
 ?>

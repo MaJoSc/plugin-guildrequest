@@ -51,6 +51,13 @@ if (!class_exists('guildrequest_comments_save_hook')){
 						$GRUserID 	= $this->pdh->get('user', 'userid', array('GuildRequest'));
 						$data['user_id'] = $GRUserID;
 						if ($GRUserID) $data['permission'] = true;
+						
+						//Comment from Applicant
+						$arrUsers = $this->pdh->get('user', 'users_with_permission', array('u_guildrequest_view'));
+						$strFromUsername =  $row['username'];
+						$this->ntfy->add('guildrequest_new_update', $data['attach_id'], $strFromUsername, $this->routing->build('ListApplications'), $arrUsers, $strFromUsername);
+						
+						
 					}
 				}
 			} elseif($data['permission'] ) {
@@ -67,6 +74,11 @@ if (!class_exists('guildrequest_comments_save_hook')){
 						'COMMENT'		=> $data['comment'],
 					);
 					$this->email->SendMailFromAdmin(register('encrypt')->decrypt($row['email']), $this->user->lang('gr_newcomment_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_newcomment.html', $bodyvars);
+					
+					//Comment from other User
+					$arrUsers = $this->pdh->get('user', 'users_with_permission', array('u_guildrequest_view'));
+					$strFromUsername =  $this->pdh->get('user', 'name', array($data['user_id']));
+					$this->ntfy->add('guildrequest_new_update', $data['attach_id'], $strFromUsername, $this->routing->build('ListApplications'), $arrUsers, $row['username']);
 				}
 			}
 			return $data;
