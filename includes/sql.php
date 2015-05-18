@@ -59,6 +59,7 @@ $guildrequestSQL = array(
 				`voting_yes` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 				`voting_no` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 				`voted_user` TEXT COLLATE utf8_bin DEFAULT NULL,
+				`user_id` INT(11) UNSIGNED NULL DEFAULT '0',
 				PRIMARY KEY (`id`)
 			)DEFAULT CHARSET=utf8 COLLATE=utf8_bin;",
 		3	=> "CREATE TABLE `__guildrequest_visits` (

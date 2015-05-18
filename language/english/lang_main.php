@@ -107,6 +107,14 @@ $lang = array(
 	'gr_notify_new_application_grouped' => "{PRIMARY} added a new application",
 	'gr_notify_new_update'	=> "The application of {ADDITIONAL} has been commented",
 	'gr_notify_new_update_grouped' => "{COUNT} applications have been commented",
+		
+	'gr_notify_new_update_own'	=> "Your Application was updated",
+	'gr_notify_new_update_own_grouped' => "There have been {COUNT} updates on your application",
+		
+		'gr_fs_general'	=> 'General',
+		'gr_f_create_account' => 'Create EQdkp Plus Account, if Application was accepted',
+		'gr_f_help_create_account' => 'This option is available if no CMS Bridge is active',
+		'gr_myapplications' => 'My Applications',
 );
 
 ?>

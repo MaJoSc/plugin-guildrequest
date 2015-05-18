@@ -89,6 +89,7 @@ class guildrequest extends plugin_generic {
 		$this->routing->addRoute('WriteApplication', 'addrequest', 'plugins/guildrequest/page_objects');
 		$this->routing->addRoute('ListApplications', 'listrequests', 'plugins/guildrequest/page_objects');
 		$this->routing->addRoute('ViewApplication', 'viewrequest', 'plugins/guildrequest/page_objects');
+		$this->routing->addRoute('MyApplications', 'myapplications', 'plugins/guildrequest/page_objects');
 
 		$this->add_hook('portal', 'guildrequest_portal_hook', 'portal');
 		$this->add_hook('comments_save', 'guildrequest_comments_save_hook', 'comments_save');
@@ -129,6 +130,7 @@ class guildrequest extends plugin_generic {
 		
 		$this->ntfy->addNotificationType('guildrequest_new_application', 'gr_notify_new_application', 'guildrequest', 1, 1, 1, 'gr_notify_new_application_grouped', 2, 'fa-pencil-square-o');
 		$this->ntfy->addNotificationType('guildrequest_new_update', 'gr_notify_new_update', 'guildrequest', 1, 1, 1, 'gr_notify_new_update_grouped', 2, 'fa-pencil-square-o');
+		$this->ntfy->addNotificationType('guildrequest_new_update_own', 'gr_notify_new_update_own', 'guildrequest', 1, 1, 1, 'gr_notify_new_update_own_grouped', 2, 'fa-pencil-square-o');
 		$this->ntfy->addNotificationType('guildrequest_open_applications', 'gr_notify_open', 'guildrequest', 0, 1, false, '', 0, 'fa-pencil-square-o');
 	}
 
@@ -146,7 +148,11 @@ class guildrequest extends plugin_generic {
 		
 		$this->ntfy->deleteNotificationType('guildrequest_new_application');
 		$this->ntfy->deleteNotificationType('guildrequest_new_update');
+		$this->ntfy->deleteNotificationType('guildrequest_new_update_own');
 		$this->ntfy->deleteNotificationType('guildrequest_open_applications');
+		
+		$this->pdh->put('comment', 'delete_page', array('guildrequest_int'));
+		$this->pdh->put('comment', 'delete_page', array('guildrequest'));
 	}
 
 	/**
@@ -163,6 +169,12 @@ class guildrequest extends plugin_generic {
 				'check'	=> 'a_guildrequest_form',
 				'icon'	=> 'fa-list-alt'
 			),
+			2 => array (
+					'link'	=> 'plugins/guildrequest/admin/settings.php'.$this->SID,
+					'text'	=> $this->user->lang('settings'),
+					'check'	=> 'a_guildrequest_form',
+					'icon'	=> 'fa-wrench'
+			),
 		));
 		return $admin_menu;
 	}
@@ -178,7 +190,6 @@ class guildrequest extends plugin_generic {
 				'link'		=> $this->routing->build('WriteApplication', false, false, true, true),
 				'text'		=> $this->user->lang('gr_add'),
 				'check'		=> 'u_guildrequest_add',
-				'signedin'	=> 0,
 			),
 			2 => array (
 				'link'		=> $this->routing->build('ListApplications', false, false, true, true),

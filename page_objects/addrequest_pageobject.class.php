@@ -82,37 +82,57 @@ class addrequest_pageobject extends pageobject {
 		}
 	}
 	
-	$arrInput['email'] = array(
-		'input' 	=> $this->in->get('gr_email'),
-		'name'		=> $this->user->lang('email'),
-		'required'	=> true,
-		'id'		=> 'email',
-	);
-	$arrInput['name'] = array(
-		'input' 	=> $this->in->get('gr_name'),
-		'name'		=> $this->user->lang('name'),
-		'required'	=> true,
-		'id'		=> 'name',
-	);
+	if(!$this->user->is_signedin()){
+		$arrInput['email'] = array(
+			'input' 	=> $this->in->get('gr_email'),
+			'name'		=> $this->user->lang('email'),
+			'required'	=> true,
+			'id'		=> 'email',
+		);
+		$arrInput['name'] = array(
+			'input' 	=> $this->in->get('gr_name'),
+			'name'		=> $this->user->lang('name'),
+			'required'	=> true,
+			'id'		=> 'name',
+		);
+	}
 
 	$this->data = $arrInput;
 
 	//Check Captcha
-	require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
-	$captcha = new recaptcha;
-	$response = $captcha->check_answer($this->config->get('lib_recaptcha_pkey'), $this->env->ip, $this->in->get('g-recaptcha-response'));
-	if (!$response->is_valid) {
-		$this->core->message($this->user->lang('lib_captcha_wrong'), $this->user->lang('error'), 'red');
-		$this->display;
-		return;
-	}
-	
-	
-	//Check email
-	if (!preg_match("/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)+/",$this->in->get('gr_email'))){
-		$this->core->message($this->user->lang('fv_invalid_email'), $this->user->lang('error'), 'red');
-		$this->display();
-		return;
+	if(!$this->user->is_signedin()){
+		require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
+		$captcha = new recaptcha;
+		$response = $captcha->check_answer($this->config->get('lib_recaptcha_pkey'), $this->env->ip, $this->in->get('g-recaptcha-response'));
+		if (!$response->is_valid) {
+			$this->core->message($this->user->lang('lib_captcha_wrong'), $this->user->lang('error'), 'red');
+			$this->display;
+			return;
+		}	
+		
+		//Check Username/Email for account creation
+		if($this->config->get('create_account', 'guildrequest') && !$this->config->get('cmsbrige_active')){
+			
+			if ($this->pdh->get('user', 'check_email', array($this->in->get('gr_email'))) == 'false'){
+				$this->core->message(str_replace("{0}", sanitize($this->in->get('gr_email')), $this->user->lang('fv_email_alreadyuse')), $this->user->lang('error'), 'red');
+				$this->display();
+				return;
+			}
+			
+			if ($this->pdh->get('user', 'check_username', array($this->in->get('gr_name'))) == 'false'){
+				$this->core->message(str_replace("{0}", sanitize($this->in->get('gr_name')), $this->user->lang('fv_username_alreadyuse')), $this->user->lang('error'), 'red');
+				$this->display();
+				return;
+			}
+			
+		}
+
+		//Check email
+		if (!preg_match("/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-]+)+/",$this->in->get('gr_email'))){
+			$this->core->message($this->user->lang('fv_invalid_email'), $this->user->lang('error'), 'red');
+			$this->display();
+			return;
+		}
 	}
 	
 	//Check Required
@@ -140,9 +160,21 @@ class addrequest_pageobject extends pageobject {
 		return;
 	}
 	
-	
 
+	
+	//Hook for checking values
+	$arrHookResult = $this->hooks->process('gr_addrequest_formcheck', array('name' => $strName, 'email' => $strEmail, 'auth_key' => $strAuthKey, 'data' => $arrToSave), true);
+	if(isset($arrHookResult['error']) && $arrHookResult['error'] !== false){
+		$this->core->message($arrHookResult['error'], $this->user->lang('error'), 'red');
+		$this->display();
+		return;
+	}
+	
 	//Insert into DB
+	if($this->user->is_signedin()){
+		$arrInput['name']['input'] = $this->user->data['username'];
+		$arrInput['email']['input'] = $this->user->data['user_email'];
+	}
 	
 	$strName = $arrInput['name']['input'];
 	$strEmail = $arrInput['email']['input'];
@@ -157,6 +189,7 @@ class addrequest_pageobject extends pageobject {
 	
 	$blnResult = $this->pdh->put('guildrequest_requests', 'add', array($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent));
 	
+	//Hook for e.g. creating users
 	$this->hooks->process('gr_addrequest', array('name' => $strName, 'email' => $strEmail, 'auth_key' => $strAuthKey, 'data' => $arrToSave));
 	
 	$this->pdh->process_hook_queue();
@@ -381,11 +414,17 @@ class addrequest_pageobject extends pageobject {
 		}
 	}
 	
-	require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
-	$captcha = new recaptcha;
+	if(!$this->user->is_signedin()) {
+		require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
+		$captcha = new recaptcha;
+		$this->tpl->assign_vars(array(
+			'CAPTCHA'				=> $captcha->get_html($this->config->get('lib_recaptcha_okey')),
+			'S_DISPLAY_CATPCHA'		=> true,
+		));
+	}
+	
 	$this->tpl->assign_vars(array(
-		'CAPTCHA'				=> $captcha->get_html($this->config->get('lib_recaptcha_okey')),
-		'S_DISPLAY_CATPCHA'		=> true,
+		'S_USERNAME_CHECK'		=> ($this->config->get('create_account', 'guildrequest') && !$this->config->get('cmsbrige_active')) ? true : false,
 	));
 	
     // -- EQDKP ---------------------------------------------------------------
@@ -447,10 +486,14 @@ class addrequest_pageobject extends pageobject {
   }
   
   private function add_personal_group(){
+  	
+  	
 	$this->tpl->assign_block_vars('tabs.fieldset', array(
 		'NAME'	=> $this->user->lang('gr_personal_information'),
 		'ID'	=> 'personal_information',
 	));
+	
+	if($this->user->is_signedin()) return;
 
 	$this->tpl->assign_block_vars('tabs.fieldset.field', array(
 		'NAME'		=> $this->user->lang('name'),

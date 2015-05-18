@@ -117,6 +117,7 @@ if (!class_exists('pdh_r_guildrequest_requests')){
 						'voting_yes'	=> (int)$row['voting_yes'],
 						'voting_no'		=> (int)$row['voting_no'],
 						'voted_user'	=> $row['voted_user'],
+						'user_id'		=> (int)$row['user_id'],
 					);
 				}
 			}
@@ -133,9 +134,17 @@ if (!class_exists('pdh_r_guildrequest_requests')){
 		*
 		* @returns array(int)
 		*/
-		public function get_id_list(){
+		public function get_id_list($intUserId=false){
 			if (is_array($this->data)){
-				return array_keys($this->data);
+				if($intUserId){
+					$arrOut = array();
+					foreach($this->data as $key => $val){
+						if($intUserId === $val['user_id']) $arrOut[] = $key;
+					}
+					return $arrOut;
+				} else {
+					return array_keys($this->data);
+				}
 			}
 			return array();
 		}
@@ -232,6 +241,14 @@ if (!class_exists('pdh_r_guildrequest_requests')){
 			}
 			return false;
 		}
+		
+		public function get_user_id($intID){
+			if (isset($this->data[$intID])){
+				return $this->data[$intID]['user_id'];
+			}
+			return false;
+		}
+		
 		public function get_closed($intID){
 			if (isset($this->data[$intID])){
 				return $this->data[$intID]['closed'];

@@ -57,7 +57,10 @@ if (!class_exists('update_guildrequest_100')){
 		public function update_function(){
 			$this->ntfy->addNotificationType('guildrequest_new_application', 'gr_notify_new_application', 'guildrequest', 1, 1, 1, 'gr_notify_new_application_grouped', 2, 'fa-pencil-square-o');
 			$this->ntfy->addNotificationType('guildrequest_new_update', 'gr_notify_new_update', 'guildrequest', 1, 1, 1, 'gr_notify_new_update_grouped', 2, 'fa-pencil-square-o');
+			$this->ntfy->addNotificationType('guildrequest_new_update_own', 'gr_notify_new_update_own', 'guildrequest', 1, 1, 1, 'gr_notify_new_update_own_grouped', 2, 'fa-pencil-square-o');	
 			$this->ntfy->addNotificationType('guildrequest_open_applications', 'gr_notify_open', 'guildrequest', 0, 1, false, '', 0, 'fa-pencil-square-o');	
+			
+			$this->db->query("ALTER TABLE `__guildrequest_requests` ADD COLUMN `user_id` INT(11) UNSIGNED NULL DEFAULT '0';");
 			return true;
 		}
 	}

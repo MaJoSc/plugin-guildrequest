@@ -41,6 +41,7 @@ if (!class_exists('pdh_w_guildrequest_requests')){
 			'activated'		=> "Activated",
 			'closed'		=> "Closed",
 			'content'		=> "Content",
+			'user_id'		=> "User-ID",
 		);
 
 		public function add($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent, $intActivated=1){
@@ -58,6 +59,7 @@ if (!class_exists('pdh_w_guildrequest_requests')){
 				'voting_yes'	=> 0,
 				'voting_no'		=> 0,
 				'voted_user'	=> '',
+				'user_id'		=> ($this->user->id > 0) ? $this->user->id : 0,
 			);
 			$objQuery = $this->db->prepare("INSERT INTO __guildrequest_requests :p")->set($arrQuery)->execute();
 		

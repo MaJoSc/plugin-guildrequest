@@ -79,6 +79,11 @@ if (!class_exists('guildrequest_comments_save_hook')){
 					$arrUsers = $this->pdh->get('user', 'users_with_permission', array('u_guildrequest_view'));
 					$strFromUsername =  $this->pdh->get('user', 'name', array($data['user_id']));
 					$this->ntfy->add('guildrequest_new_update', $data['attach_id'], $strFromUsername, $this->routing->build('ListApplications'), $arrUsers, $row['username']);
+					
+					//Notify applicant
+					if($row['user_id'] > 0){
+						$this->ntfy->add('guildrequest_new_update_own', $data['attach_id'], $strFromUsername, $this->routing->build('ViewApplication', $row['username'], $row['id']), $row['user_id']);
+					}
 				}
 			}
 			return $data;

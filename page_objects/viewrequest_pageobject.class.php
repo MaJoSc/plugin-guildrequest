@@ -72,6 +72,11 @@ class viewrequest_pageobject extends pageobject
 		);
 		
 		$this->email->SendMailFromAdmin(register('encrypt')->decrypt($row['email']), $this->user->lang('gr_closed_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_closed.html', $bodyvars);
+		
+		//Notify applicant
+		if($row['user_id'] > 0){
+			$this->ntfy->add('guildrequest_new_update_own', $row['id'], $this->pdh->get('user', 'name', array($this->user->id)), $this->routing->build('ViewApplication', $row['username'], $row['id']), $row['user_id']);
+		}
 	}
   }
   
@@ -79,11 +84,16 @@ class viewrequest_pageobject extends pageobject
 	$this->user->check_auth('a_guildrequest_manage');
 	$row = $this->pdh->get('guildrequest_requests', 'id', array($this->url_id));
 	if ($row){
-		//Close
+		//Open
 		$this->pdh->put('guildrequest_requests', 'open', array($row['id']));
 		$this->pdh->process_hook_queue();
 		
 		$this->hooks->process('gr_open_request', array($row));
+		
+		//Notify applicant
+		if($row['user_id'] > 0){
+			$this->ntfy->add('guildrequest_new_update_own', $row['id'], $this->pdh->get('user', 'name', array($this->user->id)), $this->routing->build('ViewApplication', $row['username'], $row['id']), $row['user_id']);
+		}
 	}
   }
   
@@ -98,6 +108,32 @@ class viewrequest_pageobject extends pageobject
 		
 		$this->hooks->process('gr_change_status', array('status' => $this->in->get('gr_status', 0), 'data'=> $row));
 		
+		//Auto Create Account for this user
+		if($this->in->get('gr_status', 0) === 2 && $this->config->get('create_account', 'guildrequest') && !$this->config->get('cmsbrige_active') && $row['user_id']===0){
+			if($this->pdh->get('user', 'check_username', array($row['username'])) !== 'false' && $this->pdh->get('user', 'check_email', array($row['email'])) !== 'false'){
+				
+				$salt = $this->user->generate_salt();
+				$strPwdHash = $this->user->encrypt_password(random_string(), $salt);
+				$newUserId = $this->pdh->put('user', 'insert_user_bridge', array($row['username'], $strPwdHash, register('encrypt')->decrypt($row['email'])));
+				
+				// Email them their new password
+				$user_key = $this->pdh->put('user', 'create_new_activationkey', array($newUserId));
+				if(!strlen($user_key)) {
+					$this->core->message($this->user->lang('error_set_new_pw'), $this->user->lang('error'), 'red');
+				}
+				$strPasswordLink = $this->env->link . $this->controller_path_plain. 'Login/Newpassword/?key=' . $user_key;
+				
+				$bodyvars = array(
+						'USERNAME'	=> $row['username'],
+						'U_ACTIVATE'=> $this->user->lang('email_changepw').'<br /><br /><a href="'.$strPasswordLink.'">'.$strPasswordLink.'</a>',
+						'GUILDTAG'	=> $this->config->get('guildtag'),
+				);
+				
+				$this->email->SendMailFromAdmin(register('encrypt')->decrypt($row['email']), $this->user->lang('email_subject_activation_none'), 'register_activation_none.html', $bodyvars);
+			}
+		}
+		
+		
 		$bodyvars = array(
 			'USERNAME'		=> $row['username'],
 			'COMMENT'		=> (strlen($this->in->get('gr_status_text'))) ? '----------------------------<br />'.$this->in->get('gr_status_text').'<br />----------------------------<br />' : '',
@@ -107,6 +143,11 @@ class viewrequest_pageobject extends pageobject
 		);
 		
 		$this->email->SendMailFromAdmin(register('encrypt')->decrypt($row['email']), $this->user->lang('gr_status_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_status_change.html', $bodyvars);
+		
+		//Notify applicant
+		if($row['user_id'] > 0){
+			$this->ntfy->add('guildrequest_new_update_own', $row['id'], $this->pdh->get('user', 'name', array($this->user->id)), $this->routing->build('ViewApplication', $row['username'], $row['id']), $row['user_id']);
+		}
 	}
   }
   
@@ -146,12 +187,24 @@ class viewrequest_pageobject extends pageobject
 	$intID = intval($this->url_id);
 	$strKey = $this->in->get('key');
 	$rrow = false;
+	$blnIsApplicant = false;
 	
 	if ($intID){
 		$rrow = $this->pdh->get('guildrequest_requests', 'id', array($intID));
 		
 		if (strlen($strKey)){
 			if($rrow['auth_key'] != $this->in->get('key')) message_die($this->user->lang('noauth'));
+			$blnIsApplicant = true;
+		} elseif($rrow['user_id'] > 0) {
+			if($this->user->is_signedin()){
+				if($this->user->id === $rrow['user_id'] ){
+					$blnIsApplicant = true;
+				} elseif(!$this->user->check_auth('u_guildrequest_view', false)) {
+					message_die($this->user->lang('noauth'));
+				}
+			} else {
+				message_die($this->user->lang('noauth'));
+			}
 		} else {
 			$this->user->check_auth('u_guildrequest_view');
 		}
@@ -160,7 +213,7 @@ class viewrequest_pageobject extends pageobject
 	}
 	
 	//setze lastvisit bewerber
-	if (strlen($strKey)){
+	if ($blnIsApplicant){
 		$this->pdh->put('guildrequest_requests', 'set_lastvisit', array($intID));
 	}
 	
@@ -298,7 +351,11 @@ class viewrequest_pageobject extends pageobject
 	//Kommentare
 	$comments = register('comments', array('ext'));
 	$commentOptions = array('attach_id' => $intID, 'page'=>'guildrequest', 'userauth' => 'u_guildrequest_comment', 'formforguests' => true);
-	if ($rrow['closed']) $commentOptions['userauth'] = 'a_guildrequest_manage';
+	if ($rrow['closed']) {
+		$commentOptions['userauth'] = 'a_guildrequest_manage';
+	}elseif($this->user->is_signedin() && $blnIsApplicant){
+		unset($commentOptions['userauth']);
+	}
 	$comments->SetVars($commentOptions);
 	
 	$this->tpl->assign_vars(array(

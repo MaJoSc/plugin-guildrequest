@@ -96,6 +96,13 @@ $lang = array(
 	'gr_notify_new_application_grouped' => "{PRIMARY} haben eine neue Bewerbung verfasst",	
 	'gr_notify_new_update'	=> "Die Bewerbung von {ADDITIONAL} wurde kommentiert",
 	'gr_notify_new_update_grouped' => "Es wurden {COUNT} Bewerbungen kommentiert",
+	'gr_notify_new_update_own'	=> "Deine Bewerbung wurde aktualisiert",
+	'gr_notify_new_update_own_grouped' => "Es wurden {COUNT} Aktualisierungen an deiner Bewerbung vorgenommen",
+		
+	'gr_fs_general'	=> 'Allgemein',
+	'gr_f_create_account' => 'EQdkp Plus Account anlegen, wenn die Bewerbung akzeptiert wurde',
+	'gr_f_help_create_account' => 'Diese Option steht nur zur Verfügung, wenn keine CMS-Bridge aktiviert ist',
+	'gr_myapplications' => 'Meine Bewerbungen',
 );
 
 ?>
