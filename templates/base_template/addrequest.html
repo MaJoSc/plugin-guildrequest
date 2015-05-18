@@ -149,6 +149,13 @@ input[name='gr_name'], input[name='gr_email']{
 	<h1 class="contentTitle">{L_gr_add}</h1>
 </div>
 
+<!-- IF S_HAS_APPLICATIONS -->
+<div class="tableHeader floatRight">
+	<button onclick="window.location='{EQDKP_CONTROLLER_PATH}MyApplications{SEO_EXTENSION}{SID}'"><i class="fa fa-user fa-lg"></i> {L_gr_myapplications}</button>
+</div>
+<div class="clear"></div>
+<!-- ENDIF -->
+
 <form method="post" action="">
 	<!-- BEGIN tabs -->
 		<div>

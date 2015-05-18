@@ -425,6 +425,7 @@ class addrequest_pageobject extends pageobject {
 	
 	$this->tpl->assign_vars(array(
 		'S_USERNAME_CHECK'		=> ($this->config->get('create_account', 'guildrequest') && !$this->config->get('cmsbrige_active')) ? true : false,
+		'S_HAS_APPLICATIONS'	=> ($this->user->is_signedin() && count($this->pdh->get('guildrequest_requests', 'id_list', array($this->user->id)))) ? true : false,
 	));
 	
     // -- EQDKP ---------------------------------------------------------------

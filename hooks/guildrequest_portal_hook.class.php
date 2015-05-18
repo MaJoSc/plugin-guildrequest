@@ -55,12 +55,13 @@ if (!class_exists('guildrequest_portal_hook')){
 					$this->ntfy->add_persistent('guildrequest_open_applications', sprintf($this->user->lang('gr_notification_open'), $intOpen), $this->routing->build('ListApplications', false, false, true), 0, 'fa-pencil-square-o');		
 				}
 			}
-			
-			if($this->user->is_signedin() && $this->user->check_auth('u_guildrequest_add', false)){
+			/*
+			if($this->user->is_signedin() && ($this->user->check_auth('u_guildrequest_view', false) || $this->user->check_auth('a_guildrequest_manage', false))){
 				$this->tpl->assign_block_vars('user_tooltip_addition', array(
-						'TEXT' => '<a href="'.$this->routing->build('MyApplications').'"><i class="fa fa-pencil-square-o fa-lg"></i> '.$this->user->lang('gr_myapplications').'</a>',
+						'TEXT' => '<a href="'.$this->routing->build('ListApplications').'"><i class="fa fa-pencil-square-o fa-lg"></i> '.$this->user->lang('gr_view').'</a>',
 				));
 			}
+			*/
 		}
 	}
 }

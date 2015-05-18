@@ -191,11 +191,13 @@ class guildrequest extends plugin_generic {
 				'text'		=> $this->user->lang('gr_add'),
 				'check'		=> 'u_guildrequest_add',
 			),
+			
 			2 => array (
 				'link'		=> $this->routing->build('ListApplications', false, false, true, true),
 				'text'		=> $this->user->lang('gr_view'),
 				'check'		=> 'u_guildrequest_view',
 			),
+			
 		);
 		return $main_menu;
 	}
