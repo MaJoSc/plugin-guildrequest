@@ -103,6 +103,8 @@ $lang = array(
 	'gr_f_create_account' => 'EQdkp Plus Account anlegen, wenn die Bewerbung akzeptiert wurde',
 	'gr_f_help_create_account' => 'Diese Option steht nur zur Verfügung, wenn keine CMS-Bridge aktiviert ist',
 	'gr_myapplications' => 'Meine Bewerbungen',
+		
+	"plugin_statistics_guildrequest_applications" => "GuildRequest: Bewerbungen",
 );
 
 ?>

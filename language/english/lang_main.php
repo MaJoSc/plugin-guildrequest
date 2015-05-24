@@ -115,6 +115,8 @@ $lang = array(
 	'gr_f_create_account' => 'Create EQdkp Plus Account, if Application was accepted',
 	'gr_f_help_create_account' => 'This option is available if no CMS Bridge is active',
 	'gr_myapplications' => 'My Applications',
+		
+	"plugin_statistics_guildrequest_applications" => "GuildRequest: Applications",
 );
 
 ?>

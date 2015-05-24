@@ -93,6 +93,8 @@ class guildrequest extends plugin_generic {
 
 		$this->add_hook('portal', 'guildrequest_portal_hook', 'portal');
 		$this->add_hook('comments_save', 'guildrequest_comments_save_hook', 'comments_save');
+		$this->add_hook('plugin_statistics', 'guildrequest_plugin_statistics_hook', 'plugin_statistics');
+		
 		// -- Menu --------------------------------------------
 		$this->add_menu('admin', $this->gen_admin_menu());
 

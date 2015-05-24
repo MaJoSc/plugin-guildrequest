@@ -68,6 +68,11 @@ if (!class_exists('pdh_w_guildrequest_requests')){
 				$id = $objQuery->insertId;
 				$log_action = $this->logs->diff(false, $arrQuery, $this->arrLogLang);
 				$this->log_insert("action_request_added", $log_action, $id, $arrQuery["username"], 0, 'guildrequest');
+				
+				//Insert Data into Statistics Plugin
+				if ($this->pm->check('statistics', PLUGIN_INSTALLED)){
+					$this->pdh->put('statistics_plugin', 'insert', array('guildrequest_applications', 1));
+				}
 			
 				return $id;
 			}
