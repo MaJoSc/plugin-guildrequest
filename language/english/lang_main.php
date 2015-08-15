@@ -36,6 +36,7 @@ $lang = array(
 	"gr_manage_form" => 'Manage Form',
 	"gr_vote" => 'Voting',
 	"gr_view" => 'View applications',
+	"gr_view_closed" => 'View closed applications',
 	"gr_add" => 'Write application',
 	"gr_internal_comment" => 'Write internal comment',
 	"gr_comment" => 'Write public comment',

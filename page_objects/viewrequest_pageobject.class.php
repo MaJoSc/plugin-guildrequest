@@ -207,6 +207,7 @@ class viewrequest_pageobject extends pageobject
 			}
 		} else {
 			$this->user->check_auth('u_guildrequest_view');
+			if($rrow['closed']) $this->user->check_auth('u_guildrequest_view_closed'); 
 		}
 	} else {
 		message_die($this->user->lang('noauth'));

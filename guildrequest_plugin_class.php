@@ -28,7 +28,7 @@ if (!defined('EQDKP_INC')){
   +--------------------------------------------------------------------------*/
 class guildrequest extends plugin_generic {
 
-	public $version				= '1.0.0';
+	public $version				= '1.1.0';
 	public $build				= '';
 	public $copyright			= 'GodMod';
 	public $vstatus				= 'Beta';
@@ -67,6 +67,7 @@ class guildrequest extends plugin_generic {
 		// ('a'/'u', Permission-Name, Enable? 'Y'/'N', Language string, array of user-group-ids that should have this permission)
 		// Groups: 1 = Guests, 2 = Super-Admin, 3 = Admin, 4 = Member
 		$this->add_permission('u', 'view',			'Y', $this->user->lang('gr_view'),				array(2,3,4));
+		$this->add_permission('u', 'view_closed',	'N', $this->user->lang('gr_view_closed'),		array(2,3));
 		$this->add_permission('u', 'vote',			'Y', $this->user->lang('gr_vote'),				array(2,3,4));
 		$this->add_permission('u', 'comment_int',	'Y', $this->user->lang('gr_internal_comment'),	array(2,3,4));
 		$this->add_permission('u', 'comment',		'Y', $this->user->lang('gr_comment'),			array(1,2,3,4));

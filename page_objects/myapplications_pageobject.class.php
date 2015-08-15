@@ -134,7 +134,7 @@ class myapplications_pageobject extends pageobject
 		$start				= $this->in->get('start', 0);
 		$pagination_suffix	= ($start) ? '&amp;start='.$start : '';
 
-	$view_list = $this->pdh->get('guildrequest_requests', 'id_list', array($this->user->id));
+	$view_list = $this->pdh->get('guildrequest_requests', 'id_list', array($this->user->id, !$this->user->check_auth('u_guildrequest_view_closed', false)));
 	
 	$hptt				= $this->get_hptt($hptt_page_settings, $view_list, $view_list, array('%link_url%' => 'viewraid.php', '%link_url_suffix%' => ''), $this->user->id);
 	$hptt->setPageRef($this->strPath);

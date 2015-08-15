@@ -134,12 +134,18 @@ if (!class_exists('pdh_r_guildrequest_requests')){
 		*
 		* @returns array(int)
 		*/
-		public function get_id_list($intUserId=false){
+		public function get_id_list($intUserId=false, $intOpenOnly=false){
 			if (is_array($this->data)){
 				if($intUserId){
 					$arrOut = array();
 					foreach($this->data as $key => $val){
-						if($intUserId === $val['user_id']) $arrOut[] = $key;
+						if($intUserId === $val['user_id'] && (!$intOpenOnly || ($intOpenOnly && !$this->get_closed($key)))) $arrOut[] = $key;
+					}
+					return $arrOut;
+				} elseif($intOpenOnly) {
+					$arrOut = array();
+					foreach($this->data as $key => $val){
+						if(!$this->get_closed($key)) $arrOut[] = $key;
 					}
 					return $arrOut;
 				} else {

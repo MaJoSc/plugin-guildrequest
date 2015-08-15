@@ -33,6 +33,7 @@ $lang = array(
 	'gr_manage_form'				=> 'Formular verwalten',
 	'gr_vote'						=> 'Über Bewerbung abstimmen',
 	'gr_view'						=> 'Bewerbungen ansehen',
+	'gr_view_closed'				=> 'Geschlossene Bewerbungen ansehen',
 	'gr_add'						=> 'Bewerbung schreiben',
 	'gr_internal_comment'			=> 'Internen Kommentar schreiben',
 	'gr_comment'					=> 'Öffentlichen Kommentar schreiben',
