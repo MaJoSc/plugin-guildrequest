@@ -28,7 +28,7 @@ if (!defined('EQDKP_INC')){
   +--------------------------------------------------------------------------*/
 class guildrequest extends plugin_generic {
 
-	public $version				= '1.0.1';
+	public $version				= '1.0.2';
 	public $build				= '';
 	public $copyright			= 'GodMod';
 
@@ -54,7 +54,6 @@ class guildrequest extends plugin_generic {
 			'homepage'			=> EQDKP_PROJECT_URL,
 			'manuallink'		=> false,
 			'plus_version'		=> '2.1',
-			'build'				=> $this->build,
 		));
 
 		$this->add_dependency(array(

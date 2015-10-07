@@ -100,7 +100,7 @@ class addrequest_pageobject extends pageobject {
 	$this->data = $arrInput;
 
 	//Check Captcha
-	if(!$this->user->is_signedin()){
+	if(!$this->user->is_signedin() && $this->config->get('enable_captcha')){
 		require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
 		$captcha = new recaptcha;
 		$response = $captcha->check_answer($this->config->get('lib_recaptcha_pkey'), $this->env->ip, $this->in->get('g-recaptcha-response'));
@@ -414,7 +414,7 @@ class addrequest_pageobject extends pageobject {
 		}
 	}
 	
-	if(!$this->user->is_signedin()) {
+	if(!$this->user->is_signedin() && $this->config->get('enable_captcha')) {
 		require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
 		$captcha = new recaptcha;
 		$this->tpl->assign_vars(array(
