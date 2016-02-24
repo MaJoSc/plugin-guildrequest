@@ -100,15 +100,17 @@ class addrequest_pageobject extends pageobject {
 	$this->data = $arrInput;
 
 	//Check Captcha
-	if(!$this->user->is_signedin() && $this->config->get('enable_captcha')){
-		require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
-		$captcha = new recaptcha;
-		$response = $captcha->check_answer($this->config->get('lib_recaptcha_pkey'), $this->env->ip, $this->in->get('g-recaptcha-response'));
-		if (!$response->is_valid) {
-			$this->core->message($this->user->lang('lib_captcha_wrong'), $this->user->lang('error'), 'red');
-			$this->display;
-			return;
-		}	
+	if(!$this->user->is_signedin()){
+		if($this->config->get('enable_captcha')){
+			require($this->root_path.'libraries/recaptcha/recaptcha.class.php');
+			$captcha = new recaptcha;
+			$response = $captcha->check_answer($this->config->get('lib_recaptcha_pkey'), $this->env->ip, $this->in->get('g-recaptcha-response'));
+			if (!$response->is_valid) {
+				$this->core->message($this->user->lang('lib_captcha_wrong'), $this->user->lang('error'), 'red');
+				$this->display;
+				return;
+			}
+		}
 		
 		//Check Username/Email for account creation
 		if($this->config->get('create_account', 'guildrequest') && !$this->config->get('cmsbrige_active')){

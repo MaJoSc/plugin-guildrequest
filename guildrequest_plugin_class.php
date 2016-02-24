@@ -28,7 +28,7 @@ if (!defined('EQDKP_INC')){
   +--------------------------------------------------------------------------*/
 class guildrequest extends plugin_generic {
 
-	public $version				= '1.0.2';
+	public $version				= '1.0.3';
 	public $build				= '';
 	public $copyright			= 'GodMod';
 
