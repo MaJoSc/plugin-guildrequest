@@ -1,3 +1,3 @@
 plugin-guildrequest
 ===================
-[![Build Status](https://travis-ci.org/EQdkpPlus/plugin-mediacenter.svg)](https://travis-ci.org/EQdkpPlus/plugin-mediacenter)
+[![Build Status](https://travis-ci.org/EQdkpPlus/plugin-guildrequest.svg)](https://travis-ci.org/EQdkpPlus/plugin-guildrequest)
