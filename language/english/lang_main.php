@@ -104,6 +104,7 @@ $lang = array(
 	'user_sett_f_ntfy_guildrequest_new_application' => 'GuildRequest: New application',
 	'user_sett_f_ntfy_guildrequest_new_update'	=> 'GuildRequest: New Comments',
 	'user_sett_f_ntfy_guildrequest_open_applications' => 'GuildRequest: Open applications',
+	'user_sett_f_ntfy_guildrequest_new_update_own' => 'GuildRequest: Updates for my own applications',
 	'gr_notify_new_application'	=> "{PRIMARY} added a new application",
 	'gr_notify_new_application_grouped' => "{PRIMARY} added a new application",
 	'gr_notify_new_update'	=> "The application of {ADDITIONAL} has been commented",

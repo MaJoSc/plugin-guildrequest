@@ -93,6 +93,7 @@ $lang = array(
 	'user_sett_f_ntfy_guildrequest_new_application' => 'GuildRequest: Neue Bewerbung',
 	'user_sett_f_ntfy_guildrequest_new_update'	=> 'GuildRequest: Neue Kommentare',
 	'user_sett_f_ntfy_guildrequest_open_applications' => 'GuildRequest: Offene Bewerbungen',
+	'user_sett_f_ntfy_guildrequest_new_update_own' => 'GuildRequest: Aktualisierungen für meine Bewerbungen',
 	'gr_notify_new_application'	=> "{PRIMARY} hat eine neue Bewerbung verfasst",
 	'gr_notify_new_application_grouped' => "{PRIMARY} haben eine neue Bewerbung verfasst",	
 	'gr_notify_new_update'	=> "Die Bewerbung von {ADDITIONAL} wurde kommentiert",

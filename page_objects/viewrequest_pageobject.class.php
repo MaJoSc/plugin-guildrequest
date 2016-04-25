@@ -373,6 +373,7 @@ class viewrequest_pageobject extends pageobject
 			'ntfy_type' 	=> 'guildrequest_new_update',
 			'ntfy_title'	=> sanitize($rrow['username']),
 			'ntfy_link' 	=> $this->routing->build('ListApplications'),
+			'ntfy_auth'		=> 'u_guildrequest_comment_int',
 	);	
 	if ($rrow['closed']) $commentOptions['userauth'] = 'a_guildrequest_manage';
 	$int_comments->SetVars($commentOptions);
