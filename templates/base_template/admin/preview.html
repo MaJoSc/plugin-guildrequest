@@ -34,7 +34,7 @@ function gr_hide_target(target){
 }
 
 var field_data = new Array();
-$(document).ready(function(){
+$(function(){
 	$("input[name^='gr_field'], select[name^='gr_field'], textarea[name^='gr_field']").on("change", function(){
 		gr_listener();
 	});
