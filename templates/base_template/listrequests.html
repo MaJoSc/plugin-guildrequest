@@ -11,14 +11,48 @@
 <form method="post" action="{ACTION}" name="post">
 	<button type="submit" name="mark_all_read" class="floatRight"><i class="fa fa-check-square-o"></i>{L_gr_mark_all_as_read}</button>
 	<div class="clear"></div>
-	<table class="table fullwidth colorswitch">
-		{PAGE_OUT}
-	</table>
-	<div class="center pagination_wrapper">
-		{GR_PAGINATION}
-	</div>
 	
-	<!-- IF S_GR_ADMIN -->
+        <div id='guildrequest_tab'>
+            <!-- IF SHOW_ARCHIVE -->
+            <ul>
+		<li><a href='#fragment-open_requests'><span>{L_gr_applications}</span></a></li>
+		<li><a href='#fragment-archive'><span>{L_gr_archive}</span></a></li>
+		
+	</ul>
+            <!-- ENDIF -->
+            
+            <div id="fragment-open_requests">
+                
+        <table class="table fullwidth colorswitch">
+		
+            {PAGE_OUT_OPEN}
+               
+	</table>
+        </div>
+            
+            
+            
+            
+            
+	
+        <!-- IF SHOW_ARCHIVE -->
+        <div id="fragment-archive">
+                
+        <table class="table fullwidth colorswitch">
+		
+            {PAGE_OUT_ARCHIVE}
+               
+	</table>
+        </div>
+        <!-- ENDIF -->
+        
+	<div class="center pagination_wrapper">
+		
+            {GR_PAGINATION}
+                
+	</div>
+        </div>
+        <!-- IF S_GR_ADMIN -->
 	<button class="mainoption bi_delete"  onclick="delete_warning();" type="button" name="del"><i class="fa fa-times"></i>{L_gr_delete_selected_requests}</button>
 	<input type="hidden" name="del" value="1" disabled="disabled" id="mass_del_submit" />
 	<!-- ENDIF -->

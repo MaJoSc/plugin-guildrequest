@@ -99,6 +99,10 @@ class guildrequestSettings extends page_generic
   			'create_account' => array(
   				'type'		=> 'radio',
   			),
+                        'archive' => array(
+                                'type'          => 'radio',
+                        ),
+                
   		),
 
   	);

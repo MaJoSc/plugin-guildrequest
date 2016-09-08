@@ -35,6 +35,8 @@ $lang = array(
 	'gr_view'						=> 'Bewerbungen ansehen',
 	'gr_view_closed'				=> 'Geschlossene Bewerbungen ansehen',
 	'gr_add'						=> 'Bewerbung schreiben',
+    'gr_applications'=>'Offene Bewerbungen',
+    'gr_archive'=>'Archiv',
 	'gr_internal_comment'			=> 'Internen Kommentar schreiben',
 	'gr_comment'					=> 'Öffentlichen Kommentar schreiben',
 
@@ -103,7 +105,10 @@ $lang = array(
 		
 	'gr_fs_general'	=> 'Allgemein',
 	'gr_f_create_account' => 'EQdkp Plus Account anlegen, wenn die Bewerbung akzeptiert wurde',
-	'gr_f_help_create_account' => 'Diese Option steht nur zur Verfügung, wenn keine CMS-Bridge aktiviert ist',
+        'gr_f_help_create_account' => 'Diese Option steht nur zur Verfügung, wenn keine CMS-Bridge aktiviert ist',
+        'gr_f_archive'=>'Geschlossene Bewerbungen ins Archiv verschieben',
+        'gr_f_help_archive'=>'Sortiert alle geschlossenen Bewerbungen aus für eine bessere Übersicht',
+	
 	'gr_myapplications' => 'Meine Bewerbungen',
 		
 	"plugin_statistics_guildrequest_applications" => "GuildRequest: Bewerbungen",

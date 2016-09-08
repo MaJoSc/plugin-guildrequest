@@ -38,6 +38,8 @@ $lang = array(
 	"gr_view" => 'View applications',
 	"gr_view_closed" => 'View closed applications',
 	"gr_add" => 'Write application',
+    "gr_applications"=>'Open applications',
+    "gr_archive"=>'Archive',
 	"gr_internal_comment" => 'Write internal comment',
 	"gr_comment" => 'Write public comment',
 	"gr_plugin_not_installed" => 'The GuildRequest-Plugin is not installed.',
@@ -115,7 +117,10 @@ $lang = array(
 		
 	'gr_fs_general'	=> 'General',
 	'gr_f_create_account' => 'Create EQdkp Plus Account, if Application was accepted',
-	'gr_f_help_create_account' => 'This option is available if no CMS Bridge is active',
+        'gr_f_help_create_account' => 'This option is available if no CMS Bridge is active',
+        'gr_f_archive'=>'Move all closed applications into an archive',
+        'gr_f_help_archive'=>'This will pre-sort all closed applications for better overwiew',
+	
 	'gr_myapplications' => 'My Applications',
 		
 	"plugin_statistics_guildrequest_applications" => "GuildRequest: Applications",
