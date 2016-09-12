@@ -183,18 +183,45 @@ class listrequests_pageobject extends pageobject
 		$start				= $this->in->get('start', 0);
 		$pagination_suffix	= ($start) ? '&amp;start='.$start : '';
 
-	$view_list = $this->pdh->get('guildrequest_requests', 'id_list', array(false, (!$this->user->check_auth('u_guildrequest_view_closed', false))));
+        
+                
+        
+        
+        $cfgValues = $this->config->get_config('guildrequest');
+        if ($cfgValues['archive']) {
+            // archive is active so split listings, show all open in view_list
+            $view_list = $this->pdh->get('guildrequest_requests', 'id_list', array(false, true));
+            
+            $view_list_archive=$this->pdh->get('guildrequest_requests', 'id_list', array(false, false, ($this->user->check_auth('u_guildrequest_view_closed', false))));
+        
+        } else {
+            // archive is not active so only one (combined) list
+            $view_list = $this->pdh->get('guildrequest_requests', 'id_list', array(false, !$this->user->check_auth('u_guildrequest_view_closed', false)));
+        }
+
+        
+        
 	$hptt				= $this->get_hptt($hptt_page_settings, $view_list, $view_list, array('%link_url%' => 'viewraid.php', '%link_url_suffix%' => ''), $this->user->id);
+        $hptt_archive                   = $this->get_hptt($hptt_page_settings, $view_list_archive, $view_list_archive, array('%link_url%' => 'viewraid.php', '%link_url_suffix%' => ''), $this->user->id.'_archive');
 	$hptt->setPageRef($this->strPath);
+        $hptt_archive->setPageRef($this->strPath);
 	
 	//footer
-	$raid_count			= count($view_list);
-	$footer_text		= sprintf($this->user->lang('gr_footer'), $raid_count ,$this->user->data['user_rlimit']);
+	$raid_count_open			= count($view_list);
+        $raid_count_archive = count($view_list_archive);
+	$footer_text_open		= sprintf($this->user->lang('gr_footer'), $raid_count_open ,$this->user->data['user_rlimit']);
+        $footer_text_archive		= sprintf($this->user->lang('gr_footer'), $raid_count_archive ,$this->user->data['user_rlimit']);
 	
 
-	$this->tpl->assign_vars(array (
-		'PAGE_OUT'			=> $hptt->get_html_table($sort, $pagination_suffix, $start, $this->user->data['user_rlimit'], $footer_text),
-		'GR_PAGINATION'		=> generate_pagination($this->strPath.$this->SID.$sort_suffix, $raid_count, $this->user->data['user_rlimit'], $start),
+        if ($cfgValues['archive']) {
+            $this->jquery->Tab_header('guildrequest_tab', true);
+            
+        }
+        $this->tpl->assign_vars(array (
+		'PAGE_OUT_OPEN'			=> $hptt->get_html_table($sort, $pagination_suffix, $start, $this->user->data['user_rlimit'], $footer_text_open),
+                'PAGE_OUT_ARCHIVE'              => $hptt_archive->get_html_table($sort, $pagination_suffix, $start, $this->user->data['user_rlimit'], $footer_text_archive),
+	'SHOW_ARCHIVE'		=> $cfgValues['archive']&& $this->user->check_auth('u_guildrequest_view_closed', false),	
+            'GR_PAGINATION'		=> generate_pagination($this->strPath.$this->SID.$sort_suffix, $raid_count_open, $this->user->data['user_rlimit'], $start),
 		'S_GR_ADMIN'		=> $this->user->check_auth('a_guildrequest_manage', false),
 	));
 	
