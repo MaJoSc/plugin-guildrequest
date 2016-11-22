@@ -90,7 +90,7 @@ $lang = array(
 		
 	'gr_preview'					=> 'Vorschau',
 	'gr_preview_info'				=> 'Diese Vorschau basiert auf dem zuletzt gespeicherten Zustand. Um den aktuellen Stand zu sehen, speichere das bearbeitete Formular ab und öffne dann die Vorschau.',
-
+	'gr_voted_users'				=> 'Diese Benutzer haben bereits abgestimmt',
 		
 	'user_sett_f_ntfy_guildrequest_new_application' => 'GuildRequest: Neue Bewerbung',
 	'user_sett_f_ntfy_guildrequest_new_update'	=> 'GuildRequest: Neue Kommentare',

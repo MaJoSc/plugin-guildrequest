@@ -123,6 +123,15 @@
 		{CSRF_TOKEN}
 		<button type="submit" name="vote"><i class="fa fa-check-square-o"></i>{L_gr_vote_button}</button>
 		<!-- ENDIF -->
+		
+		<!-- IF S_IS_GR_ADMIN -->
+		<br /><h3>{L_gr_voted_users}:</h3>
+		<div>
+		<!-- BEGIN already_voted -->
+		{already_voted.USER}
+		<!-- END already_voted -->
+		</div><div class="clear"></div>
+		<!-- ENDIF -->
 		</form>
 	</div>
 	<!-- ENDIF -->

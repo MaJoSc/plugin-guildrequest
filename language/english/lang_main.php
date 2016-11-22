@@ -124,6 +124,7 @@ $lang = array(
 	'gr_myapplications' => 'My Applications',
 		
 	"plugin_statistics_guildrequest_applications" => "GuildRequest: Applications",
+	'gr_voted_users'				=> 'The following users have already voted',
 );
 
 ?>

@@ -406,6 +406,14 @@ class viewrequest_pageobject extends pageobject
 	}
 	$arrStatus = $this->user->lang('gr_status');
 	
+	ksort($arrVotedUser);
+	foreach($arrVotedUser as $key => $val){
+		if(!$this->pdh->get('user', 'is_user', array($key))) continue;
+		$this->tpl->assign_block_vars('already_voted', array(
+			'USER' => $this->pdh->get('user', 'avatar_withtooltip', array($key)),
+		));
+	}
+	
 	$this->tpl->assign_vars(array(
 		'S_INTERNAL_COMMENTS'	=> $this->user->check_auth('u_guildrequest_comment_int', false),
 		'S_VOTE'				=> $this->user->check_auth('u_guildrequest_vote', false),
