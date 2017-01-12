@@ -120,6 +120,7 @@ if (!class_exists('pdh_w_guildrequest_requests')){
 				'voted_user'	=> serialize($arrVotedUser),
 			))->execute($intID);
 		
+			$this->pdh->enqueue_hook('guildrequest_requests_update');
 			if ($objQuery) return $intID;
 		
 			return false;
