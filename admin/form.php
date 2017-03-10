@@ -122,7 +122,7 @@ class guildrequestForm extends page_generic {
 				'KEY'				=> $row['id'],
 				'NAME'				=> $row['name'],
 				'HELP'				=> $row['help'],
-				'TYP_DD'			=> new hdropdown('field['.$row['id'].'][type]', array('options' => $this->user->lang('gr_types'), 'value' => $row['type'], 'class' => 'gr_type', 'js' => 'onchange="type_change_listener(this)"')),
+				'TYP_DD'			=> (new hdropdown('field['.$row['id'].'][type]', array('options' => $this->user->lang('gr_types'), 'value' => $row['type'], 'class' => 'gr_type', 'js' => 'onchange="type_change_listener(this)"')))->output(),
 				'OPTIONS_DISABLED'	=> ($row['type'] != 2 && $row['type'] != 5 && $row['type'] != 6) ? 'disabled="disabled"' : '',
 				'HELP_DISABLED'		=> ($row['type'] == 3 || $row['type'] == 4) ? 'disabled="disabled"' : '',
 				'OPTIONS_HEIGHT'	=> ($row['type'] != 2 && $row['type'] != 5 && $row['type'] != 6) ? '20' : '60',
@@ -130,13 +130,13 @@ class guildrequestForm extends page_generic {
 				'REQUIRED'			=> ($row['required']) ? 'checked="checked"' : '',
 				'IN_LIST'			=> ($row['in_list']) ? 'checked="checked"' : '',
 				'DEP_VALUE'			=> $row['dep_value'],
-				'DEP_DD'			=> new hdropdown('field['.$row['id'].'][dep_field]', array('options' => $arrDeps, 'value' => $row['dep_field'], 'class' => 'gr_dep_field')),
+				'DEP_DD'			=> (new hdropdown('field['.$row['id'].'][dep_field]', array('options' => $arrDeps, 'value' => $row['dep_field'], 'class' => 'gr_dep_field')))->output(),
 			));
 		}
 		
 		$this->tpl->assign_vars(array(
 			'KEY'		=> max($arrFields)+1,
-			'TYP_DD'	=> new hdropdown('field[KEY][type]', array('options' => $this->user->lang('gr_types'), 'class' => 'gr_type', 'js' => 'onchange="type_change_listener(this)"')),
+			'TYP_DD'	=> (new hdropdown('field[KEY][type]', array('options' => $this->user->lang('gr_types'), 'class' => 'gr_type', 'js' => 'onchange="type_change_listener(this)"')))->output(),
 		));
 		
 		// -- EQDKP ---------------------------------------------------------------

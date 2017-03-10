@@ -207,7 +207,7 @@ class viewrequest_pageobject extends pageobject
 			}
 		} else {
 			$this->user->check_auth('u_guildrequest_view');
-			if($rrow['closed']) $this->user->check_auth('u_guildrequest_view_closed'); 
+			if($rrow['closed']) $this->user->check_auth('u_guildrequest_view_closed');
 		}
 	} else {
 		message_die($this->user->lang('noauth'));
@@ -256,10 +256,10 @@ class viewrequest_pageobject extends pageobject
 	foreach($arrFields as $id){
 		$row = $this->pdh->get('guildrequest_fields', 'id', array($id));
 		if (isset($arrContent[$row['id']])) $arrValues[$id] = $arrContent[$row['id']];
-		if ($row['type'] == 5){			
+		if ($row['type'] == 5){
 			$content = isset($arrContent[$row['id']]) ? unserialize($arrContent[$row['id']]) : array();
 			$arrValues[$id] = array_keys($content);
-		} 
+		}
 	}
 	
 	$this->bbcode->SetSmiliePath($this->server_path.'images/smilies');
@@ -367,14 +367,14 @@ class viewrequest_pageobject extends pageobject
 	//Kommentare intern
 	$int_comments = register('comments', array('int'));
 	$commentOptions = array(
-			'attach_id' 	=> $intID, 
-			'page'			=>'guildrequest_int', 
+			'attach_id' 	=> $intID,
+			'page'			=>'guildrequest_int',
 			'userauth' 		=> 'u_guildrequest_comment_int',
 			'ntfy_type' 	=> 'guildrequest_new_update',
 			'ntfy_title'	=> sanitize($rrow['username']),
 			'ntfy_link' 	=> $this->routing->build('ListApplications'),
 			'ntfy_auth'		=> 'u_guildrequest_comment_int',
-	);	
+	);
 	if ($rrow['closed']) $commentOptions['userauth'] = 'a_guildrequest_manage';
 	$int_comments->SetVars($commentOptions);
 	
@@ -424,7 +424,7 @@ class viewrequest_pageobject extends pageobject
 		'S_IS_GR_ADMIN'			=> $this->user->check_auth('a_guildrequest_manage', false),
 		'S_EXTERNAL_USER'		=> (strlen($strKey)),
 		'EXTERNAL_KEY'			=> $strKey,
-		'STATUS_DD'				=> new hdropdown('gr_status', array('options' => $arrStatus, 'value' => $rrow['status'])),
+		'STATUS_DD'				=> (new hdropdown('gr_status', array('options' => $arrStatus, 'value' => $rrow['status'])))->output(),
 		'GR_USERNAME'			=> sanitize($rrow['username']),
 		'GR_DATE'				=> $this->time->user_date($rrow['tstamp'], true),
 		'EXTERNAL_URL'			=> $this->env->link.$this->routing->build('ViewApplication', $rrow['username'], $intID, false, true).'?key=' . $strKey,
