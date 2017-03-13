@@ -45,15 +45,15 @@ class guildrequest extends plugin_generic {
 			'name'				=> 'GuildRequest',
 			'code'				=> 'guildrequest',
 			'path'				=> 'guildrequest',
-			'template_path'		=> 'plugins/guildrequest/templates/',
+			'template_path'			=> 'plugins/guildrequest/templates/',
 			'icon'				=> 'fa fa-pencil-square-o',
 			'version'			=> $this->version,
 			'author'			=> $this->copyright,
-			'description'		=> $this->user->lang('guildrequest_short_desc'),
-			'long_description'	=> $this->user->lang('guildrequest_long_desc'),
+			'description'			=> $this->user->lang('guildrequest_short_desc'),
+			'long_description'		=> $this->user->lang('guildrequest_long_desc'),
 			'homepage'			=> EQDKP_PROJECT_URL,
-			'manuallink'		=> false,
-			'plus_version'		=> '2.3',
+			'manuallink'			=> false,
+			'plus_version'			=> '2.3',
 		));
 
 		$this->add_dependency(array(
