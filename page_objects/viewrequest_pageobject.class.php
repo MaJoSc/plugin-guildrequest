@@ -133,6 +133,7 @@ class viewrequest_pageobject extends pageobject
 			}
 		}
 		
+		$server_url = $this->env->link.$this->routing->build('ViewApplication', $row['username'], $row['id'], false, true);
 		
 		$bodyvars = array(
 			'USERNAME'		=> $row['username'],
@@ -140,6 +141,7 @@ class viewrequest_pageobject extends pageobject
 			'STATUS'		=> $arrStatus[$this->in->get('gr_status', 0)],
 			'DATE'			=> $this->time->user_date($row['tstamp']),
 			'GUILDTAG'		=> $this->config->get('guildtag'),
+			'U_ACTIVATE' 	=> $server_url . '?key=' . $row['auth_key'],
 		);
 		
 		$this->email->SendMailFromAdmin(register('encrypt')->decrypt($row['email']), $this->user->lang('gr_status_subject'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/request_status_change.html', $bodyvars);
