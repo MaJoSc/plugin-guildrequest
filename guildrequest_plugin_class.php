@@ -154,6 +154,8 @@ class guildrequest extends plugin_generic {
 		
 		$this->pdh->put('comment', 'delete_page', array('guildrequest_int'));
 		$this->pdh->put('comment', 'delete_page', array('guildrequest'));
+		
+		$this->pdh->process_hook_queue();
 	}
 
 	/**
