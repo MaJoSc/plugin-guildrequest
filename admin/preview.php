@@ -452,6 +452,10 @@ class guildrequestPreview extends page_generic{
 			'template_path'		=> $this->pm->get_data('guildrequest', 'template_path'),
 			'template_file'		=> 'admin/preview.html',
 			'header_format'		=> 'simple',
+				'page_path'			=> [
+						['title'=>$this->user->lang('menu_admin_panel'), 'url'=>$this->root_path.'admin/'.$this->SID],
+						['title'=>$this->user->lang('gr_preview'), 'url'=>' '],
+				],
 			'display'			=> true
 		));
 	}

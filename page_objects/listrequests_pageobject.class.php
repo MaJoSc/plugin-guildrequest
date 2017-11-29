@@ -231,6 +231,9 @@ class listrequests_pageobject extends pageobject
       'page_title'    => $this->user->lang('gr_view'),
       'template_path' => $this->pm->get_data('guildrequest', 'template_path'),
       'template_file' => 'listrequests.html',
+			'page_path'			=> [
+					['title'=>$this->user->lang('gr_view'), 'url'=> ' '],
+			],
       'display'       => true
     ));
   }

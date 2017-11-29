@@ -435,6 +435,9 @@ class addrequest_pageobject extends pageobject {
       'page_title'    => $this->user->lang('gr_add'),
       'template_path' => $this->pm->get_data('guildrequest', 'template_path'),
       'template_file' => 'addrequest.html',
+    		'page_path'			=> [
+    				['title'=>$this->user->lang('gr_add'), 'url'=> ' '],
+    		],
       'display'       => true
     ));
 	

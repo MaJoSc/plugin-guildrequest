@@ -154,6 +154,9 @@ class myapplications_pageobject extends pageobject
       'page_title'    => $this->user->lang('gr_myapplications'),
       'template_path' => $this->pm->get_data('guildrequest', 'template_path'),
       'template_file' => 'myapplications.html',
+			'page_path'			=> [
+					['title'=>$this->user->lang('gr_myapplications'), 'url'=> ' '],
+			],
       'display'       => true
     ));
   }

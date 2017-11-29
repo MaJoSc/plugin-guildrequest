@@ -436,11 +436,16 @@ class viewrequest_pageobject extends pageobject
 	if($this->user->is_signedin()){
 		$this->db->prepare("UPDATE __notifications SET `read`=1 WHERE type='guildrequest_new_update' AND user_id=? AND additional_data=?")->execute($this->user->id, sanitize($rrow['username']));
 	}
+
+	$arrBreadcrumbs[] = array('title' => $this->user->lang('gr_view'), 'url' => $this->routing->build('Listapplications'));
+	if(!strlen($strKey)) $arrBreadcrumbs[] = array('title' => $this->user->lang('gr_viewrequest').': '.$this->time->user_date($rrow['tstamp'], true).', '.sanitize($rrow['username']), 'url' => ' ');
+	
 	
 	$this->core->set_vars(array (
       'page_title'    => $this->user->lang('gr_viewrequest').' - '.sanitize($rrow['username']),
       'template_path' => $this->pm->get_data('guildrequest', 'template_path'),
       'template_file' => 'viewrequest.html',
+      'page_path'     => $arrBreadcrumbs,
       'display'       => true
     ));
   }

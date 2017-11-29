@@ -144,6 +144,10 @@ class guildrequestForm extends page_generic {
 			'page_title'		=> $this->user->lang('guildrequest').' '.$this->user->lang('gr_manage_form'),
 			'template_path'		=> $this->pm->get_data('guildrequest', 'template_path'),
 			'template_file'		=> 'admin/form.html',
+				'page_path'			=> [
+						['title'=>$this->user->lang('menu_admin_panel'), 'url'=>$this->root_path.'admin/'.$this->SID],
+						['title'=>$this->user->lang('guildrequest').': '.$this->user->lang('gr_manage_form'), 'url'=>' '],
+				],
 			'display'			=> true
 		));
 	}
