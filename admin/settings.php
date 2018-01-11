@@ -56,7 +56,7 @@ class guildrequestSettings extends page_generic
       'save' => array('process' => 'save', 'csrf' => true),
     );
 	
-	$this->user->check_auth('a_guildrequest_form');  
+	$this->user->check_auth('a_guildrequest_settings');  
 	
     parent::__construct(null, $handler);
 
