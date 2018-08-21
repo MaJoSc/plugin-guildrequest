@@ -110,11 +110,16 @@ class viewrequest_pageobject extends pageobject
 		
 		//Auto Create Account for this user
 		if($this->in->get('gr_status', 0) === 2 && $this->config->get('create_account', 'guildrequest') && !$this->config->get('cmsbrige_active') && $row['user_id']===0){
-			if($this->pdh->get('user', 'check_username', array($row['username'])) !== 'false' && $this->pdh->get('user', 'check_email', array($row['email'])) !== 'false'){
+			$newUsername = $row['username'];
+			if($this->pdh->get('user', 'check_username', array($newUsername) == 'false')){
+				$newUsername = $newUsername.rand(100, 999);
+			}
+			
+			if($this->pdh->get('user', 'check_username', array($newUsername)) !== 'false' && $this->pdh->get('user', 'check_email', array($row['email'])) !== 'false'){
 				
 				$salt = $this->user->generate_salt();
 				$strPwdHash = $this->user->encrypt_password(random_string(), $salt);
-				$newUserId = $this->pdh->put('user', 'insert_user_bridge', array($row['username'], $strPwdHash, register('encrypt')->decrypt($row['email'])));
+				$newUserId = $this->pdh->put('user', 'insert_user_bridge', array($newUsername, $strPwdHash, register('encrypt')->decrypt($row['email'])));
 				
 				// Email them their new password
 				$user_key = $this->pdh->put('user', 'create_new_activationkey', array($newUserId));
@@ -124,12 +129,12 @@ class viewrequest_pageobject extends pageobject
 				$strPasswordLink = $this->env->link . $this->controller_path_plain. 'Login/Newpassword/?key=' . $user_key;
 				
 				$bodyvars = array(
-						'USERNAME'	=> $row['username'],
-						'U_ACTIVATE'=> $this->user->lang('email_changepw').'<br /><br /><a href="'.$strPasswordLink.'">'.$strPasswordLink.'</a>',
+						'USERNAME'	=> $newUsername,
+						'U_ACTIVATE'=> $strPasswordLink,
 						'GUILDTAG'	=> $this->config->get('guildtag'),
 				);
 				
-				$this->email->SendMailFromAdmin(register('encrypt')->decrypt($row['email']), $this->user->lang('email_subject_activation_none'), 'register_activation_none.html', $bodyvars);
+				$this->email->SendMailFromAdmin(register('encrypt')->decrypt($row['email']), $this->user->lang('email_subject_activation_none'), $this->root_path.'plugins/guildrequest/language/'.$this->user->data['user_lang'].'/email/account_created.html', $bodyvars);
 			}
 		}
 		
