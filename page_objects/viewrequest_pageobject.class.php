@@ -342,6 +342,25 @@ class viewrequest_pageobject extends pageobject
 					'HELP'			=> $row['help'],
 			));
 		}
+		
+		//Image
+		if ($row['type'] == 8){
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+						'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+						'ID'	=> 'information',
+				));
+				$blnGroupOpen = true;
+			}
+			
+			$content = '<a href="'.$this->pfh->FolderPath('useruploads', 'guildrequest', 'serverpath').sanitize($arrContent[$row['id']]).'" title="'.sanitize($arrContent[$row['id']]).'" rel="lightbox"><img src="'.$this->pfh->FolderPath('useruploads', 'guildrequest', 'serverpath').sanitize($arrContent[$row['id']]).'" alt="'.sanitize($arrContent[$row['id']]).'" style="max-width: 300px;"/></a>';
+			
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
+					'NAME'			=> $row['name'],
+					'FIELD'			=> $content,
+					'HELP'			=> $row['help'],
+			));
+		}
 
 		//Group Label
 		if ($row['type'] == 3){

@@ -45,7 +45,7 @@ $lang = array(
 	'gr_required'					=> 'Verpflichtend',
 	'gr_delete_selected_fields'		=> 'Ausgewählte Felder löschen',
 	'gr_types'						=> array(
-		'Textfeld', 'Textbereich', 'Auswahlfeld', 'Gruppenüberschrift', 'Freitext', 'Checkboxen', 'Radio-Buttons', 'Editor',
+		'Textfeld', 'Textbereich', 'Auswahlfeld', 'Gruppenüberschrift', 'Freitext', 'Checkboxen', 'Radio-Buttons', 'Editor', 'Bild-Upload',
 	),
 	'gr_add_field'					=> 'Neues Feld hinzufügen',
 	'gr_delete_field'				=> 'Feld löschen',

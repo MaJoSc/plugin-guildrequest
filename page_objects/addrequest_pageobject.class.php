@@ -80,6 +80,20 @@ class addrequest_pageobject extends pageobject {
 			);
 			$arrValues[$row['id']] = $this->in->getArray('gr_field_'.$row['id'], 'int');
 		}
+		
+		//Imageuploads
+		if ($row['type'] == 8){
+			$file = (new hfile('gr_field_'.$row['id'], array('extensions' => array('jpg', 'png', 'gif'), 'folder' => $this->pfh->FolderPath('useruploads', 'guildrequest'), 'numerate' => true,'value' => (isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : ''))))->_inpval();
+			$arrInput[$row['id']] = array(
+					'id'		=> $row['id'],
+					'name'		=> $row['name'],
+					'input' 	=> str_replace($this->pfh->FolderPath('useruploads', 'guildrequest'), '', $this->root_path.$file),
+					'required'	=> ($row['required']),
+					'dep_field' => $row['dep_field'],
+					'dep_value' => $row['dep_value'],
+			);
+			$arrValues[$row['id']] = $file;
+		}
 	}
 	
 	if(!$this->user->is_signedin()){
@@ -186,6 +200,7 @@ class addrequest_pageobject extends pageobject {
 	foreach($arrInput as $val){
 		$arrToSave[$val['id']] = $val['input'];
 	}
+	
 	$strContent = serialize($arrToSave);
 	
 	$blnResult = $this->pdh->put('guildrequest_requests', 'add', array($strName, $strEmail, $strAuthKey, $strActivationKey, $strContent));
@@ -411,6 +426,25 @@ class addrequest_pageobject extends pageobject {
 				'REQUIRED'	=> ($row['required']),
 				'HELP'		=> $row['help'],
 				'ID'		=> 'dl_'.$row['id'],
+			));
+		}
+		
+		//Image Upload
+		if ($row['type'] == 8){
+			if (!$blnGroupOpen){
+				$this->tpl->assign_block_vars('tabs.fieldset', array(
+						'NAME'	=> $this->user->lang('gr_default_grouplabel'),
+						'ID'	=> 'information',
+				));
+				$blnGroupOpen = true;
+			}
+			
+			$this->tpl->assign_block_vars('tabs.fieldset.field', array(
+					'NAME'		=> $row['name'],
+					'FIELD'		=> (new hfile('gr_field_'.$row['id'], array('extensions' => array('jpg', 'png', 'gif'), 'folder' => $this->pfh->FolderPath('useruploads', 'guildrequest'), 'numerate' => true,'value' => (isset($this->data[$row['id']]) ? $this->data[$row['id']]['input'] : ''))))->output(),
+					'REQUIRED'	=> ($row['required']),
+					'HELP'		=> $row['help'],
+					'ID'		=> 'dl_'.$row['id'],
 			));
 		}
 	}

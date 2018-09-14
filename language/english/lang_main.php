@@ -55,6 +55,7 @@ $lang = array(
 	5 => 'Checkboxes',
 	6 => 'Radio-Buttons',
 	7 => 'Editor',
+	8 => 'Image-Upload',
 	),
 	"gr_add_field" => 'Add new field',
 	"gr_delete_field" => 'Delete field',
